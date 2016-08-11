@@ -3,17 +3,18 @@ using System.Collections;
 
 public class PlayerWeapon : MonoBehaviour
 {
+	[SerializeField] PlayerProcess info;
+	[SerializeField] Collider weapon;
 
-	// Use this for initialization
 	void Start()
 	{
-	
+		weapon = GetComponent<Collider>();
 	}
-	
-	// Update is called once per frame
+
 	void Update()
 	{
-	
+		//Debug.Log( info.AnimatorInfo.IsName( "Attack" ) );		
+		weapon.enabled = info.AnimatorInfo.IsName( "Attack" );		
 	}
 
 	void OnTriggerEnter( Collider col )
@@ -24,7 +25,5 @@ public class PlayerWeapon : MonoBehaviour
 			temp.Hit( 40f );
 			Debug.Log( "Hit" );
 		}
-
-
 	}
 }

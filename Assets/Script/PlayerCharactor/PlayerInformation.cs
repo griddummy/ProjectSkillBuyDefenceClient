@@ -26,6 +26,11 @@ public class PlayerInformation
 		get { return attackRange; }
 	}
 
+	public float SearchRange
+	{
+		get { return searchRange; }
+	}
+
 	public PlayerInformation ()
 	{
 		level = 1;

@@ -7,23 +7,28 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] bool modeAttack;
 
 	//complex data field
-	[SerializeField] PlayerProcess playerChar;
+	[SerializeField] PlayerProcess player;
 
 	//initialize this script
 	void Start()
 	{
-		playerChar = GetComponent<PlayerProcess>();
+		player = GetComponent<PlayerProcess>();
+		InitializeData();
 	}
 
 
 	void Update()
 	{
-		if (Input.GetButtonDown( "LeftClick" ))
+		if (Input.GetButtonDown( "CommandStop" ))
+			player.SetStop();
+		else if (Input.GetButtonDown( "CommandHold" ))
+			player.SetHold();
+		else if (Input.GetButtonDown( "CommandAttack" ))
+			modeAttack = true;
+		else if (Input.GetButtonDown( "LeftClick" ))
 			ProcessLeftClick();
 		else if (Input.GetButtonDown( "RightClick" ))
 			ProcessRightClick();
-
-
 	}
 
 	void InitializeData()
@@ -31,31 +36,52 @@ public class PlayerController : MonoBehaviour
 		modeAttack = false;
 	}
 
-	void SetDestination()
-	{
-		Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
-		RaycastHit hitInfo;
-
-		if (Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
-		{
-			playerChar.Destination = hitInfo.point;
-		}
-	}
-
+	//click mouse left button
 	void ProcessLeftClick()
 	{
-
-	}
-
-	void ProcessRightClick()
-	{
 		Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
 		RaycastHit hitInfo;
 
-		if (Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
-			playerChar.SetAttackTarget( hitInfo.transform.gameObject );
-		else if (Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
-			playerChar.SetDestination( hitInfo.point );
+		// clickmode - attack , left click on enemy unit
+		if (modeAttack && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
+		{
+			player.SetAttackTarget( hitInfo.transform.gameObject );
+			modeAttack = false;
+			return;
+		}
+		// clickmode - attack , left click on terrain point
+		else if (modeAttack && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
+		{
+			player.SetAttackDestination( hitInfo.point );
+			modeAttack = false;
+			return;
+		}
 		
+	}
+
+	//click mouse right button
+	void ProcessRightClick()
+	{
+		//if clickmode - attack
+		if (modeAttack)
+		{
+			modeAttack = false;
+			return;
+		}
+		Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
+		RaycastHit hitInfo;
+
+		//right click on terrain point
+		if (Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
+		{
+			player.SetAttackTarget( hitInfo.transform.gameObject );
+			return;
+		}
+		//right click on enemy unit
+		else if (Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
+		{
+			player.SetDestination( hitInfo.point );		
+			return;
+		}
 	}
 }

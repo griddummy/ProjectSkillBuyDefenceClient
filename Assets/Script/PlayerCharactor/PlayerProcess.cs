@@ -13,7 +13,7 @@ public class PlayerProcess : MonoBehaviour
 	[SerializeField] State presentState;
 	[SerializeField] PlayerInformation info;
 	[SerializeField] Vector3 velocity;
-
+	[SerializeField] Collider[] enemy;
 	//complex field
 	[SerializeField] GameObject targetEnemy;
 	[SerializeField] Animator animator;
@@ -48,6 +48,16 @@ public class PlayerProcess : MonoBehaviour
 		set { destination = value; }
 	}
 
+	public GameObject TargetEnemy
+	{
+		get { return targetEnemy; }
+	}
+
+	public AnimatorStateInfo AnimatorInfo
+	{
+		get { return animatorInfo; }
+	}
+
 	//initialize this script
 	void Start()
 	{
@@ -80,6 +90,7 @@ public class PlayerProcess : MonoBehaviour
 				HoldProcess();
 				break;
 		}
+		Debug.Log( animatorInfo.IsName( "Attack" ) );
 	}
 
 	//synchronization navmesh data
@@ -88,11 +99,20 @@ public class PlayerProcess : MonoBehaviour
 		moveAgent.speed = info.MoveSpeed;
 	}
 
+	//idle state process
+	//find target -> if find target state chanage by attack
 	void IdleProcess()
 	{
 		ActiveAnimator( AnimatorState.Idle );
+
+		if (FindTarget())
+			presentState = State.Attack;
+		else
+			return;
 	}
 
+	//move state process
+	//only move to destination
 	void MoveProcess()
 	{
 		ActiveAnimator( AnimatorState.Run );
@@ -104,6 +124,8 @@ public class PlayerProcess : MonoBehaviour
 		}
 	}
 
+	//attack state process
+	//chase and attack target
 	void AttackProcess()
 	{
 		if (( targetEnemy != null ) && ( Vector3.Distance( targetEnemy.transform.position, transform.position ) > info.AttackRange ))
@@ -111,15 +133,14 @@ public class PlayerProcess : MonoBehaviour
 			moveAgent.SetDestination( targetEnemy.transform.position );
 			transform.LookAt( targetEnemy.transform );
 			ActiveAnimator( AnimatorState.Run );
-			Debug.Log( moveAgent.destination );
 		}
 		else if (( targetEnemy != null ) && !isAttack && ( Vector3.Distance( targetEnemy.transform.position, transform.position ) <= info.AttackRange ))
 		{
 			moveAgent.ResetPath();
 			transform.LookAt( targetEnemy.transform );
+			ActiveAnimator( AnimatorState.Idle );
 			ActiveAnimator( AnimatorState.Attack );
 			isAttack = true;
-			Debug.Log( "Attack" );
 		}
 		else if (targetEnemy == null)
 		{
@@ -127,25 +148,68 @@ public class PlayerProcess : MonoBehaviour
 			// -> reset target
 			if (FindTarget())
 				return;
+			else if (presentState == State.AttackMove)
+				return;
 			else
 				presentState = State.Idle;				
 		}
 	}
 
+	//attack move state process
+	//move to destination
+	//if find target -> battle by target
+	//battle over find target
+	//no target -> move destination
 	void AttackMoveProcess()
 	{
-
+		if (( targetEnemy == null ) && !FindTarget())
+		{
+			moveAgent.SetDestination( destination );
+			MoveProcess();
+		}
+		else
+			AttackProcess();
 	}
 
+	//hold state process
+	//hold on transfrom position
+	//if find target -> battle by target
 	void HoldProcess()
 	{
-
+		if (( targetEnemy == null ) && !FindTarget())
+			ActiveAnimator( AnimatorState.Idle );
+		else if (!isAttack)
+		{
+			transform.LookAt( targetEnemy.transform );
+			ActiveAnimator( AnimatorState.Idle );
+			ActiveAnimator( AnimatorState.Attack );
+			isAttack = true;
+		}
 	}
 
 	//use process
 	bool FindTarget()
 	{
-		return false;
+		//make collider array -> enemy target in range
+		if (presentState != State.Hold)
+			enemy = Physics.OverlapSphere( transform.position, info.SearchRange, 1 << LayerMask.NameToLayer( "Enemy" ) );
+		else
+			enemy = Physics.OverlapSphere( transform.position, info.AttackRange, 1 << LayerMask.NameToLayer( "Enemy" ) );
+
+		//if no enemy -> return false
+		if (enemy.Length == 0)
+			return false;
+		else
+		{
+			//find shortest distance target
+			for (int i = 0; i < enemy.Length; i++)
+			{
+				if (( ( i == 0 ) || ( Vector3.Distance( enemy[i].transform.position, transform.position ) <= Vector3.Distance( TargetEnemy.transform.position, transform.position ) ) )
+				    && ( enemy[i].gameObject.layer == LayerMask.NameToLayer( "Enemy" ) ))
+					targetEnemy = enemy[i].gameObject;
+			}
+			return true;		
+		}
 	}
 
 	//set player present state
@@ -155,9 +219,13 @@ public class PlayerProcess : MonoBehaviour
 		{
 			case AnimatorState.Idle:
 				animator.SetInteger( "State", (int) AnimatorState.Idle );
+				if (!animatorInfo.IsName( "Idle" ))
+					animator.Play( "Idle" );				
 				break;
 			case AnimatorState.Run:
 				animator.SetInteger( "State", (int) AnimatorState.Run );
+				if (!animatorInfo.IsName( "Run" ))
+					animator.Play( "Run" );	
 				break;
 			case AnimatorState.Attack:
 				animator.Play( "Idle" );
@@ -178,28 +246,54 @@ public class PlayerProcess : MonoBehaviour
 
 	//public method
 
-	//set attack target
+	//character stop
+	public void SetStop()
+	{
+		presentState = State.Idle;
+		targetEnemy = null;
+		moveAgent.ResetPath();
+		ActiveAnimator( AnimatorState.Idle );
+	}
+
+	//set hold state
+	public void SetHold()
+	{
+		presentState = State.Hold;
+		targetEnemy = null;
+		moveAgent.ResetPath();
+		ActiveAnimator( AnimatorState.Idle );
+	}
+
+	//set attack state & set attack target
 	public void SetAttackTarget( GameObject target )
 	{
 		destination = transform.position;
 		targetEnemy = target;
 		presentState = State.Attack;
 		isAttack = false;
-		Debug.Log( "SetAttack" );
 	}
 
-	//set destination for navmesh move
+	//set destination for nav mesh move
 	public void SetDestination( Vector3 point )
 	{
+		presentState = State.Move;
 		destination = point;
 		moveAgent.destination = destination;
-		presentState = State.Move;
+	}
+
+	//set destination for nav mesh move
+	//search range -> find enemy
+	public void SetAttackDestination( Vector3 point )
+	{
+		presentState = State.AttackMove;
+		destination = point;
+		moveAgent.destination = destination;
 	}
 
 	//use attack animation
 	public void EndAttackAnimation()
 	{
-		isAttack = false;
+		isAttack = false;	
 	}
 
 }
