@@ -8,6 +8,12 @@ public class CameraMove : MonoBehaviour
 	[SerializeField] float lerpSpeed;
 	[SerializeField][Range( 0.1f, 10f )] float sensitivity;
 
+	void Start()
+	{
+		lerpSpeed = 1f;
+		sensitivity = 3f;
+	}
+
 	void Update()
 	{
 		if (Input.GetAxis( "Mouse ScrollWheel" ) > 0)

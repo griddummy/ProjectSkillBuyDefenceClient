@@ -664,8 +664,8 @@ GameObject:
   - 54: {fileID: 5407256}
   - 136: {fileID: 13614818}
   - 195: {fileID: 19535442}
-  - 114: {fileID: 11486250}
-  - 114: {fileID: 11464582}
+  - 114: {fileID: 11496656}
+  - 114: {fileID: 11422114}
   m_Layer: 0
   m_Name: ProtoType
   m_TagString: Player
@@ -1592,7 +1592,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 473140}
   - 136: {fileID: 13680036}
-  - 114: {fileID: 11417678}
+  - 114: {fileID: 11428770}
   m_Layer: 10
   m_Name: Character1_LeftLeg
   m_TagString: Untagged
@@ -2956,7 +2956,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 127392}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.04, y: 0, z: 8.9}
+  m_LocalPosition: {x: 2.93, y: 0, z: -17.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -4982,18 +4982,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11417678
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 160008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8b5e280c5c395845810d74a3756b41a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &11464582
+--- !u!114 &11422114
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -5001,25 +4990,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 127392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9cabb7f1dd467d4ea3f4949e5d08c9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  modeAttack: 0
-  player: {fileID: 0}
---- !u!114 &11486250
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 127392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00e3ac8ba144f3744be5872073dd0415, type: 3}
+  m_Script: {fileID: 11500000, guid: ac285cf82ef3e6c40a5bb06e975b34c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   isAttack: 0
-  isMove: 0
-  isChase: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
@@ -5033,11 +5007,71 @@ MonoBehaviour:
     attackSpeed: 1
     attackRange: 2
     searchRange: 20
+    activeSkillSet:
+    - name: 
+      damage: 0
+      useTime: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      useTime: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      useTime: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      useTime: 0
+      skillType: 0
+    passiveSkillSet:
+    - name: 
+      damage: 0
+      useTime: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      useTime: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      useTime: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      useTime: 0
+      skillType: 0
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
+--- !u!114 &11428770
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 160008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfcd5bf769a9a9243aa9862b7797382b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 11422114}
+  weapon: {fileID: 0}
+--- !u!114 &11496656
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 127392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9cabb7f1dd467d4ea3f4949e5d08c9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modeAttack: 0
+  player: {fileID: 0}
 --- !u!136 &13614818
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -6234,7 +6268,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 500
+  m_Acceleration: 1000
   avoidancePriority: 50
   m_AngularSpeed: 120
   m_StoppingDistance: 0
