@@ -5,36 +5,48 @@ using System.Collections;
 public class UnitInformation
 {
 	//field
+	[SerializeField] int playerNum;
 	[SerializeField] int level;
 	[SerializeField] float presentExp;
 	[SerializeField] float requireExp;
 	[SerializeField] int healthPoint;
 	[SerializeField] int manaPoint;
+	[SerializeField] int damage;
 	[SerializeField] float moveSpeed;
 	[SerializeField] float attackSpeed;
 	[SerializeField] float attackRange;
 	[SerializeField] float searchRange;
 	[SerializeField] Skill[] activeSkillSet;
+	[SerializeField] bool[] onSkill;
+	[SerializeField] float[] coolTime;
 	[SerializeField] Skill[] passiveSkillSet;
 
 	//property
+	public int PlayerNumber { get { return playerNum; } }
+
 	public int Level { get { return level; } }
 
 	public float PresentExp { get { return PresentExp; } }
 
-	public int HealthPoint { get { return HealthPoint; } }
+	public int HealthPoint { get { return healthPoint; } set { healthPoint = value; } }
 
-	public int ManaPoint{ get { return manaPoint; } }
+	public int ManaPoint { get { return manaPoint; } }
+
+	public int Damage { get { return damage; } }
 
 	public float MoveSpeed { get { return moveSpeed; } }
 
-	public float AttackSpeed{ get { return attackSpeed; } }
+	public float AttackSpeed { get { return attackSpeed; } }
 
 	public float AttackRange { get { return attackRange; } }
 
 	public float SearchRange { get { return searchRange; } }
 
 	public Skill[] ActiveSkillSet { get { return activeSkillSet; } }
+
+	public bool[] OnSkill { get { return onSkill; } }
+
+	public float[] CoolTime { get { return coolTime; } }
 
 	public Skill[] PassiveSkillSet { get { return passiveSkillSet; } }
 
@@ -75,6 +87,9 @@ public class UnitInformation
 		passiveSkillSet = new Skill[4];
 		for (int i = 0; i < passiveSkillSet.Length; i++)
 			passiveSkillSet[i] = new Skill ();
+
+		onSkill = new bool[4];
+		coolTime = new float[4];
 	}
 
 	public void AddSkill( Skill data )
@@ -84,5 +99,6 @@ public class UnitInformation
 		else if (data.SkillType == Skill.Type.Passive)
 			;
 	}
+
 
 }

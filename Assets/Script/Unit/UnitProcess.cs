@@ -5,20 +5,22 @@ using System.Collections.Generic;
 public class UnitProcess : MonoBehaviour
 {
 	//simple field
-	[SerializeField] bool isMeleeAttack;
-	[SerializeField] Rigidbody playerRig;
+	[SerializeField] protected bool isMeleeAttack;
+	[SerializeField] protected bool onMeleeAttack;
+	[SerializeField] protected Rigidbody playerRig;
 	[SerializeField] Vector3 destination;
-	[SerializeField] State presentState;
-	[SerializeField] UnitInformation info;
+	[SerializeField] protected State presentState;
+	[SerializeField] protected UnitInformation info;
 	[SerializeField] Vector3 velocity;
-	[SerializeField] Collider[] enemy;
+	[SerializeField] protected Collider[] enemy;
 
 	//complex field
-	[SerializeField] GameObject targetEnemy;
-	[SerializeField] GameObject throwObject;
+	[SerializeField] protected GameObject targetEnemy;
+	[SerializeField] protected GameObject throwObject;
 	[SerializeField] Animator animator;
 	[SerializeField] AnimatorStateInfo animatorInfo;
-	[SerializeField] NavMeshAgent moveAgent;
+	[SerializeField] protected NavMeshAgent moveAgent;
+	[SerializeField] protected GameManager manager;
 
 	public enum State
 	{
@@ -70,14 +72,16 @@ public class UnitProcess : MonoBehaviour
 		destination = transform.position;
 		presentState = State.Idle;
 		animator = GetComponent<Animator>();
-		animatorInfo = animator.GetCurrentAnimatorStateInfo( 0 );
 		moveAgent = GetComponent<NavMeshAgent>();
-		info = new UnitInformation ();
+		manager = GameObject.FindWithTag( "GameManager" ).GetComponent<GameManager>();
+		SetLayer();
 	}
 
+	//Update is called once per frame
 	void Update()
 	{
-		UpdateNavMeshData();
+		PreProcess();
+		SkillProcess();
 	
 		switch (presentState)
 		{
@@ -96,18 +100,54 @@ public class UnitProcess : MonoBehaviour
 			case State.Hold:
 				HoldProcess();
 				break;
+			case State.Die:
+				DieProcess();
+				break;
 		}
 	}
 
+	//set layer -> use player information
+	protected void SetLayer()
+	{
+		if (info.PlayerNumber == manager.PlayerNumber)
+			gameObject.layer = LayerMask.NameToLayer( "Player" );
+		else if (manager.CheckAlly[info.PlayerNumber])
+			gameObject.layer = LayerMask.NameToLayer( "Ally" );
+		else
+			gameObject.layer = LayerMask.NameToLayer( "Enemy" );
+	
+	}
+
 	//synchronization nav mesh data
-	void UpdateNavMeshData()
+	protected virtual void PreProcess()
 	{
 		moveAgent.speed = info.MoveSpeed;
+		animatorInfo = this.animator.GetCurrentAnimatorStateInfo( 0 );
+
+		if (info.HealthPoint <= 0)
+			presentState = State.Die;
+	}
+
+	//check skill and process coolTime
+	protected void SkillProcess()
+	{
+		for (int i = 0; i < info.ActiveSkillSet.Length; i++)
+		{
+			if (info.OnSkill[i])
+			{
+				info.CoolTime[i] += Time.deltaTime;
+				if (info.CoolTime[i] > info.ActiveSkillSet[i].CoolTime)
+				{
+					info.CoolTime[i] = 0.0f;
+					info.OnSkill[i] = false;
+				}
+			}
+		}
 	}
 
 	//idle state process
 	//find target -> if find target state chanage by attack
-	void IdleProcess()
+	protected virtual void IdleProcess()
 	{
 		ActiveAnimator( AnimatorState.Idle );
 
@@ -119,7 +159,7 @@ public class UnitProcess : MonoBehaviour
 
 	//move state process
 	//only move to destination
-	void MoveProcess()
+	protected void MoveProcess()
 	{
 		ActiveAnimator( AnimatorState.Run );
 		transform.LookAt( destination );
@@ -132,15 +172,15 @@ public class UnitProcess : MonoBehaviour
 
 	//attack state process
 	//chase and attack target
-	void AttackProcess()
+	protected virtual void AttackProcess()
 	{
-		if (( targetEnemy != null ) && ( Vector3.Distance( targetEnemy.transform.position, transform.position ) > info.AttackRange ))
+		if (( targetEnemy != null ) && ( Vector3.Distance( targetEnemy.transform.position, transform.position ) > info.AttackRange ) && !animatorInfo.IsName( "Attack" ))
 		{
 			moveAgent.SetDestination( targetEnemy.transform.position );
 			transform.LookAt( targetEnemy.transform );
 			ActiveAnimator( AnimatorState.Run );
 		}
-		else if (( targetEnemy != null ) && !animatorInfo.IsName("Attack") && ( Vector3.Distance( targetEnemy.transform.position, transform.position ) <= info.AttackRange ))
+		else if (( targetEnemy != null ) && !animatorInfo.IsName( "Attack" ) && ( onMeleeAttack || ( Vector3.Distance( targetEnemy.transform.position, transform.position ) <= info.AttackRange ) ))
 		{
 			moveAgent.ResetPath();
 			transform.LookAt( targetEnemy.transform );
@@ -149,6 +189,8 @@ public class UnitProcess : MonoBehaviour
 		}
 		else if (targetEnemy == null)
 		{
+			onMeleeAttack = false;
+
 			//find target -> no target state idle
 			// -> reset target
 			if (FindTarget())
@@ -165,9 +207,9 @@ public class UnitProcess : MonoBehaviour
 	//if find target -> battle by target
 	//battle over find target
 	//no target -> move destination
-	void AttackMoveProcess()
+	protected void AttackMoveProcess()
 	{
-		if (( targetEnemy == null ) && !FindTarget())
+		if (( targetEnemy == null ) && !FindTarget() && !animatorInfo.IsName( "Attack" ))
 		{
 			moveAgent.SetDestination( destination );
 			MoveProcess();
@@ -179,11 +221,11 @@ public class UnitProcess : MonoBehaviour
 	//hold state process
 	//hold on transfrom position
 	//if find target -> battle by target
-	void HoldProcess()
+	protected void HoldProcess()
 	{
 		if (( targetEnemy == null ) && !FindTarget())
 			ActiveAnimator( AnimatorState.Idle );
-		else if (!animatorInfo.IsName("Attack"))
+		else if (!animatorInfo.IsName( "Attack" ))
 		{
 			transform.LookAt( targetEnemy.transform );
 			ActiveAnimator( AnimatorState.Idle );
@@ -191,8 +233,17 @@ public class UnitProcess : MonoBehaviour
 		}
 	}
 
+	protected void DieProcess()
+	{
+		if (!animatorInfo.IsName( "Die" ))
+		{
+			ActiveAnimator( AnimatorState.Die );
+			Destroy( gameObject, 3f );
+		}
+	}
+
 	//use process
-	bool FindTarget()
+	protected bool FindTarget()
 	{
 		//make collider array -> enemy target in range
 		if (presentState != State.Hold)
@@ -223,19 +274,14 @@ public class UnitProcess : MonoBehaviour
 		{
 			case AnimatorState.Idle:
 				animator.SetInteger( "State", (int) AnimatorState.Idle );
-				if (!animatorInfo.IsName( "Idle" ))
-					animator.Play( "Idle" );				
 				break;
 			case AnimatorState.Run:
 				animator.SetInteger( "State", (int) AnimatorState.Run );
-				if (!animatorInfo.IsName( "Run" ))
-					animator.Play( "Run" );	
 				break;
 			case AnimatorState.Attack:
-				animator.Play( "Idle" );
-				if (isMeleeAttack)
+				if (isMeleeAttack && !( animatorInfo.IsName( "Attack" ) || animatorInfo.IsName( "ThrowAttack" ) ))
 					animator.SetTrigger( "Attack" );
-				else
+				else if (!( animatorInfo.IsName( "Attack" ) || animatorInfo.IsName( "ThrowAttack" ) ))
 					animator.SetTrigger( "ThrowAttack" );
 				break;
 			case AnimatorState.Casting:
@@ -247,71 +293,116 @@ public class UnitProcess : MonoBehaviour
 			case AnimatorState.Die:
 				animator.SetTrigger( "Die" );
 				break;
-
 		}
 	}
 
 	//public method
 
+	//on Collision Enter
+	public void OnCollisionEnter( Collision col )
+	{
+		Debug.Log( col.gameObject );
+		if (isMeleeAttack && col.gameObject.layer == LayerMask.NameToLayer( "Enemy" ))
+			onMeleeAttack = true;
+			
+	}
 	//character stop
 	public void SetStop()
 	{
-		presentState = State.Idle;
-		targetEnemy = null;
-		moveAgent.ResetPath();
-		ActiveAnimator( AnimatorState.Idle );
+		if (presentState != State.Die)
+		{
+			presentState = State.Idle;
+			targetEnemy = null;
+			moveAgent.ResetPath();
+			ActiveAnimator( AnimatorState.Idle );
+		}
 	}
 
 	//set hold state
 	public void SetHold()
 	{
-		presentState = State.Hold;
-		targetEnemy = null;
-		moveAgent.ResetPath();
-		ActiveAnimator( AnimatorState.Idle );
+		if (presentState != State.Die)
+		{
+			presentState = State.Hold;
+			targetEnemy = null;
+			moveAgent.ResetPath();
+			ActiveAnimator( AnimatorState.Idle );
+		}
 	}
 
 	//set attack state & set attack target
 	public void SetAttackTarget( GameObject target )
 	{
-		destination = transform.position;
-		targetEnemy = target;
-		presentState = State.Attack;
+		if (presentState != State.Die)
+		{
+			destination = transform.position;
+			targetEnemy = target;
+			presentState = State.Attack;
+		}
 	}
 
 	//set destination for nav mesh agent
 	public void SetDestination( Vector3 point )
 	{
-		presentState = State.Move;
-		destination = point;
-		moveAgent.destination = destination;
+		if (presentState != State.Die)
+		{
+			presentState = State.Move;
+			destination = point;
+			moveAgent.destination = destination;
+		}
 	}
 
 	//set destination for nav mesh agent
-	//search range -> find enemy
+	//search range -> find enemy & attack
 	public void SetAttackDestination( Vector3 point )
 	{
-		presentState = State.AttackMove;
-		destination = point;
-		moveAgent.destination = destination;
+		if (presentState != State.Die)
+		{
+			presentState = State.AttackMove;
+			destination = point;
+			moveAgent.destination = destination;
+		}
 	}
 
+	//unit use active skill
 	public void ActiveSkill( int index )
-	{
-
+	{		
+		if (presentState != State.Die)
+		{
+			info.OnSkill[index] = true;
+			info.ActiveSkillSet[index].UseSkill();
+			moveAgent.ResetPath();
+			animator.Play( "Casting" );
+		}
 	}
 
 	//use throw attack
 	public void ThrowAttackObject()
-	{
-		
+	{		
 		GameObject temp = (GameObject) Instantiate( throwObject, transform.position, transform.rotation );
-		temp.GetComponent<ThrowObject>().SetTargetAndSpeed( targetEnemy, info.AttackSpeed );
+		temp.GetComponent<ThrowObject>().SetTargetAndSpeed( this, targetEnemy, info.AttackSpeed );
+	}
+
+	public void ReloadAnimatorInfo()
+	{
+		animatorInfo = animator.GetCurrentAnimatorStateInfo( 0 );
+	}
+
+	public void Damaged( int damage )
+	{
+		info.HealthPoint -= damage;
 	}
 
 	//use attack animation -> animation event
 	public void EndAttackAnimation()
 	{
+		
+	}
+
+	//use casting animation -> animation event
+	public void EndCastingAnimation()
+	{
+
 	}
 
 }

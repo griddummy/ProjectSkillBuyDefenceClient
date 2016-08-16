@@ -4,6 +4,7 @@ using System.Collections;
 
 public class ThrowObject : MonoBehaviour
 {
+	[SerializeField] UnitProcess player;
 	[SerializeField] GameObject target;
 	[SerializeField] float moveSpeed;
 
@@ -20,25 +21,21 @@ public class ThrowObject : MonoBehaviour
 		}
 	}
 
-	public void SetTargetAndSpeed( GameObject _target, float _moveSpeed )
+	public void SetTargetAndSpeed( UnitProcess _player, GameObject _target, float _moveSpeed )
 	{
+		player = _player;
 		target = _target;
 		moveSpeed = _moveSpeed;
 	}
 
 	void OnTriggerEnter( Collider col )
 	{
-		Debug.Log( "Hit" );
 		if (col.gameObject.layer == LayerMask.NameToLayer( "Enemy" ))
 		{
-			Box temp = col.gameObject.GetComponent<Box>();
-			temp.Hit( 40f );
+			UnitProcess temp = col.gameObject.GetComponent<UnitProcess>();
+			temp.Damaged( player.Info.Damage );
 			Destroy( gameObject );
-			Debug.Log( "Hit" );
 		}
-		else if (col.gameObject.layer == LayerMask.NameToLayer( "Enemy" ))
-			Destroy( gameObject );
-
-
+		Destroy( gameObject );
 	}
 }

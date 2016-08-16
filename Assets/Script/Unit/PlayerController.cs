@@ -69,8 +69,7 @@ public class PlayerController : MonoBehaviour
 			player.SetAttackDestination( hitInfo.point );
 			modeAttack = false;
 			return;
-		}
-		
+		}		
 	}
 
 	//click mouse right button
