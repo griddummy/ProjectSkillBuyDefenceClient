@@ -38,9 +38,10 @@ public class UnitProcess : MonoBehaviour
 		Idle = 1,
 		Run = 2,
 		Attack = 3,
-		Casting = 4,
-		CastingUltimate = 5,
-		Die = 6}
+		ThrowAttack = 4,
+		Casting = 5,
+		CastingUltimate = 6,
+		Die = 7}
 ;
 
 	//property
@@ -174,14 +175,18 @@ public class UnitProcess : MonoBehaviour
 	//chase and attack target
 	protected virtual void AttackProcess()
 	{
-		if (( targetEnemy != null ) && ( Vector3.Distance( targetEnemy.transform.position, transform.position ) > info.AttackRange ) && !animatorInfo.IsName( "Attack" ))
+		if (( targetEnemy != null ) && ( Vector3.Distance( targetEnemy.transform.position, transform.position ) > info.AttackRange ))
 		{
+			if (animatorInfo.IsName( "Attack" ))
+				animator.Play( "Idle" );
 			moveAgent.SetDestination( targetEnemy.transform.position );
 			transform.LookAt( targetEnemy.transform );
 			ActiveAnimator( AnimatorState.Run );
 		}
-		else if (( targetEnemy != null ) && !animatorInfo.IsName( "Attack" ) && ( onMeleeAttack || ( Vector3.Distance( targetEnemy.transform.position, transform.position ) <= info.AttackRange ) ))
+		else if (( targetEnemy != null ) && ( ( Vector3.Distance( targetEnemy.transform.position, transform.position ) <= info.AttackRange ) ))
 		{
+			if (!animatorInfo.IsName( "Attack" ))
+				animator.Play( "Idle" );
 			moveAgent.ResetPath();
 			transform.LookAt( targetEnemy.transform );
 			ActiveAnimator( AnimatorState.Idle );
@@ -223,8 +228,16 @@ public class UnitProcess : MonoBehaviour
 	//if find target -> battle by target
 	protected void HoldProcess()
 	{
+		if (!animatorInfo.IsName( "Attack" ))
+			animator.Play( "Idle" );
+
 		if (( targetEnemy == null ) && !FindTarget())
 			ActiveAnimator( AnimatorState.Idle );
+		else if (Vector3.Distance( targetEnemy.transform.position, transform.position ) > info.AttackRange)
+		{
+			animator.Play( "Idle" );
+			targetEnemy = null;
+		}
 		else if (!animatorInfo.IsName( "Attack" ))
 		{
 			transform.LookAt( targetEnemy.transform );
@@ -279,16 +292,16 @@ public class UnitProcess : MonoBehaviour
 				animator.SetInteger( "State", (int) AnimatorState.Run );
 				break;
 			case AnimatorState.Attack:
-				if (isMeleeAttack && !( animatorInfo.IsName( "Attack" ) || animatorInfo.IsName( "ThrowAttack" ) ))
-					animator.SetTrigger( "Attack" );
-				else if (!( animatorInfo.IsName( "Attack" ) || animatorInfo.IsName( "ThrowAttack" ) ))
-					animator.SetTrigger( "ThrowAttack" );
+				if (isMeleeAttack)
+					animator.SetInteger( "State", (int) AnimatorState.Attack );
+				else
+					animator.SetInteger( "State", (int) AnimatorState.ThrowAttack );
 				break;
 			case AnimatorState.Casting:
-				animator.SetTrigger( "Casting" );
+				animator.SetInteger( "State", (int) AnimatorState.Casting );
 				break;
 			case AnimatorState.CastingUltimate:
-				animator.SetTrigger( "CastingUltimate" );
+				animator.SetInteger( "State", (int) AnimatorState.Casting );
 				break;
 			case AnimatorState.Die:
 				animator.SetTrigger( "Die" );

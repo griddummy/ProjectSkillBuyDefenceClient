@@ -3324,7 +3324,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: info.attackRange
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: info.attackSpeed
