@@ -5,6 +5,7 @@ using System.Collections;
 public class UnitInformation
 {
 	//field
+	[SerializeField] int unitID;
 	[SerializeField] int playerNum;
 	[SerializeField] int level;
 	[SerializeField] float presentExp;
@@ -22,6 +23,8 @@ public class UnitInformation
 	[SerializeField] Skill[] passiveSkillSet;
 
 	//property
+	public int UnitID { get { return unitID; } }
+
 	public int PlayerNumber { get { return playerNum; } }
 
 	public int Level { get { return level; } }
@@ -30,7 +33,7 @@ public class UnitInformation
 
 	public int HealthPoint { get { return healthPoint; } set { healthPoint = value; } }
 
-	public int ManaPoint { get { return manaPoint; } }
+	public int ManaPoint { get { return manaPoint; } set { manaPoint = value; } }
 
 	public int Damage { get { return damage; } }
 

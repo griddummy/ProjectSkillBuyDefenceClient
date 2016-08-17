@@ -6,7 +6,6 @@ public class UnitWeapon : MonoBehaviour
 	[SerializeField] UnitProcess unit;
 	[SerializeField] Collider weapon;
 	[SerializeField] UnitProcess temp;
-	[SerializeField] bool check;
 
 	void Start()
 	{
@@ -16,7 +15,7 @@ public class UnitWeapon : MonoBehaviour
 
 	void Update()
 	{	
-		check = unit.AnimatorInfo.IsName( "Attack" );		
+		unit.ReloadAnimatorInfo();
 		weapon.enabled = unit.AnimatorInfo.IsName( "Attack" );		
 	}
 
@@ -24,6 +23,13 @@ public class UnitWeapon : MonoBehaviour
 	{
 		if (col.gameObject.layer == LayerMask.NameToLayer( "Enemy" ))
 		{
+			temp = col.gameObject.GetComponent<UnitProcess>();
+			temp.Damaged( unit.Info.Damage );
+		}
+		else if (( unit.gameObject.layer == LayerMask.NameToLayer( "Enemy" ) )
+		         && ( col.gameObject.layer == LayerMask.NameToLayer( "Player" ) ))
+		{
+			Debug.Log( unit.Info.Damage );
 			temp = col.gameObject.GetComponent<UnitProcess>();
 			temp.Damaged( unit.Info.Damage );
 		}

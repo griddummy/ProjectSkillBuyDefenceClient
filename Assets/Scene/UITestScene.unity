@@ -346,11 +346,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -504,7 +504,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 133927092}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -585,11 +585,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -743,7 +743,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 527361948}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -790,11 +790,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -948,7 +948,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 538912171}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -1166,11 +1166,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -1251,7 +1251,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 713563743}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -1465,11 +1465,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -1623,7 +1623,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 814070387}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -1747,11 +1747,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -1905,7 +1905,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1036650292}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -2033,11 +2033,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 418424, guid: cd2c491d697b48b4889e4b189a9da34d, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 8.41
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 418424, guid: cd2c491d697b48b4889e4b189a9da34d, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -10.52
+      value: -10
       objectReference: {fileID: 0}
     - target: {fileID: 418424, guid: cd2c491d697b48b4889e4b189a9da34d, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2057,7 +2057,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 418424, guid: cd2c491d697b48b4889e4b189a9da34d, type: 2}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 11462836, guid: cd2c491d697b48b4889e4b189a9da34d, type: 2}
       propertyPath: player
@@ -2103,11 +2103,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -2261,7 +2261,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1171109460}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -2308,11 +2308,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -2466,7 +2466,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1228729167}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -2489,7 +2489,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 18.05
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: m_LocalPosition.y
@@ -2497,7 +2497,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -17.26
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: m_LocalRotation.x
@@ -2537,7 +2537,7 @@ Prefab:
       objectReference: {fileID: 183196, guid: 417869332e23313499a003fae9d9f083, type: 2}
     - target: {fileID: 127392, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: m_Layer
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: info.playerNum
@@ -2555,8 +2555,21 @@ Prefab:
       propertyPath: m_Name
       value: ProtoType (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11428770, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11428770, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: unit
+      value: 
+      objectReference: {fileID: 2146460573}
     m_RemovedComponents:
     - {fileID: 11496656, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+    - {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: a8dba25e471841c469170edb2563d77b, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1428531271
@@ -2592,11 +2605,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -2724,7 +2737,7 @@ Transform:
   m_GameObject: {fileID: 1428531271}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -19.69, y: 1, z: 13.89}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 4, y: 2, z: 2}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2750,7 +2763,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1428531271}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -2869,11 +2882,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -3027,7 +3040,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1645286527}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -3107,11 +3120,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -3265,7 +3278,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1842343732}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -3288,7 +3301,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2.93
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: m_LocalPosition.y
@@ -3296,7 +3309,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -17.26
+      value: 7.71
       objectReference: {fileID: 0}
     - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: m_LocalRotation.x
@@ -3324,11 +3337,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: info.attackRange
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: info.attackSpeed
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: throwObject
@@ -3353,6 +3366,14 @@ Prefab:
     - target: {fileID: 5407256, guid: a8dba25e471841c469170edb2563d77b, type: 2}
       propertyPath: m_Constraints
       value: 126
+      objectReference: {fileID: 0}
+    - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5407256, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_IsKinematic
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a8dba25e471841c469170edb2563d77b, type: 2}
@@ -3561,11 +3582,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isMeleeAttack: 0
-  onMeleeAttack: 0
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    unitID: 0
     playerNum: 2
     level: 1
     presentExp: 0
@@ -3719,7 +3740,7 @@ NavMeshAgent:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2126266495}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
@@ -3733,3 +3754,99 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!1 &2146460572 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 127392, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+  m_PrefabInternal: {fileID: 1290079815}
+--- !u!114 &2146460573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2146460572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9dbad1ce2418ba43b9aa9c86e61b614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMeleeAttack: 1
+  playerRig: {fileID: 0}
+  destination: {x: 0, y: 0, z: 0}
+  presentState: 0
+  info:
+    unitID: 0
+    playerNum: 0
+    level: 1
+    presentExp: 0
+    requireExp: 1000
+    healthPoint: 1000
+    manaPoint: 100
+    damage: 100
+    moveSpeed: 5
+    attackSpeed: 1
+    attackRange: 10
+    searchRange: 10
+    activeSkillSet:
+    - name: 
+      damage: 0
+      coolTime: 5
+      useTime: 0
+      onTarget: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      coolTime: 5
+      useTime: 0
+      onTarget: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      coolTime: 5
+      useTime: 0
+      onTarget: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      coolTime: 5
+      useTime: 0
+      onTarget: 0
+      skillType: 0
+    onSkill: 00000000
+    coolTime:
+    - 0
+    - 0
+    - 0
+    - 0
+    passiveSkillSet:
+    - name: 
+      damage: 0
+      coolTime: 5
+      useTime: 0
+      onTarget: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      coolTime: 5
+      useTime: 0
+      onTarget: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      coolTime: 5
+      useTime: 0
+      onTarget: 0
+      skillType: 0
+    - name: 
+      damage: 0
+      coolTime: 5
+      useTime: 0
+      onTarget: 0
+      skillType: 0
+  velocity: {x: 0, y: 0, z: 0}
+  enemy: []
+  targetEnemy: {fileID: 0}
+  throwObject: {fileID: 0}
+  animator: {fileID: 0}
+  moveAgent: {fileID: 0}
+  manager: {fileID: 0}
+  presentAnimatorState: 3

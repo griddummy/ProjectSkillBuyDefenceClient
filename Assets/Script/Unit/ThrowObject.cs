@@ -12,30 +12,33 @@ public class ThrowObject : MonoBehaviour
 	{
 		try
 		{
-			transform.position = Vector3.Slerp( transform.position, target.transform.position, Time.deltaTime * moveSpeed );
+			transform.position = Vector3.Slerp( transform.position, target.transform.position + new Vector3 ( 0f, target.transform.lossyScale.y / 2, 0f ), Time.deltaTime * moveSpeed );
 		}
 		catch (MissingReferenceException e)
 		{
 			Debug.Log( e.InnerException );
 			Destroy( gameObject );
 		}
+		Debug.Log( transform.position );
 	}
 
-	public void SetTargetAndSpeed( UnitProcess _player, GameObject _target, float _moveSpeed )
+	public void SetTargetAndSpeed( UnitProcess _player, GameObject _target )
 	{
 		player = _player;
 		target = _target;
-		moveSpeed = _moveSpeed;
+		moveSpeed = 3f;
 	}
 
 	void OnTriggerEnter( Collider col )
 	{
+		Debug.Log( "Active!" );
 		if (col.gameObject.layer == LayerMask.NameToLayer( "Enemy" ))
 		{
 			UnitProcess temp = col.gameObject.GetComponent<UnitProcess>();
 			temp.Damaged( player.Info.Damage );
 			Destroy( gameObject );
 		}
-		Destroy( gameObject );
+		if (col.gameObject.layer != LayerMask.NameToLayer( "Player" ))
+			Destroy( gameObject );
 	}
 }

@@ -2,23 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 
+//player unit process -> movable unit
 public class UnitProcess : MonoBehaviour
 {
 	//simple field
 	[SerializeField] protected bool isMeleeAttack;
-	[SerializeField] protected bool onMeleeAttack;
 	[SerializeField] protected Rigidbody playerRig;
-	[SerializeField] Vector3 destination;
+	[SerializeField] protected Vector3 destination;
 	[SerializeField] protected State presentState;
 	[SerializeField] protected UnitInformation info;
-	[SerializeField] Vector3 velocity;
+	[SerializeField] protected Vector3 velocity;
 	[SerializeField] protected Collider[] enemy;
 
 	//complex field
 	[SerializeField] protected GameObject targetEnemy;
 	[SerializeField] protected GameObject throwObject;
-	[SerializeField] Animator animator;
-	[SerializeField] AnimatorStateInfo animatorInfo;
+	[SerializeField] protected Animator animator;
+	[SerializeField] protected AnimatorStateInfo animatorInfo;
 	[SerializeField] protected NavMeshAgent moveAgent;
 	[SerializeField] protected GameManager manager;
 
@@ -71,7 +71,7 @@ public class UnitProcess : MonoBehaviour
 	{
 		playerRig = GetComponent<Rigidbody>();
 		destination = transform.position;
-		presentState = State.Idle;
+		presentState = State.Hold;
 		animator = GetComponent<Animator>();
 		moveAgent = GetComponent<NavMeshAgent>();
 		manager = GameObject.FindWithTag( "GameManager" ).GetComponent<GameManager>();
@@ -123,6 +123,7 @@ public class UnitProcess : MonoBehaviour
 	protected virtual void PreProcess()
 	{
 		moveAgent.speed = info.MoveSpeed;
+		animator.speed = info.AttackSpeed;
 		animatorInfo = this.animator.GetCurrentAnimatorStateInfo( 0 );
 
 		if (info.HealthPoint <= 0)
@@ -164,10 +165,13 @@ public class UnitProcess : MonoBehaviour
 	{
 		ActiveAnimator( AnimatorState.Run );
 		transform.LookAt( destination );
+		//send unit data
+
 		if (Vector3.Distance( transform.position, destination ) <= 0.1f)
 		{
 			presentState = State.Idle;
 			ActiveAnimator( AnimatorState.Idle );
+			//send unit data
 		}
 	}
 
@@ -175,7 +179,7 @@ public class UnitProcess : MonoBehaviour
 	//chase and attack target
 	protected virtual void AttackProcess()
 	{
-		if (( targetEnemy != null ) && ( Vector3.Distance( targetEnemy.transform.position, transform.position ) > info.AttackRange ))
+		if (( targetEnemy != null ) && ( Vector3.Distance( targetEnemy.transform.position, transform.position ) > info.AttackRange + targetEnemy.transform.lossyScale.x ))
 		{
 			if (animatorInfo.IsName( "Attack" ))
 				animator.Play( "Idle" );
@@ -183,7 +187,7 @@ public class UnitProcess : MonoBehaviour
 			transform.LookAt( targetEnemy.transform );
 			ActiveAnimator( AnimatorState.Run );
 		}
-		else if (( targetEnemy != null ) && ( ( Vector3.Distance( targetEnemy.transform.position, transform.position ) <= info.AttackRange ) ))
+		else if (( targetEnemy != null ) && ( ( Vector3.Distance( targetEnemy.transform.position, transform.position ) <= info.AttackRange + targetEnemy.transform.lossyScale.x ) ))
 		{
 			if (!animatorInfo.IsName( "Attack" ))
 				animator.Play( "Idle" );
@@ -191,11 +195,10 @@ public class UnitProcess : MonoBehaviour
 			transform.LookAt( targetEnemy.transform );
 			ActiveAnimator( AnimatorState.Idle );
 			ActiveAnimator( AnimatorState.Attack );
+			//send unit data
 		}
 		else if (targetEnemy == null)
 		{
-			onMeleeAttack = false;
-
 			//find target -> no target state idle
 			// -> reset target
 			if (FindTarget())
@@ -242,7 +245,8 @@ public class UnitProcess : MonoBehaviour
 		{
 			transform.LookAt( targetEnemy.transform );
 			ActiveAnimator( AnimatorState.Idle );
-			ActiveAnimator( AnimatorState.Attack );		
+			ActiveAnimator( AnimatorState.Attack );
+			//send unit data
 		}
 	}
 
@@ -251,11 +255,14 @@ public class UnitProcess : MonoBehaviour
 		if (!animatorInfo.IsName( "Die" ))
 		{
 			ActiveAnimator( AnimatorState.Die );
+			//send unit data
 			Destroy( gameObject, 3f );
 		}
 	}
 
 	//use process
+
+	//find enemy target
 	protected bool FindTarget()
 	{
 		//make collider array -> enemy target in range
@@ -276,12 +283,13 @@ public class UnitProcess : MonoBehaviour
 				    && ( enemy[i].gameObject.layer == LayerMask.NameToLayer( "Enemy" ) ))
 					targetEnemy = enemy[i].gameObject;
 			}
+			//send unit data
 			return true;		
 		}
 	}
 
-	//set player present state
-	void ActiveAnimator( AnimatorState present )
+	//set player animation - use present state
+	protected virtual void ActiveAnimator( AnimatorState present )
 	{
 		switch (present)
 		{
@@ -311,14 +319,6 @@ public class UnitProcess : MonoBehaviour
 
 	//public method
 
-	//on Collision Enter
-	public void OnCollisionEnter( Collision col )
-	{
-		Debug.Log( col.gameObject );
-		if (isMeleeAttack && col.gameObject.layer == LayerMask.NameToLayer( "Enemy" ))
-			onMeleeAttack = true;
-			
-	}
 	//character stop
 	public void SetStop()
 	{
@@ -328,6 +328,7 @@ public class UnitProcess : MonoBehaviour
 			targetEnemy = null;
 			moveAgent.ResetPath();
 			ActiveAnimator( AnimatorState.Idle );
+			//send unit data
 		}
 	}
 
@@ -392,18 +393,21 @@ public class UnitProcess : MonoBehaviour
 	//use throw attack
 	public void ThrowAttackObject()
 	{		
-		GameObject temp = (GameObject) Instantiate( throwObject, transform.position, transform.rotation );
-		temp.GetComponent<ThrowObject>().SetTargetAndSpeed( this, targetEnemy, info.AttackSpeed );
+		GameObject temp = (GameObject) Instantiate( throwObject, transform.position + new Vector3 ( -0.2f, 1.5f, 0.2f ), transform.rotation );
+		temp.GetComponent<ThrowObject>().SetTargetAndSpeed( this, targetEnemy );
 	}
 
+	//reset animator information
 	public void ReloadAnimatorInfo()
 	{
 		animatorInfo = animator.GetCurrentAnimatorStateInfo( 0 );
 	}
 
-	public void Damaged( int damage )
+	//unit damage calculate
+	public virtual void Damaged( int damage )
 	{
 		info.HealthPoint -= damage;
+		//send unit data
 	}
 
 	//use attack animation -> animation event

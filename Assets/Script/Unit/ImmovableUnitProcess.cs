@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//player unit process -> Immovable unit
 public class ImmovableUnitProcess : UnitProcess
 {
 	void Start()
@@ -8,7 +9,6 @@ public class ImmovableUnitProcess : UnitProcess
 		isMeleeAttack = false;
 		playerRig = GetComponent<Rigidbody>();
 		presentState = State.Idle;
-		moveAgent = GetComponent<NavMeshAgent>();
 		manager = GameObject.FindWithTag( "GameManager" ).GetComponent<GameManager>();
 		SetLayer();
 	}
@@ -30,8 +30,6 @@ public class ImmovableUnitProcess : UnitProcess
 
 	protected override void PreProcess()
 	{
-		moveAgent.speed = info.MoveSpeed;
-
 		if (info.HealthPoint <= 0)
 		{
 			presentState = State.Die;

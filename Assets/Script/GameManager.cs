@@ -17,12 +17,29 @@ public class GameManager : MonoBehaviour
 	//initialize this script
 	void Start()
 	{
+		InitializeData();
+	}
+
+	void InitializeData() 
+	{
 		checkAlly = new bool[8];
 		checkAlly[playerNumber] = true;
 	}
 
 	//start game -> game load process
 	public void LoadProcess()
+	{
+
+	}
+
+	//send unit data -> changed unit data
+	public void SendUnitData()
+	{
+
+	}
+
+	//receive unit data -> changed unit data
+	public void ReceiveUnitData()
 	{
 
 	}
