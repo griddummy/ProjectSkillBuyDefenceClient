@@ -356,68 +356,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -595,68 +621,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -800,68 +852,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -1176,68 +1254,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -1475,68 +1579,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -1678,7 +1808,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 1
-  checkAlly: 0000000000000000
+  checkAlly:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   isAI: 0
 --- !u!1 &952944035
 GameObject:
@@ -1757,68 +1895,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -2113,68 +2277,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -2318,68 +2508,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -2615,68 +2831,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -2892,68 +3134,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -3130,68 +3398,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -3592,68 +3886,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 200
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 0
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 10
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}
@@ -3780,68 +4100,94 @@ MonoBehaviour:
     presentExp: 0
     requireExp: 1000
     healthPoint: 1000
+    presentHealthPoint: 0
     manaPoint: 100
+    presentManaPoint: 0
     damage: 100
+    presentDamage: 0
     moveSpeed: 5
+    presentMoveSpeed: 0
     attackSpeed: 1
+    presentAttackSpeed: 0
     attackRange: 10
+    presentAttackRange: 0
     searchRange: 10
     activeSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    onSkill: 00000000
+      icon: {fileID: 0}
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
     - 0
     - 0
     passiveSkillSet:
-    - name: 
-      damage: 0
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
-    - name: 
-      damage: 0
+      icon: {fileID: 0}
+    - id: 0
+      name: 
+      level: 0
+      skillRange: 0
       coolTime: 5
-      useTime: 0
       onTarget: 0
       skillType: 0
+      icon: {fileID: 0}
   velocity: {x: 0, y: 0, z: 0}
   enemy: []
   targetEnemy: {fileID: 0}

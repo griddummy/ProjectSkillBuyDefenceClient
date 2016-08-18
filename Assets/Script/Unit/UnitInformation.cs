@@ -4,19 +4,24 @@ using System.Collections;
 [System.Serializable]
 public class UnitInformation
 {
-	//field
+	//simple data field
 	[SerializeField] int unitID;
 	[SerializeField] int playerNum;
+	[SerializeField] string unitName;
 	[SerializeField] int level;
 	[SerializeField] float presentExp;
 	[SerializeField] float requireExp;
 	[SerializeField] int healthPoint;
+	[SerializeField] int presentHealthPoint;
 	[SerializeField] int manaPoint;
+	[SerializeField] int presentManaPoint;
 	[SerializeField] int damage;
 	[SerializeField] float moveSpeed;
 	[SerializeField] float attackSpeed;
 	[SerializeField] float attackRange;
 	[SerializeField] float searchRange;
+
+	//complex data field
 	[SerializeField] Skill[] activeSkillSet;
 	[SerializeField] bool[] onSkill;
 	[SerializeField] float[] coolTime;
@@ -26,6 +31,8 @@ public class UnitInformation
 	public int UnitID { get { return unitID; } }
 
 	public int PlayerNumber { get { return playerNum; } }
+
+	public string Name { get { return unitName; } }
 
 	public int Level { get { return level; } }
 
@@ -81,6 +88,9 @@ public class UnitInformation
 		searchRange = info.searchRange;
 	}
 
+	//pubilc method
+
+	//clear skill
 	public void SkillInitalize()
 	{
 		activeSkillSet = new Skill[4];
@@ -95,13 +105,35 @@ public class UnitInformation
 		coolTime = new float[4];
 	}
 
-	public void AddSkill( Skill data )
+	//data initialize
+	public void DataInitialize()
 	{
-		if (data.SkillType == Skill.Type.Active || data.SkillType == Skill.Type.Buff)
-			;
-		else if (data.SkillType == Skill.Type.Passive)
-			;
+		
 	}
 
-
+	//skill add skill slot
+	public bool AddSkill( Skill data )
+	{
+		//passive
+		if (data.SkillType == Skill.Type.Passive || data.SkillType == Skill.Type.PassiveAura)
+		{
+			for (int i = 0; i < passiveSkillSet.Length; i++)
+			{
+				if (passiveSkillSet[i].Name == null)
+					passiveSkillSet[i] = data;
+				return true;
+			}
+		}
+		//active
+		else
+		{
+			for (int i = 0; i < activeSkillSet.Length; i++)
+			{
+				if (activeSkillSet[i].Name == null)
+					activeSkillSet[i] = data;
+				return true;
+			}
+		}
+		return false;
+	}
 }

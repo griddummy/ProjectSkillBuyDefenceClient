@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 		InitializeData();
 	}
 
-
+	//initialize this script
 	void Update()
 	{
 		if (Input.GetButtonDown( "CommandStop" ))

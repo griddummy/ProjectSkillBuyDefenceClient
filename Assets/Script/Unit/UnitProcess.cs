@@ -5,7 +5,7 @@ using System.Collections.Generic;
 //player unit process -> movable unit
 public class UnitProcess : MonoBehaviour
 {
-	//simple field
+	//simple data field
 	[SerializeField] protected bool isMeleeAttack;
 	[SerializeField] protected Rigidbody playerRig;
 	[SerializeField] protected Vector3 destination;
@@ -14,7 +14,8 @@ public class UnitProcess : MonoBehaviour
 	[SerializeField] protected Vector3 velocity;
 	[SerializeField] protected Collider[] enemy;
 
-	//complex field
+	//complex data field
+	[SerializeField] protected List<Skill> applySkill;
 	[SerializeField] protected GameObject targetEnemy;
 	[SerializeField] protected GameObject throwObject;
 	[SerializeField] protected Animator animator;
@@ -83,7 +84,9 @@ public class UnitProcess : MonoBehaviour
 	{
 		PreProcess();
 		SkillProcess();
-	
+
+		Debug.Log( Resources.Load( "NoBladeGirl", typeof(GameObject) ) );
+		//Instantiate( Resources.Load<GameObject>( "GreatSword" ), transform.position, transform.rotation );
 		switch (presentState)
 		{
 			case State.Idle:
@@ -128,11 +131,17 @@ public class UnitProcess : MonoBehaviour
 
 		if (info.HealthPoint <= 0)
 			presentState = State.Die;
+
+		foreach (Skill elements in applySkill)
+		{
+
+		}
 	}
 
 	//check skill and process coolTime
 	protected void SkillProcess()
 	{
+		//check active skill cool Time
 		for (int i = 0; i < info.ActiveSkillSet.Length; i++)
 		{
 			if (info.OnSkill[i])
@@ -145,6 +154,8 @@ public class UnitProcess : MonoBehaviour
 				}
 			}
 		}
+
+		//process buff
 	}
 
 	//idle state process
@@ -384,7 +395,7 @@ public class UnitProcess : MonoBehaviour
 		if (presentState != State.Die)
 		{
 			info.OnSkill[index] = true;
-			info.ActiveSkillSet[index].UseSkill();
+			info.ActiveSkillSet[index].UseSkill( transform.position );
 			moveAgent.ResetPath();
 			animator.Play( "Casting" );
 		}

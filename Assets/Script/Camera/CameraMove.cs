@@ -4,7 +4,6 @@ using System.Collections;
 public class CameraMove : MonoBehaviour
 {
 	[SerializeField] Vector3 distanceVector;
-	[SerializeField] float lerpSpeed;
 	[SerializeField] float pointX;
 	[SerializeField] float pointY;
 	[SerializeField] float pointZ;
@@ -17,7 +16,6 @@ public class CameraMove : MonoBehaviour
 
 	void Start()
 	{
-		lerpSpeed = 1f;
 		sensitivity = 0.8f;
 		pointY = 20f;
 	}
