@@ -5,12 +5,14 @@ using System.Collections;
 
 public class UIBuySkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
+	[SerializeField] UIControl mainUI;
 	[SerializeField] UISkillElement[] buySkills;
-
 
 	//initialize this script
 	public void LinkComponent()
 	{
+		mainUI = GetComponentInParent<UIControl>();
+
 		buySkills = GetComponentsInChildren<UISkillElement>();
 
 		//initialize UISkillElement
@@ -33,4 +35,17 @@ public class UIBuySkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
 	}
 
+	//onclick method
+	public void OnClickBuySkill( int index )
+	{
+		index--;
+
+		if (buySkills[index].SkillInfo.Name == null)
+			return;
+		else if (mainUI.Gold >= buySkills[index].SkillInfo.SkillBuyCost)
+		{
+			if (mainUI.SkillBuyProcess( buySkills[index].SkillInfo ))
+				mainUI.Gold -= buySkills[index].SkillInfo.SkillBuyCost;
+		}
+	}
 }

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 public class Buff
 {
 	//simple field
+	[SerializeField] int id;
 	[SerializeField] string buffName;
 	[SerializeField] bool onActivate;
 	[SerializeField] float buffTime;
@@ -24,6 +25,7 @@ public class Buff
 	}
 
 	public Buff (
+		int _id,
 		string _buffName, 
 		float _buffTime,
 		float _buffRange,
@@ -34,6 +36,7 @@ public class Buff
 		float _manaPoint,
 		float _healAmount)
 	{
+		id = _id;
 		buffName = _buffName;
 		onActivate = false;
 		buffTime = _buffTime;
@@ -46,8 +49,23 @@ public class Buff
 		healAmount = _healAmount;
 	}
 
+	public Buff(Buff data)
+	{
+		id = data.id;
+		buffName = data.buffName;
+		onActivate = false;
+		buffTime = data.buffTime;
+		buffRange = data.buffRange;
+		damage = data.damage;
+		attackSpeed = data.attackSpeed;
+		moveSpeed = data.moveSpeed;
+		healthPoint = data.healthPoint;
+		manaPoint = data.manaPoint;
+		healAmount = data.healAmount;
+	}
+
 	//apply buff
-	public void AciveBuff( UnitProcess data )
+	public void ActiveBuff( UnitProcess data )
 	{
 		if (!onActivate)
 		{

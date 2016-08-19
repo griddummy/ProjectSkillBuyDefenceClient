@@ -31,9 +31,9 @@ public class Skill
 	//property
 	public int ID { get { return id; } }
 
-	public int SkillBuyCost{ get { return skillBuyCost; } }
-
 	public string Name { get { return name; } }
+
+	public int SkillBuyCost{ get { return skillBuyCost; } }
 
 	public float CoolTime { get { return coolTime; } }
 

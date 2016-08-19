@@ -10,11 +10,14 @@ public class UIControl : MonoBehaviour
 	[SerializeField] UnitProcess presentUnit;
 	[SerializeField] UIUnitStatus unitStatus;
 	[SerializeField] UICommandButton commandButton;
-	[SerializeField] UIUnitSkillSlot playerSkills;
+	[SerializeField] UIUnitSkillSlot unitSkills;
 	[SerializeField] UIBuySkillSlot buySkills;
 
 	//complex data field -> temp data
 	[SerializeField]  UISkillElement presentSelectSkill;
+
+	//property
+	public int Gold { get { return gold; } set { gold = value; } }
 
 	//initialize this script
 	void Start()
@@ -26,8 +29,8 @@ public class UIControl : MonoBehaviour
 	//link low rank element
 	void LinkComponent()
 	{
-		playerSkills = GetComponentInChildren<UIUnitSkillSlot>();
-		playerSkills.LinkComponent();
+		unitSkills = GetComponentInChildren<UIUnitSkillSlot>();
+		unitSkills.LinkComponent();
 
 		buySkills = GetComponentInChildren<UIBuySkillSlot>();
 		buySkills.LinkComponent();
@@ -40,5 +43,24 @@ public class UIControl : MonoBehaviour
 	public void UpdateUIInformation()
 	{
 
+	}
+
+	//skill buy process
+	public bool SkillBuyProcess( Skill data )
+	{
+		//input skilldata by unit skill
+		if (unitSkills.AddSkill( data ))
+		{
+			//synchroize skill info unit & UIUnitSkill
+			UnitSkillSynchroize();
+			return true;
+		}
+		else
+			return false;
+	}
+
+	public void UnitSkillSynchroize()
+	{
+		Debug.Log( "Synchroize Success" );
 	}
 }

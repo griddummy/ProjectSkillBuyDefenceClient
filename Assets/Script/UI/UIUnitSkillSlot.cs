@@ -29,4 +29,16 @@ public class UIUnitSkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
 	}
 
+	public bool AddSkill( Skill data )
+	{
+		for (int i = 0; i < unitSkills.Length; i++)
+		{
+			if (unitSkills[i].SkillInfo.Name == null)
+			{
+				unitSkills[i].SkillInfo = data;
+				return true;
+			}
+		}
+		return false;
+	}
 }

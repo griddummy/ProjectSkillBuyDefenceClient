@@ -28,7 +28,7 @@ public class StandardTraining : Skill
 		moveSpeed = 0.05f;
 		healthPoint = 200;
 		manaPoint = 100;	
-		skillBuff = new Buff ( name, Mathf.Infinity, skillRange, damage, attackSpeed, moveSpeed, healthPoint, manaPoint, 0f );
+		skillBuff = new Buff ( id, name, Mathf.Infinity, skillRange, damage, attackSpeed, moveSpeed, healthPoint, manaPoint, 0f );
 	}
 
 }

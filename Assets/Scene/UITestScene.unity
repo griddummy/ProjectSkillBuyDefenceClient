@@ -260,10 +260,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07d6d69537c4e86408d4072137b626e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gold: 0
   presentUnit: {fileID: 0}
   unitStatus: {fileID: 0}
   commandButton: {fileID: 0}
-  playerSkills: {fileID: 0}
+  unitSkills: {fileID: 0}
   buySkills: {fileID: 0}
   presentSelectSkill: {fileID: 0}
 --- !u!1 &9748577
@@ -437,7 +438,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 42794112}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 7
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &42794112
@@ -582,7 +594,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 64517366}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 6
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &64517366
@@ -839,7 +862,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -1111,7 +1138,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 270354418}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &270354418
@@ -1256,7 +1294,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 507567603}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 14
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &507567603
@@ -1513,7 +1562,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -1842,7 +1895,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -2059,7 +2116,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 594426541}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 8
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &594426541
@@ -2632,7 +2700,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -3055,7 +3127,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -3272,7 +3348,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 855129205}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 12
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &855129205
@@ -3349,7 +3436,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerNumber: 1
-  checkAlly: 0000000000000000
+  checkAlly:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   isAI: 0
 --- !u!1 &900248361
 GameObject:
@@ -3460,7 +3555,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 900248365}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &900248365
@@ -3605,7 +3711,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 952653458}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 16
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &952653458
@@ -3703,6 +3820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1366780d038571645b46d1c35362c593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainUI: {fileID: 0}
   buySkills: []
 --- !u!1 &1036650292
 GameObject:
@@ -3925,7 +4043,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -4986,7 +5108,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -5203,7 +5329,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1216245722}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 13
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1216245722
@@ -5460,7 +5597,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -5769,7 +5910,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1342611312}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 9
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1342611312
@@ -5914,7 +6066,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1344460544}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1344460544
@@ -6171,7 +6334,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -6862,7 +7029,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -7079,7 +7250,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1732339230}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 5
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1732339230
@@ -7224,7 +7406,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1807572246}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 10
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1807572246
@@ -7481,7 +7674,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -7698,7 +7895,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1861609675}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 15
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1861609675
@@ -7945,7 +8153,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1930053949}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 11
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1930053949
@@ -8297,7 +8516,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2088796741}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 952944037}
+        m_MethodName: OnClickBuySkill
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2088796741
@@ -8630,7 +8860,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0
@@ -8942,7 +9176,11 @@ MonoBehaviour:
         healthPoint: 0
         manaPoint: 0
         healAmount: 0
-    onSkill: 00000000
+    onSkill:
+    - 0
+    - 0
+    - 0
+    - 0
     coolTime:
     - 0
     - 0

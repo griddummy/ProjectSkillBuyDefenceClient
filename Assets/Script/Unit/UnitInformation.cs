@@ -122,25 +122,14 @@ public class UnitInformation
 
 		onSkill = new bool[unitSkillSet.Length];
 		coolTime = new float[unitSkillSet.Length];
+
+		unitBuffSet = new Buff[12];
 	}
 
 	//data initialize
 	public void DataInitialize()
 	{
 		
-	}
-
-	//skill add skill slot
-	public bool AddSkill( Skill data )
-	{
-		for (int i = 0; i < unitSkillSet.Length; i++)
-		{
-			if (unitSkillSet[i].Name == null)
-				unitSkillSet[i] = data;
-				
-			return true;
-		}
-		return false;
 	}
 
 	//apply buff effect
@@ -151,5 +140,32 @@ public class UnitInformation
 		moveSpeed += _moveSpeed;
 		healthPoint += _healthPoint;
 		manaPoint += _manaPoint;
+	}
+
+	public void SynchorizeSkillByUI(Skill[] data)
+	{
+		//delete before skillset buff
+		for (int i = 0; i < unitSkillSet.Length; i++)
+		{
+
+		}
+		//skill synchroize
+		unitSkillSet = data;
+	
+		//add buff
+		for (int i = 0; i < unitSkillSet.Length; i++)
+		{
+
+		}
+	}
+
+	public void DeleteBuff(int id)
+	{
+
+	}
+
+	public void AddBuff(Buff data)
+	{
+
 	}
 }

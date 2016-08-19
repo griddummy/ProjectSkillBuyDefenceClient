@@ -15,7 +15,6 @@ public class UnitProcess : MonoBehaviour
 	[SerializeField] protected Collider[] enemy;
 
 	//complex data field
-	[SerializeField] protected List<Skill> applySkill;
 	[SerializeField] protected GameObject targetEnemy;
 	[SerializeField] protected GameObject throwObject;
 	[SerializeField] protected Animator animator;
@@ -130,9 +129,9 @@ public class UnitProcess : MonoBehaviour
 		if (info.PresentHealthPoint <= 0)
 			presentState = State.Die;
 
-		foreach (Skill elements in applySkill)
+		for (int i = 0; i < info.UnitBuffSet.Length; i++)
 		{
-
+			info.UnitBuffSet[i].ActiveBuff( this );
 		}
 	}
 

@@ -17,6 +17,7 @@ public class UISkillElement :MonoBehaviour
 	public virtual void LinkElement()
 	{
 		skillIcon = GetComponent<Image>();
+		skillInfo = new Skill ();
 	}
 
 	public void UpdateSkillIcon( UnitInformation data )
@@ -24,5 +25,4 @@ public class UISkillElement :MonoBehaviour
 		skillInfo.SetSkillIcon();
 		skillIcon.sprite = skillInfo.Icon;
 	}
-
 }
