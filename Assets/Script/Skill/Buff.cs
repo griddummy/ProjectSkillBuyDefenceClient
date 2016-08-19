@@ -8,20 +8,63 @@ public class Buff
 {
 	//simple field
 	[SerializeField] string buffName;
-	[SerializeField] bool buff;
+	[SerializeField] bool onActivate;
 	[SerializeField] float buffTime;
-	[SerializeField] int damage;
+	[SerializeField] float buffRange;
+	[SerializeField] float damage;
 	[SerializeField] float attackSpeed;
 	[SerializeField] float moveSpeed;
-	[SerializeField] int healAmount;
+	[SerializeField] float healthPoint;
+	[SerializeField] float manaPoint;
+	[SerializeField] float healAmount;
 
 	public Buff ()
 	{
-		
+		buffName = null;
 	}
 
-	public Buff (string _buffName)
+	public Buff (
+		string _buffName, 
+		float _buffTime,
+		float _buffRange,
+		float _damage, 
+		float _attackSpeed, 
+		float _moveSpeed,
+		float _healthPoint,
+		float _manaPoint,
+		float _healAmount)
 	{
+		buffName = _buffName;
+		onActivate = false;
+		buffTime = _buffTime;
+		buffRange = _buffRange;
+		damage = _damage;
+		attackSpeed = _attackSpeed;
+		moveSpeed = _moveSpeed;
+		healthPoint = _healthPoint;
+		manaPoint = _manaPoint;
+		healAmount = _healAmount;
+	}
+
+	//apply buff
+	public void AciveBuff( UnitProcess data )
+	{
+		if (!onActivate)
+		{
+			data.Info.ApplyBuff( damage, attackSpeed, moveSpeed, healthPoint, manaPoint );
+			onActivate = true;
+		}
+
+		if (buffRange != 0)
+		{
+			Collider[] target = Physics.OverlapSphere( data.transform.position, buffRange, 1 << LayerMask.NameToLayer( "Player" ) );
+
+			for (int i = 0; i < target.Length; i++)
+			{
+				target[i].gameObject.GetComponent<UnitProcess>().Info.PresentHealthPoint += healAmount * Time.deltaTime;
+			}
+		}
+
 	}
 }
 

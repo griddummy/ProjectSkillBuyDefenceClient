@@ -22,8 +22,8 @@ public class CameraMove : MonoBehaviour
 
 	void Update()
 	{
-		pointX = Input.GetAxis( "Horizontal" ) * sensitivity;
-		pointZ = Input.GetAxis( "Vertical" ) * sensitivity;
+		pointX = Input.GetAxis( "Horizontal" );
+		pointZ = Input.GetAxis( "Vertical" );
 
 		keyboardDirection = new Vector3 ( pointX, 0f, pointZ );
 
@@ -33,48 +33,48 @@ public class CameraMove : MonoBehaviour
 
 		if (mousePosition.y <= screenHeight * 0.01f && mousePosition.x <= screenWidth * 0.01f)
 		{
-			pointX = -1f * sensitivity;
-			pointZ = -1f * sensitivity;
+			pointX = -1f;
+			pointZ = -1f;
 		}
 		else if (mousePosition.y >= screenHeight * 0.99f && mousePosition.x >= screenWidth * 0.99f)
 		{
-			pointX = 1f * sensitivity;
-			pointZ = 1f * sensitivity;
+			pointX = 1f;
+			pointZ = 1f;
 		}
 		else if (mousePosition.y >= screenHeight * 0.99f && mousePosition.x <= screenWidth * 0.01f)
 		{
-			pointX = -1f * sensitivity;
-			pointZ = 1f * sensitivity;
+			pointX = -1f;
+			pointZ = 1f;
 		}
 		else if (mousePosition.y <= screenHeight * 0.01f && mousePosition.x >= screenWidth * 0.99f)
 		{
-			pointX = 1f * sensitivity;
-			pointZ = -1f * sensitivity;
+			pointX = 1f;
+			pointZ = -1f;
 		}
 		else if (mousePosition.x <= screenWidth * 0.01f)
 		{
-			pointX = -1f * sensitivity;
+			pointX = -1f;
 			pointZ = 0f;
 		}
 		else if (mousePosition.y >= screenHeight * 0.99f)
 		{
 			pointX = 0f;
-			pointZ = 1f * sensitivity;
+			pointZ = 1f;
 		}
 		else if (mousePosition.x >= screenWidth * 0.99f)
 		{
-			pointX = 1f * sensitivity;
+			pointX = 1f;
 			pointZ = 0f;
 		}
 		else if (mousePosition.y <= screenHeight * 0.01f)
 		{
 			pointX = 0f;
-			pointZ = -1f * sensitivity;
+			pointZ = -1f;
 		}
 
 		mouseDirection = new Vector3 ( pointX, 0f, pointZ );
 
-		transform.position += ( ( keyboardDirection + mouseDirection ).normalized );
+		transform.position += ( ( keyboardDirection + mouseDirection ).normalized * sensitivity );
 
 		pointY = 0f;
 		pointZ = 0f;

@@ -85,8 +85,6 @@ public class UnitProcess : MonoBehaviour
 		PreProcess();
 		SkillProcess();
 
-		Debug.Log( Resources.Load( "NoBladeGirl", typeof(GameObject) ) );
-		//Instantiate( Resources.Load<GameObject>( "GreatSword" ), transform.position, transform.rotation );
 		switch (presentState)
 		{
 			case State.Idle:
@@ -129,7 +127,7 @@ public class UnitProcess : MonoBehaviour
 		animator.speed = info.AttackSpeed;
 		animatorInfo = this.animator.GetCurrentAnimatorStateInfo( 0 );
 
-		if (info.HealthPoint <= 0)
+		if (info.PresentHealthPoint <= 0)
 			presentState = State.Die;
 
 		foreach (Skill elements in applySkill)
@@ -142,12 +140,12 @@ public class UnitProcess : MonoBehaviour
 	protected void SkillProcess()
 	{
 		//check active skill cool Time
-		for (int i = 0; i < info.ActiveSkillSet.Length; i++)
+		for (int i = 0; i < info.UnitSkillSet.Length; i++)
 		{
-			if (info.OnSkill[i])
+			if (( (int) info.UnitSkillSet[i].SkillType <= 3 ) && info.OnSkill[i])
 			{
 				info.CoolTime[i] += Time.deltaTime;
-				if (info.CoolTime[i] > info.ActiveSkillSet[i].CoolTime)
+				if (info.CoolTime[i] > info.UnitSkillSet[i].CoolTime)
 				{
 					info.CoolTime[i] = 0.0f;
 					info.OnSkill[i] = false;
@@ -392,10 +390,10 @@ public class UnitProcess : MonoBehaviour
 	//unit use active skill
 	public void ActiveSkill( int index )
 	{		
-		if (presentState != State.Die)
+		if (( presentState != State.Die ) && ( (int) info.UnitSkillSet[index].SkillType <= 3 ))
 		{
 			info.OnSkill[index] = true;
-			info.ActiveSkillSet[index].UseSkill( transform.position );
+			info.UnitSkillSet[index].UseSkill( transform.position );
 			moveAgent.ResetPath();
 			animator.Play( "Casting" );
 		}
@@ -415,9 +413,9 @@ public class UnitProcess : MonoBehaviour
 	}
 
 	//unit damage calculate
-	public virtual void Damaged( int damage )
+	public virtual void Damaged( float damage )
 	{
-		info.HealthPoint -= damage;
+		info.PresentHealthPoint -= damage;
 		//send unit data
 	}
 

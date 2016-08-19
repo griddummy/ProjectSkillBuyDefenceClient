@@ -71,9 +71,9 @@ public class UnitPlayer : UnitProcess
 
 	//unit damage calculate
 	//send unit information to another client
-	public override void Damaged( int damage )
+	public override void Damaged( float damage )
 	{
-		info.HealthPoint -= damage;
+		info.PresentHealthPoint -= damage;
 		//send unit data
 	}
 }

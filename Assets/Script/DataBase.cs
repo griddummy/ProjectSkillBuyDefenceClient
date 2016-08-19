@@ -10,6 +10,9 @@ public class Database
 	static Database databaseInstance = null;
 	List<Skill> skillInformation;
 
+	//property
+	public static Database Instance { get { return databaseInstance; } }
+
 	//single tone constructor
 	static Database ()
 	{
@@ -26,7 +29,8 @@ public class Database
 	void CreateSkillInformation()
 	{
 		skillInformation = new List<Skill> ();
-
+		skillInformation.Add( new StandardTraining () );
+		skillInformation.Add( new RestoreAura () );
 	
 		for (int i = 0; i < skillInformation.Count; i++)
 			skillInformation[i].SetSkillIcon();

@@ -9,12 +9,15 @@ public class Skill
 	//skill data
 	[SerializeField] protected int id;
 	[SerializeField] protected string name;
+	[SerializeField] protected int skillBuyCost;
 	[SerializeField] protected int level;
+	[SerializeField] protected float skillCost;
 	[SerializeField] protected float skillRange;
 	[SerializeField] protected float coolTime;
 	[SerializeField] protected bool onTarget;
 	[SerializeField] protected Type skillType;
 	[SerializeField] protected Sprite icon;
+	[SerializeField] protected Buff skillBuff;
 
 	public enum Type : int
 	{
@@ -28,6 +31,8 @@ public class Skill
 	//property
 	public int ID { get { return id; } }
 
+	public int SkillBuyCost{ get { return skillBuyCost; } }
+
 	public string Name { get { return name; } }
 
 	public float CoolTime { get { return coolTime; } }
@@ -35,6 +40,8 @@ public class Skill
 	public bool OnTarget { get { return onTarget; } }
 
 	public Type SkillType { get { return skillType; } }
+
+	public Sprite Icon { get { return icon; } }
 
 	//constructor - default
 	public Skill ()

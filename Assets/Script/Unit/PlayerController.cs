@@ -33,10 +33,10 @@ public class PlayerController : MonoBehaviour
 			ProcessRightClick();
 		else if (Input.GetButtonDown( "Skill1" ))
 		{
-			if (player.Info.ActiveSkillSet[0].OnTarget)
+			if (player.Info.UnitSkillSet[0].OnTarget)
 			{
 				modeSkill = true;
-				presentSkill = player.Info.ActiveSkillSet[0];
+				presentSkill = player.Info.UnitSkillSet[0];
 			}
 			else
 				player.ActiveSkill( 0 );

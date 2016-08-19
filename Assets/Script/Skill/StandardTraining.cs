@@ -9,14 +9,15 @@ public class StandardTraining : Skill
 	[SerializeField] int damage;
 	[SerializeField] float attackSpeed;
 	[SerializeField] float moveSpeed;
-	[SerializeField] int healthPoint;
-	[SerializeField] int manaPoint;
+	[SerializeField] float healthPoint;
+	[SerializeField] float manaPoint;
 
 	//constructor - default
 	public StandardTraining ()
 	{
 		id = 0001;
 		name = "StandardTraining";
+		skillBuyCost = 100;
 		level = 1;
 		skillRange = 0f;
 		coolTime = 0f;
@@ -26,7 +27,8 @@ public class StandardTraining : Skill
 		attackSpeed = 0.05f;
 		moveSpeed = 0.05f;
 		healthPoint = 200;
-		manaPoint = 100;			
+		manaPoint = 100;	
+		skillBuff = new Buff ( name, Mathf.Infinity, skillRange, damage, attackSpeed, moveSpeed, healthPoint, manaPoint, 0f );
 	}
 
 }

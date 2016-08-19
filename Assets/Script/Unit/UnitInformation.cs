@@ -11,21 +11,21 @@ public class UnitInformation
 	[SerializeField] int level;
 	[SerializeField] float presentExp;
 	[SerializeField] float requireExp;
-	[SerializeField] int healthPoint;
-	[SerializeField] int presentHealthPoint;
-	[SerializeField] int manaPoint;
-	[SerializeField] int presentManaPoint;
-	[SerializeField] int damage;
+	[SerializeField] float healthPoint;
+	[SerializeField] float presentHealthPoint;
+	[SerializeField] float manaPoint;
+	[SerializeField] float presentManaPoint;
+	[SerializeField] float damage;
 	[SerializeField] float moveSpeed;
 	[SerializeField] float attackSpeed;
 	[SerializeField] float attackRange;
 	[SerializeField] float searchRange;
 
 	//complex data field
-	[SerializeField] Skill[] activeSkillSet;
+	[SerializeField] Skill[] unitSkillSet;
 	[SerializeField] bool[] onSkill;
 	[SerializeField] float[] coolTime;
-	[SerializeField] Skill[] passiveSkillSet;
+	[SerializeField] Buff[] unitBuffSet;
 
 	//property
 	public int UnitID { get { return unitID; } }
@@ -38,11 +38,13 @@ public class UnitInformation
 
 	public float PresentExp { get { return PresentExp; } }
 
-	public int HealthPoint { get { return healthPoint; } set { healthPoint = value; } }
+	public float HealthPoint { get { return healthPoint; } }
 
-	public int ManaPoint { get { return manaPoint; } set { manaPoint = value; } }
+	public float PresentHealthPoint { get { return presentHealthPoint; } set { presentHealthPoint = Mathf.Clamp( presentHealthPoint + value, 0, healthPoint ); } }
 
-	public int Damage { get { return damage; } }
+	public float ManaPoint { get { return manaPoint; } }
+
+	public float Damage { get { return damage; } }
 
 	public float MoveSpeed { get { return moveSpeed; } }
 
@@ -52,13 +54,13 @@ public class UnitInformation
 
 	public float SearchRange { get { return searchRange; } }
 
-	public Skill[] ActiveSkillSet { get { return activeSkillSet; } }
+	public Skill[] UnitSkillSet { get { return unitSkillSet; } }
 
 	public bool[] OnSkill { get { return onSkill; } }
 
 	public float[] CoolTime { get { return coolTime; } }
 
-	public Skill[] PassiveSkillSet { get { return passiveSkillSet; } }
+	public Buff[] UnitBuffSet { get { return unitBuffSet; } }
 
 	public UnitInformation ()
 	{
@@ -66,7 +68,9 @@ public class UnitInformation
 		presentExp = 0f;
 		requireExp = 1000f;
 		healthPoint = 1000;
+		presentHealthPoint = healthPoint;
 		manaPoint = 100;
+		presentManaPoint = manaPoint;
 		moveSpeed = 5f;
 		attackSpeed = 10f;
 		attackRange = 10f;
@@ -86,6 +90,25 @@ public class UnitInformation
 		attackSpeed = info.attackSpeed;
 		attackRange = info.attackRange;
 		searchRange = info.searchRange;
+
+		SkillInitalize();
+	}
+
+	public UnitInformation (int _unitID, int _playerNum, UnitInformation info)
+	{
+		unitID = _unitID;
+		playerNum = _playerNum;
+		level = info.level;
+		presentExp = info.presentExp;
+		requireExp = info.requireExp;
+		healthPoint = info.healthPoint;
+		manaPoint = info.manaPoint;
+		moveSpeed = info.moveSpeed;
+		attackSpeed = info.attackSpeed;
+		attackRange = info.attackRange;
+		searchRange = info.searchRange;
+
+		SkillInitalize();
 	}
 
 	//pubilc method
@@ -93,16 +116,12 @@ public class UnitInformation
 	//clear skill
 	public void SkillInitalize()
 	{
-		activeSkillSet = new Skill[4];
-		for (int i = 0; i < activeSkillSet.Length; i++)
-			activeSkillSet[i] = new Skill ();
+		unitSkillSet = new Skill[8];
+		for (int i = 0; i < unitSkillSet.Length; i++)
+			unitSkillSet[i] = new Skill ();
 
-		passiveSkillSet = new Skill[4];
-		for (int i = 0; i < passiveSkillSet.Length; i++)
-			passiveSkillSet[i] = new Skill ();
-
-		onSkill = new bool[4];
-		coolTime = new float[4];
+		onSkill = new bool[unitSkillSet.Length];
+		coolTime = new float[unitSkillSet.Length];
 	}
 
 	//data initialize
@@ -114,26 +133,23 @@ public class UnitInformation
 	//skill add skill slot
 	public bool AddSkill( Skill data )
 	{
-		//passive
-		if (data.SkillType == Skill.Type.Passive || data.SkillType == Skill.Type.PassiveAura)
+		for (int i = 0; i < unitSkillSet.Length; i++)
 		{
-			for (int i = 0; i < passiveSkillSet.Length; i++)
-			{
-				if (passiveSkillSet[i].Name == null)
-					passiveSkillSet[i] = data;
-				return true;
-			}
-		}
-		//active
-		else
-		{
-			for (int i = 0; i < activeSkillSet.Length; i++)
-			{
-				if (activeSkillSet[i].Name == null)
-					activeSkillSet[i] = data;
-				return true;
-			}
+			if (unitSkillSet[i].Name == null)
+				unitSkillSet[i] = data;
+				
+			return true;
 		}
 		return false;
+	}
+
+	//apply buff effect
+	public void ApplyBuff(	float _damage, float _attackSpeed, float _moveSpeed, float _healthPoint, float _manaPoint )
+	{
+		damage += _damage;
+		attackSpeed += _attackSpeed;
+		moveSpeed += _moveSpeed;
+		healthPoint += _healthPoint;
+		manaPoint += _manaPoint;
 	}
 }
