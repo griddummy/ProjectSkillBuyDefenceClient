@@ -14,7 +14,7 @@ public class P2PEnterRoomResultPacket : IPacket<P2PEnterRoomResultData>
                 ret &= Serialize(data.otherGuestCount);
                 for (int i = 0; i < data.otherGuestCount; i++)
                 {
-                    ret &= Serialize(data.otherGuestIndex[i]);
+                    ret &= Serialize(data.ohterGuestNumber[i]);
                 }
                 for (int i = 0; i < data.otherGuestCount; i++)
                 {
@@ -41,10 +41,10 @@ public class P2PEnterRoomResultPacket : IPacket<P2PEnterRoomResultData>
                 return false;
             ret &= Deserialize(ref element.myNumber);
             ret &= Deserialize(ref element.otherGuestCount);
-            element.otherGuestIndex = new byte[element.otherGuestCount];            
+            element.ohterGuestNumber = new byte[element.otherGuestCount];            
             for(int i = 0; i < element.otherGuestCount; i++)
             {
-                ret &= Deserialize(ref element.otherGuestIndex[i]);
+                ret &= Deserialize(ref element.ohterGuestNumber[i]);
             }
             string userName;
             ret &= Deserialize(out userName, (int)GetDataSize() - 3 + element.otherGuestCount); // byte+byte+byte+count*byte

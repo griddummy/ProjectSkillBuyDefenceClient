@@ -271,7 +271,7 @@ public class LobbyForm : UIForm {
         // 방정보에 다른 사람 정보 넣기
         for(int i = 0; i < resultData.otherGuestCount; i++)
         {
-            roomInfo.AddGuest(new PlayerInfo(resultData.otherGuestID[i]), resultData.otherGuestIndex[i]);
+            roomInfo.AddGuest(new PlayerInfo(resultData.otherGuestID[i]), resultData.ohterGuestNumber[i]);
         }
         // 방정보에 내정보 넣기
         roomInfo.myNumber = resultData.myNumber;

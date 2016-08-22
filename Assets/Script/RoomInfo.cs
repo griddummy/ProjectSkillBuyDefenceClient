@@ -111,11 +111,11 @@ public class RoomInfo
         number = new byte[m_playerCount];
         userName = new string[m_playerCount];
         int count = 0;
-        for(int i = 0; count < m_playerCount; i++)
+        for(int i = 0; i < m_playerCount; i++)
         {
             if(players[i] != null)
             {
-                number[count] = (byte)i;
+                number[count] = (byte)players[i].number;
                 userName[count] = players[i].playerName;
                 count++;
             }
