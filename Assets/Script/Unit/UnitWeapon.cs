@@ -29,7 +29,6 @@ public class UnitWeapon : MonoBehaviour
 		else if (( unit.gameObject.layer == LayerMask.NameToLayer( "Enemy" ) )
 		         && ( col.gameObject.layer == LayerMask.NameToLayer( "Player" ) ))
 		{
-			Debug.Log( unit.Info.Damage );
 			temp = col.gameObject.GetComponent<UnitProcess>();
 			temp.Damaged( unit.Info.Damage );
 		}

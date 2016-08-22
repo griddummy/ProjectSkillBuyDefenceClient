@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour
@@ -14,24 +15,26 @@ public class PlayerController : MonoBehaviour
 	//initialize this script
 	void Start()
 	{
-		player = GetComponent<UnitProcess>();
 		InitializeData();
 	}
 
 	//initialize this script
 	void Update()
-	{
-		
+	{			
+		if (!EventSystem.current.IsPointerOverGameObject())
+		{			
+			if (Input.GetButtonDown( "LeftClick" ))
+				ProcessLeftClick();
+			else if (Input.GetButtonDown( "RightClick" ))
+				ProcessRightClick();			
+		}
+
 		if (Input.GetButtonDown( "CommandStop" ))
 			player.SetStop();
 		else if (Input.GetButtonDown( "CommandHold" ))
 			player.SetHold();
 		else if (Input.GetButtonDown( "CommandAttack" ))
 			modeAttack = true;
-		else if (Input.GetButtonDown( "LeftClick" ))
-			ProcessLeftClick();
-		else if (Input.GetButtonDown( "RightClick" ))
-			ProcessRightClick();
 		else if (Input.GetButtonDown( "Skill1" ))
 			SkillCasting( 0 );
 		else if (Input.GetButtonDown( "Skill2" ))
@@ -43,8 +46,7 @@ public class PlayerController : MonoBehaviour
 		else if (Input.GetButtonDown( "Skill5" ))
 			SkillCasting( 4 );
 		else if (Input.GetButtonDown( "Skill6" ))
-			SkillCasting( 5 );
-		
+			SkillCasting( 5 );	
 	}
 
 	void InitializeData()

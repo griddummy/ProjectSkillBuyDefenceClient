@@ -18,12 +18,14 @@ public class UIUnitSkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
 		{
 			string name = "ActiveSkill" + ( i + 1 ).ToString();
 			activeSkills[i] = transform.Find( name ).GetComponent<UISkillElement>();
+			activeSkills[i].LinkElement();
 		}
 
 		for (int i = 0; i < passiveSkills.Length; i++)
 		{
 			string name = "PassiveSkill" + ( i + 1 ).ToString();
 			passiveSkills[i] = transform.Find( name ).GetComponent<UISkillElement>();
+			passiveSkills[i].LinkElement();
 		}	
 	}
 
@@ -45,13 +47,13 @@ public class UIUnitSkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
 		for (int i = 0; i < data.Info.ActiveSkillSet.Length; i++)
 		{
 			activeSkills[i].SkillInfo = data.Info.ActiveSkillSet[i];
-			//unitSkills[i].UpdateSkillICon();
+			activeSkills[i].UpdateSkillIcon();
 		}
 
 		for (int i = 0; i < data.Info.PassiveSkillSet.Length; i++)
 		{
 			passiveSkills[i].SkillInfo = data.Info.PassiveSkillSet[i];
-			//unitSkills[i].UpdateSkillICon();
+			passiveSkills[i].UpdateSkillIcon();
 		}
 	}
 }

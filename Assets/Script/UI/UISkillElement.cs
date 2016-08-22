@@ -1,6 +1,6 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
 using System.Collections;
 
 public class UISkillElement :MonoBehaviour
@@ -20,9 +20,16 @@ public class UISkillElement :MonoBehaviour
 		skillInfo = new Skill ();
 	}
 
-	public void UpdateSkillIcon( )
+	public void UpdateSkillIcon()
 	{
 		skillInfo.SetSkillIcon();
-		skillIcon.sprite = skillInfo.Icon;
+		try
+		{
+			skillIcon.sprite = skillInfo.Icon;
+		}
+		catch (NullReferenceException e)
+		{
+			Debug.Log( e.InnerException );
+		}
 	}
 }

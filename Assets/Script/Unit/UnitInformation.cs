@@ -5,6 +5,7 @@ using System.Collections;
 public class UnitInformation
 {
 	//simple data field
+	[SerializeField] int defaultID;
 	[SerializeField] int unitID;
 	[SerializeField] int playerNum;
 	[SerializeField] string unitName;
@@ -18,6 +19,7 @@ public class UnitInformation
 	[SerializeField] float damage;
 	[SerializeField] float moveSpeed;
 	[SerializeField] float attackSpeed;
+	[SerializeField] bool isMeleeAttack;
 	[SerializeField] float attackRange;
 	[SerializeField] float searchRange;
 
@@ -29,6 +31,8 @@ public class UnitInformation
 	[SerializeField] Buff[] unitBuffSet;
 
 	//property
+	public int DefaultID { get { return defaultID; } }
+
 	public int UnitID { get { return unitID; } }
 
 	public int PlayerNumber { get { return playerNum; } }
@@ -53,6 +57,8 @@ public class UnitInformation
 
 	public float AttackSpeed { get { return attackSpeed; } }
 
+	public bool IsMelee { get { return isMeleeAttack; } }
+
 	public float AttackRange { get { return attackRange; } }
 
 	public float SearchRange { get { return searchRange; } }
@@ -69,6 +75,7 @@ public class UnitInformation
 
 	public UnitInformation ()
 	{
+		unitName = "default";
 		level = 1;
 		presentExp = 0f;
 		requireExp = 1000f;
@@ -86,11 +93,14 @@ public class UnitInformation
 
 	public UnitInformation (UnitInformation info)
 	{
+		unitName = info.unitName;
 		level = info.level;
 		presentExp = info.presentExp;
 		requireExp = info.requireExp;
 		healthPoint = info.healthPoint;
+		presentHealthPoint = healthPoint;
 		manaPoint = info.manaPoint;
+		presentManaPoint = manaPoint;
 		moveSpeed = info.moveSpeed;
 		attackSpeed = info.attackSpeed;
 		attackRange = info.attackRange;
@@ -103,11 +113,14 @@ public class UnitInformation
 	{
 		unitID = _unitID;
 		playerNum = _playerNum;
+		unitName = info.unitName;
 		level = info.level;
 		presentExp = info.presentExp;
 		requireExp = info.requireExp;
 		healthPoint = info.healthPoint;
+		presentHealthPoint = healthPoint;
 		manaPoint = info.manaPoint;
+		presentManaPoint = manaPoint;
 		moveSpeed = info.moveSpeed;
 		attackSpeed = info.attackSpeed;
 		attackRange = info.attackRange;
@@ -115,6 +128,39 @@ public class UnitInformation
 
 		SkillInitalize();
 	}
+
+	//create default use database
+	public UnitInformation (
+		int _defaultID,
+		string _unitName,
+		int _level,
+		float _requireExp,
+		float _healthPoint,
+		float _manaPoint,
+		float _moveSpeed,
+		float _attackSpeed,
+		bool _isMeleeAttack,
+		float _attackRange,
+		float _searchRange)
+	{
+		defaultID = _defaultID;
+		unitName = _unitName;
+		level = _level;
+		presentExp = 0f;
+		requireExp = _requireExp;
+		healthPoint = _healthPoint;
+		presentHealthPoint = healthPoint;
+		manaPoint = _manaPoint;
+		presentManaPoint = manaPoint;
+		moveSpeed = _moveSpeed;
+		attackSpeed = _attackSpeed;
+		isMeleeAttack = _isMeleeAttack;
+		attackRange = _attackRange;
+		searchRange = _searchRange;
+
+		SkillInitalize();
+	}
+
 
 	//pubilc method
 
@@ -125,9 +171,9 @@ public class UnitInformation
 		for (int i = 0; i < activeSkillSet.Length; i++)
 			activeSkillSet[i] = new Skill ();
 
-		activeSkillSet = new Skill[6];
+		passiveSkillSet = new Skill[6];
 		for (int i = 0; i < activeSkillSet.Length; i++)
-			activeSkillSet[i] = new Skill ();
+			passiveSkillSet[i] = new Skill ();
 
 		onSkill = new bool[12];
 		coolTime = new float[12];
@@ -159,9 +205,10 @@ public class UnitInformation
 	{
 		//active type
 		if ((int) data.SkillType < 4)
-		{
+		{					
 			for (int i = 0; i < activeSkillSet.Length; i++)
 			{
+				Debug.Log( activeSkillSet[i].Name );
 				if (activeSkillSet[i].Name == null)
 				{
 					activeSkillSet[i] = data;
@@ -173,6 +220,7 @@ public class UnitInformation
 		{
 			for (int i = 0; i < passiveSkillSet.Length; i++)
 			{
+				Debug.Log( passiveSkillSet[i].Name );
 				if (passiveSkillSet[i].Name == null)
 				{
 					passiveSkillSet[i] = data;

@@ -9,6 +9,7 @@ public class Database
 	//complex database
 	static Database databaseInstance = null;
 	List<Skill> skillInformation;
+	List<UnitInformation> unitInformationSet;
 
 	//property
 	public static Database Instance { get { return databaseInstance; } }
@@ -23,6 +24,7 @@ public class Database
 	private Database ()
 	{
 		CreateSkillInformation();
+		CreateUnitInformationSet();
 	}
 
 	//initialize skill information
@@ -33,9 +35,17 @@ public class Database
 		skillInformation.Add( new RestoreAura () );
 		skillInformation.Add( new ShockStun () );
 		skillInformation.Add( new Heal () );
+		skillInformation.Add( new KaBoom () );
 	
 		for (int i = 0; i < skillInformation.Count; i++)
 			skillInformation[i].SetSkillIcon();
+	}
+
+	//initialize unitinformation
+	void CreateUnitInformationSet()
+	{
+		unitInformationSet = new List<UnitInformation> ();
+		unitInformationSet.Add( new UnitInformation ( 0001, "UnityChan", 1, 100, 900, 150, 1f, 1f, true, 0f, 8f ) ); 
 	}
 
 	//public method
@@ -56,6 +66,26 @@ public class Database
 		for (int i = 0; i < skillInformation.Count; i++)
 			if (skillInformation[i].Name == name)
 				return skillInformation[i];
+
+		return null;
+	}
+
+	//search default unit information use default ID
+	public UnitInformation FindUnitInformationName( int defaultID )
+	{
+		for (int i = 0; i < unitInformationSet.Count; i++)
+			if (unitInformationSet[i].DefaultID == defaultID)
+				return unitInformationSet[i];
+
+		return null;
+	}
+
+	//search default unit information use name
+	public UnitInformation FindUnitInformationName( string name )
+	{
+		for (int i = 0; i < unitInformationSet.Count; i++)
+			if (unitInformationSet[i].Name == name)
+				return unitInformationSet[i];
 
 		return null;
 	}

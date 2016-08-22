@@ -73,6 +73,7 @@ public class UnitPlayer : UnitProcess
 	//send unit information to another client
 	public override void Damaged( float damage )
 	{
+		Debug.Log( damage );
 		info.PresentHealthPoint -= damage;
 		//send unit data
 	}

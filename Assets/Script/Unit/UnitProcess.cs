@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class UnitProcess : MonoBehaviour
 {
 	//simple data field
-	[SerializeField] protected bool isMeleeAttack;
 	[SerializeField] protected Rigidbody playerRig;
 	[SerializeField] protected Vector3 destination;
 	[SerializeField] protected State presentState;
@@ -74,6 +73,7 @@ public class UnitProcess : MonoBehaviour
 		presentState = State.Hold;
 		animator = GetComponent<Animator>();
 		moveAgent = GetComponent<NavMeshAgent>();
+		info.SkillInitalize();
 		manager = GameObject.FindWithTag( "GameManager" ).GetComponent<GameManager>();
 		DataInitialize();
 	}
@@ -195,7 +195,7 @@ public class UnitProcess : MonoBehaviour
 	//chase and attack unitTarget
 	protected virtual void AttackProcess()
 	{
-		if (( unitTarget != null ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > info.AttackRange + unitTarget.transform.lossyScale.x / 2 ))
+		if (( unitTarget != null ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > info.AttackRange + unitTarget.transform.lossyScale.x ))
 		{
 			if (animatorInfo.IsName( "Attack" ))
 				animator.Play( "Idle" );
@@ -203,7 +203,7 @@ public class UnitProcess : MonoBehaviour
 			transform.LookAt( unitTarget.transform );
 			ActiveAnimator( AnimatorState.Run );
 		}
-		else if (( unitTarget != null ) && ( ( Vector3.Distance( unitTarget.transform.position, transform.position ) <= info.AttackRange + unitTarget.transform.lossyScale.x / 2 ) ))
+		else if (( unitTarget != null ) && ( ( Vector3.Distance( unitTarget.transform.position, transform.position ) <= info.AttackRange + unitTarget.transform.lossyScale.x ) ))
 		{
 			if (!animatorInfo.IsName( "Attack" ))
 				animator.Play( "Idle" );
@@ -373,7 +373,7 @@ public class UnitProcess : MonoBehaviour
 				animator.SetInteger( "State", (int) AnimatorState.Run );
 				break;
 			case AnimatorState.Attack:
-				if (isMeleeAttack)
+				if (info.IsMelee)
 					animator.SetInteger( "State", (int) AnimatorState.Attack );
 				else
 					animator.SetInteger( "State", (int) AnimatorState.ThrowAttack );
@@ -520,6 +520,15 @@ public class UnitProcess : MonoBehaviour
 	{
 		presentState = State.Idle;
 		destination = transform.position;
+	}
+
+	//use melee attack range check
+	public void OnCollisionEnter(Collision col)
+	{
+		if (( presentState == State.Attack || presentState == State.AttackMove ) && ( col.gameObject == unitTarget ))
+		{
+			Debug.Log( "col!" );
+		}
 	}
 
 }

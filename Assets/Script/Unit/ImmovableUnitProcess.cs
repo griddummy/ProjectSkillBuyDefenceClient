@@ -6,7 +6,6 @@ public class ImmovableUnitProcess : UnitProcess
 {
 	void Start()
 	{
-		isMeleeAttack = false;
 		playerRig = GetComponent<Rigidbody>();
 		presentState = State.Idle;
 		manager = GameObject.FindWithTag( "GameManager" ).GetComponent<GameManager>();
