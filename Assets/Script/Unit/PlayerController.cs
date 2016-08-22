@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 	//initialize this script
 	void Update()
 	{
+		
 		if (Input.GetButtonDown( "CommandStop" ))
 			player.SetStop();
 		else if (Input.GetButtonDown( "CommandHold" ))
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
 			SkillCasting( 4 );
 		else if (Input.GetButtonDown( "Skill6" ))
 			SkillCasting( 5 );
-
+		
 	}
 
 	void InitializeData()
