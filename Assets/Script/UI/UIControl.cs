@@ -14,7 +14,7 @@ public class UIControl : MonoBehaviour
 	[SerializeField] UIBuySkillSlot buySkills;
 
 	//complex data field -> temp data
-	[SerializeField]  UISkillElement presentSelectSkill;
+	[SerializeField] UISkillElement presentSelectSkill;
 
 	//property
 	public int Gold { get { return gold; } set { gold = value; } }
@@ -49,10 +49,10 @@ public class UIControl : MonoBehaviour
 	public bool SkillBuyProcess( Skill data )
 	{
 		//input skilldata by unit skill
-		if (unitSkills.AddSkill( data ))
+		if (presentUnit.Info.AddSkill( data ))
 		{
 			//synchroize skill info unit & UIUnitSkill
-			UnitSkillSynchroize();
+			unitSkills.UpdateSkillSlot( presentUnit );
 			return true;
 		}
 		else

@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField] bool modeSkill;
 
 	//complex data field
-	[SerializeField] Skill presentSkill;
+	[SerializeField] int presentSkillIndex;
 	[SerializeField] UnitProcess player;
 
 	//initialize this script
@@ -32,22 +32,25 @@ public class PlayerController : MonoBehaviour
 		else if (Input.GetButtonDown( "RightClick" ))
 			ProcessRightClick();
 		else if (Input.GetButtonDown( "Skill1" ))
-		{
-			if (player.Info.UnitSkillSet[0].OnTarget)
-			{
-				modeSkill = true;
-				presentSkill = player.Info.UnitSkillSet[0];
-			}
-			else
-				player.ActiveSkill( 0 );
-		}
+			SkillCasting( 0 );
+		else if (Input.GetButtonDown( "Skill2" ))
+			SkillCasting( 1 );
+		else if (Input.GetButtonDown( "Skill3" ))
+			SkillCasting( 2 );
+		else if (Input.GetButtonDown( "Skill4" ))
+			SkillCasting( 3 );
+		else if (Input.GetButtonDown( "Skill5" ))
+			SkillCasting( 4 );
+		else if (Input.GetButtonDown( "Skill6" ))
+			SkillCasting( 5 );
+
 	}
 
 	void InitializeData()
 	{
 		modeAttack = false;
 		modeSkill = false;
-		presentSkill = new Skill ();
+		presentSkillIndex = -1;
 	}
 
 	//click mouse left button
@@ -69,7 +72,20 @@ public class PlayerController : MonoBehaviour
 			player.SetAttackDestination( hitInfo.point );
 			modeAttack = false;
 			return;
-		}		
+		}
+		//clickmode - skill target set
+		else if (modeSkill && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
+		{
+			player.ActiveSkill( presentSkillIndex, hitInfo.collider.gameObject );
+			modeSkill = false;
+			return;
+		}
+		else if (modeSkill && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
+		{
+			player.ActiveSkill( presentSkillIndex, hitInfo.point );
+			modeSkill = false;
+			return;
+		}
 	}
 
 	//click mouse right button
@@ -98,5 +114,16 @@ public class PlayerController : MonoBehaviour
 			player.SetDestination( hitInfo.point );		
 			return;
 		}
+	}
+
+	void SkillCasting( int index )
+	{
+		if (player.Info.ActiveSkillSet[index].OnTarget && !player.Info.OnSkill[index])
+		{
+			modeSkill = true;
+			presentSkillIndex = index;
+		}
+		else
+			player.ActiveSkill( index );		
 	}
 }

@@ -12,11 +12,11 @@ public class CameraMove : MonoBehaviour
 	[SerializeField] Vector3 mousePosition;
 	[SerializeField] Vector3 mouseDirection;
 	[SerializeField] Vector3 keyboardDirection;
-	[SerializeField][Range( 0.1f, 1.6f )] float sensitivity;
+	[SerializeField][Range( 0.1f, 0.6f )] float sensitivity;
 
 	void Start()
 	{
-		sensitivity = 0.8f;
+		sensitivity = 0.3f;
 		pointY = 20f;
 	}
 

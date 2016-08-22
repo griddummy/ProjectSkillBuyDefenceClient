@@ -5,16 +5,26 @@ using System.Collections;
 
 public class UIUnitSkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-	[SerializeField] UISkillElement[] unitSkills;
+	[SerializeField] UISkillElement[] activeSkills;
+	[SerializeField] UISkillElement[] passiveSkills;
 
 	//initialize this script
 	public void LinkComponent()
 	{
-		unitSkills = GetComponentsInChildren<UISkillElement>();
+		activeSkills = new UISkillElement[6];
+		passiveSkills = new UISkillElement[6];
 
-		//initialize UISkillElement
-		foreach (UISkillElement elements in unitSkills)
-			elements.LinkElement();
+		for (int i = 0; i < activeSkills.Length; i++)
+		{
+			string name = "ActiveSkill" + ( i + 1 ).ToString();
+			activeSkills[i] = transform.Find( name ).GetComponent<UISkillElement>();
+		}
+
+		for (int i = 0; i < passiveSkills.Length; i++)
+		{
+			string name = "PassiveSkill" + ( i + 1 ).ToString();
+			passiveSkills[i] = transform.Find( name ).GetComponent<UISkillElement>();
+		}	
 	}
 
 	//pointer enter ui area
@@ -29,16 +39,19 @@ public class UIUnitSkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
 	}
 
-	public bool AddSkill( Skill data )
+	//skill slot data update
+	public void UpdateSkillSlot( UnitProcess data )
 	{
-		for (int i = 0; i < unitSkills.Length; i++)
+		for (int i = 0; i < data.Info.ActiveSkillSet.Length; i++)
 		{
-			if (unitSkills[i].SkillInfo.Name == null)
-			{
-				unitSkills[i].SkillInfo = data;
-				return true;
-			}
+			activeSkills[i].SkillInfo = data.Info.ActiveSkillSet[i];
+			//unitSkills[i].UpdateSkillICon();
 		}
-		return false;
+
+		for (int i = 0; i < data.Info.PassiveSkillSet.Length; i++)
+		{
+			passiveSkills[i].SkillInfo = data.Info.PassiveSkillSet[i];
+			//unitSkills[i].UpdateSkillICon();
+		}
 	}
 }

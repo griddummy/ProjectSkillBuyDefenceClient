@@ -31,6 +31,8 @@ public class Database
 		skillInformation = new List<Skill> ();
 		skillInformation.Add( new StandardTraining () );
 		skillInformation.Add( new RestoreAura () );
+		skillInformation.Add( new ShockStun () );
+		skillInformation.Add( new Heal () );
 	
 		for (int i = 0; i < skillInformation.Count; i++)
 			skillInformation[i].SetSkillIcon();

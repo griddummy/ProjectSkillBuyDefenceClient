@@ -10,7 +10,7 @@ public class ImmovableUnitProcess : UnitProcess
 		playerRig = GetComponent<Rigidbody>();
 		presentState = State.Idle;
 		manager = GameObject.FindWithTag( "GameManager" ).GetComponent<GameManager>();
-		SetLayer();
+		DataInitialize();
 	}
 
 	void Update()
@@ -30,7 +30,7 @@ public class ImmovableUnitProcess : UnitProcess
 
 	protected override void PreProcess()
 	{
-		if (info.HealthPoint <= 0)
+		if (info.PresentHealthPoint <= 0)
 		{
 			presentState = State.Die;
 			Destroy( gameObject );

@@ -11,6 +11,7 @@ public class Skill
 	[SerializeField] protected string name;
 	[SerializeField] protected int skillBuyCost;
 	[SerializeField] protected int level;
+	[SerializeField] protected float damage;
 	[SerializeField] protected float skillCost;
 	[SerializeField] protected float skillRange;
 	[SerializeField] protected float coolTime;
@@ -33,15 +34,25 @@ public class Skill
 
 	public string Name { get { return name; } }
 
-	public int SkillBuyCost{ get { return skillBuyCost; } }
+	public int SkillBuyCost { get { return skillBuyCost; } }
+
+	public int Level { get { return level; } }
+
+	public float Damage { get { return damage; } }
 
 	public float CoolTime { get { return coolTime; } }
+
+	public float SkillCost { get { return skillCost; } }
+
+	public float SkillRange { get { return skillRange; } }
 
 	public bool OnTarget { get { return onTarget; } }
 
 	public Type SkillType { get { return skillType; } }
 
 	public Sprite Icon { get { return icon; } }
+
+	public Buff SkillBuff { get { return skillBuff; } }
 
 	//constructor - default
 	public Skill ()
@@ -70,5 +81,13 @@ public class Skill
 	{
 		string path = "Skill/Skill" + name;
 		icon = Resources.Load<Sprite>( path ); 
+	}
+
+	public static bool Compare( Skill data1, Skill data2 )
+	{
+		if (data1.name == data2.name)
+			return true;
+		else
+			return false;
 	}
 }

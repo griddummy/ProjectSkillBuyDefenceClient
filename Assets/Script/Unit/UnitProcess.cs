@@ -11,11 +11,11 @@ public class UnitProcess : MonoBehaviour
 	[SerializeField] protected Vector3 destination;
 	[SerializeField] protected State presentState;
 	[SerializeField] protected UnitInformation info;
-	[SerializeField] protected Vector3 velocity;
+	[SerializeField] protected int presentSkillIndex;
 	[SerializeField] protected Collider[] enemy;
 
 	//complex data field
-	[SerializeField] protected GameObject targetEnemy;
+	[SerializeField] protected GameObject unitTarget;
 	[SerializeField] protected GameObject throwObject;
 	[SerializeField] protected Animator animator;
 	[SerializeField] protected AnimatorStateInfo animatorInfo;
@@ -29,7 +29,7 @@ public class UnitProcess : MonoBehaviour
 		Attack,
 		AttackMove,
 		Hold,
-		Skill,
+		CastunitTargetSkill,
 		Die}
 ;
 
@@ -56,9 +56,9 @@ public class UnitProcess : MonoBehaviour
 		get { return info; }
 	}
 
-	public GameObject TargetEnemy
+	public GameObject Target
 	{
-		get { return targetEnemy; }
+		get { return unitTarget; }
 	}
 
 	public AnimatorStateInfo AnimatorInfo
@@ -75,7 +75,7 @@ public class UnitProcess : MonoBehaviour
 		animator = GetComponent<Animator>();
 		moveAgent = GetComponent<NavMeshAgent>();
 		manager = GameObject.FindWithTag( "GameManager" ).GetComponent<GameManager>();
-		SetLayer();
+		DataInitialize();
 	}
 
 	//Update is called once per frame
@@ -101,6 +101,9 @@ public class UnitProcess : MonoBehaviour
 			case State.Hold:
 				HoldProcess();
 				break;
+			case State.CastunitTargetSkill:
+				CastTargetSkillProcess();
+				break;
 			case State.Die:
 				DieProcess();
 				break;
@@ -108,7 +111,7 @@ public class UnitProcess : MonoBehaviour
 	}
 
 	//set layer -> use player information
-	protected void SetLayer()
+	protected void DataInitialize()
 	{
 		if (info.PlayerNumber == manager.PlayerNumber)
 			gameObject.layer = LayerMask.NameToLayer( "Player" );
@@ -116,7 +119,8 @@ public class UnitProcess : MonoBehaviour
 			gameObject.layer = LayerMask.NameToLayer( "Ally" );
 		else
 			gameObject.layer = LayerMask.NameToLayer( "Enemy" );
-	
+
+		info.SkillInitalize();	
 	}
 
 	//synchronization nav mesh data
@@ -128,23 +132,18 @@ public class UnitProcess : MonoBehaviour
 
 		if (info.PresentHealthPoint <= 0)
 			presentState = State.Die;
-
-		for (int i = 0; i < info.UnitBuffSet.Length; i++)
-		{
-			info.UnitBuffSet[i].ActiveBuff( this );
-		}
 	}
 
 	//check skill and process coolTime
 	protected void SkillProcess()
 	{
 		//check active skill cool Time
-		for (int i = 0; i < info.UnitSkillSet.Length; i++)
+		for (int i = 0; i < info.ActiveSkillSet.Length; i++)
 		{
-			if (( (int) info.UnitSkillSet[i].SkillType <= 3 ) && info.OnSkill[i])
+			if (info.OnSkill[i])
 			{
 				info.CoolTime[i] += Time.deltaTime;
-				if (info.CoolTime[i] > info.UnitSkillSet[i].CoolTime)
+				if (info.CoolTime[i] > info.ActiveSkillSet[i].CoolTime)
 				{
 					info.CoolTime[i] = 0.0f;
 					info.OnSkill[i] = false;
@@ -153,15 +152,20 @@ public class UnitProcess : MonoBehaviour
 		}
 
 		//process buff
+		for (int i = 0; i < info.UnitBuffSet.Length; i++)
+		{
+			if (info.UnitBuffSet[i].ID != 0)
+				info.UnitBuffSet[i].ActiveBuff( this );	
+		}
 	}
 
 	//idle state process
-	//find target -> if find target state chanage by attack
+	//find unitTarget -> if find unitTarget state chanage by attack
 	protected virtual void IdleProcess()
 	{
 		ActiveAnimator( AnimatorState.Idle );
 
-		if (FindTarget())
+		if (FindunitTarget())
 			presentState = State.Attack;
 		else
 			return;
@@ -171,45 +175,52 @@ public class UnitProcess : MonoBehaviour
 	//only move to destination
 	protected void MoveProcess()
 	{
-		ActiveAnimator( AnimatorState.Run );
-		transform.LookAt( destination );
-		//send unit data
-
 		if (Vector3.Distance( transform.position, destination ) <= 0.1f)
 		{
 			presentState = State.Idle;
 			ActiveAnimator( AnimatorState.Idle );
 			//send unit data
 		}
+		else
+		{
+			if (!animatorInfo.IsName( "Run" ))
+				animator.Play( "Idle" );
+			ActiveAnimator( AnimatorState.Run );
+			transform.LookAt( destination );
+			//send unit data
+		}
 	}
 
 	//attack state process
-	//chase and attack target
+	//chase and attack unitTarget
 	protected virtual void AttackProcess()
 	{
-		if (( targetEnemy != null ) && ( Vector3.Distance( targetEnemy.transform.position, transform.position ) > info.AttackRange + targetEnemy.transform.lossyScale.x ))
+		if (( unitTarget != null ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > info.AttackRange + unitTarget.transform.lossyScale.x / 2 ))
 		{
 			if (animatorInfo.IsName( "Attack" ))
 				animator.Play( "Idle" );
-			moveAgent.SetDestination( targetEnemy.transform.position );
-			transform.LookAt( targetEnemy.transform );
+			moveAgent.SetDestination( unitTarget.transform.position );
+			transform.LookAt( unitTarget.transform );
 			ActiveAnimator( AnimatorState.Run );
 		}
-		else if (( targetEnemy != null ) && ( ( Vector3.Distance( targetEnemy.transform.position, transform.position ) <= info.AttackRange + targetEnemy.transform.lossyScale.x ) ))
+		else if (( unitTarget != null ) && ( ( Vector3.Distance( unitTarget.transform.position, transform.position ) <= info.AttackRange + unitTarget.transform.lossyScale.x / 2 ) ))
 		{
 			if (!animatorInfo.IsName( "Attack" ))
 				animator.Play( "Idle" );
 			moveAgent.ResetPath();
-			transform.LookAt( targetEnemy.transform );
-			ActiveAnimator( AnimatorState.Idle );
+			transform.LookAt( unitTarget.transform );
 			ActiveAnimator( AnimatorState.Attack );
 			//send unit data
 		}
-		else if (targetEnemy == null)
+		else if (unitTarget == null)
 		{
-			//find target -> no target state idle
-			// -> reset target
-			if (FindTarget())
+			//set animation state
+			if (animatorInfo.IsName( "Attack" ))
+				animator.Play( "Idle" );
+			
+			//find unitTarget -> no unitTarget state idle
+			// -> reset unitTarget
+			if (FindunitTarget())
 				return;
 			else if (presentState == State.AttackMove)
 				return;
@@ -220,12 +231,12 @@ public class UnitProcess : MonoBehaviour
 
 	//attack move state process
 	//move to destination
-	//if find target -> battle by target
-	//battle over find target
-	//no target -> move destination
+	//if find unitTarget -> battle by unitTarget
+	//battle over find unitTarget
+	//no unitTarget -> move destination
 	protected void AttackMoveProcess()
 	{
-		if (( targetEnemy == null ) && !FindTarget() && !animatorInfo.IsName( "Attack" ))
+		if (( unitTarget == null ) && !FindunitTarget() && !animatorInfo.IsName( "Attack" ))
 		{
 			moveAgent.SetDestination( destination );
 			MoveProcess();
@@ -236,24 +247,78 @@ public class UnitProcess : MonoBehaviour
 
 	//hold state process
 	//hold on transfrom position
-	//if find target -> battle by target
+	//if find unitTarget -> battle by unitTarget
 	protected void HoldProcess()
 	{
 		if (!animatorInfo.IsName( "Attack" ))
 			animator.Play( "Idle" );
 
-		if (( targetEnemy == null ) && !FindTarget())
+		if (( unitTarget == null ) && !FindunitTarget())
 			ActiveAnimator( AnimatorState.Idle );
-		else if (Vector3.Distance( targetEnemy.transform.position, transform.position ) > info.AttackRange)
+		else if (Vector3.Distance( unitTarget.transform.position, transform.position ) > info.AttackRange)
 		{
 			animator.Play( "Idle" );
-			targetEnemy = null;
+			unitTarget = null;
 		}
 		else if (!animatorInfo.IsName( "Attack" ))
 		{
-			transform.LookAt( targetEnemy.transform );
+			transform.LookAt( unitTarget.transform );
 			ActiveAnimator( AnimatorState.Idle );
 			ActiveAnimator( AnimatorState.Attack );
+			//send unit data
+		}
+	}
+
+	//cast unitTarget skill state process
+	//chase unitTarget & cast skill by unitTarget
+	protected void CastTargetSkillProcess()
+	{
+		if (( unitTarget != null ) && Vector3.Distance( unitTarget.transform.position, transform.position ) >= info.ActiveSkillSet[presentSkillIndex].SkillRange + unitTarget.transform.lossyScale.x / 2)
+		{		
+			//set animation state
+			if (animatorInfo.IsName( "Attack" ))
+				animator.Play( "Idle" );
+
+			//chase unitTarget
+			moveAgent.SetDestination( unitTarget.transform.position );
+			transform.LookAt( unitTarget.transform );
+			ActiveAnimator( AnimatorState.Run );
+		}
+		else if (( unitTarget != null ) && ( !info.OnSkill[presentSkillIndex] ) && Vector3.Distance( unitTarget.transform.position, transform.position ) < info.ActiveSkillSet[presentSkillIndex].SkillRange + unitTarget.transform.lossyScale.x / 2)
+		{
+			//active skill
+			if (!animatorInfo.IsName( "Casting" ))
+				animator.Play( "Idle" );
+			moveAgent.ResetPath();
+			transform.LookAt( unitTarget.transform );
+			ActiveAnimator( AnimatorState.Casting );
+
+			info.ActiveSkillSet[presentSkillIndex].UseSkill( unitTarget.GetComponent<UnitProcess>() );
+			info.OnSkill[presentSkillIndex] = true;
+			//send unit data
+		}
+		else if (Vector3.Distance( unitTarget.transform.position, transform.position ) >= info.ActiveSkillSet[presentSkillIndex].SkillRange + unitTarget.transform.lossyScale.x)
+		{	
+			//set animation state
+			if (animatorInfo.IsName( "Attack" ))
+				animator.Play( "Idle" );
+
+			//chase unitTarget
+			moveAgent.SetDestination( unitTarget.transform.position );
+			transform.LookAt( unitTarget.transform );
+			ActiveAnimator( AnimatorState.Run );
+		}
+		else if (!info.OnSkill[presentSkillIndex] && Vector3.Distance( unitTarget.transform.position, transform.position ) < info.ActiveSkillSet[presentSkillIndex].SkillRange + unitTarget.transform.lossyScale.x)
+		{
+			//active skill
+			if (!animatorInfo.IsName( "Casting" ))
+				animator.Play( "Idle" );
+			moveAgent.ResetPath();
+			transform.LookAt( destination );
+			ActiveAnimator( AnimatorState.Casting );
+
+			info.ActiveSkillSet[presentSkillIndex].UseSkill( destination );
+			info.OnSkill[presentSkillIndex] = true;
 			//send unit data
 		}
 	}
@@ -270,10 +335,10 @@ public class UnitProcess : MonoBehaviour
 
 	//use process
 
-	//find enemy target
-	protected bool FindTarget()
+	//find enemy unitTarget
+	protected bool FindunitTarget()
 	{
-		//make collider array -> enemy target in range
+		//make collider array -> enemy unitTarget in range
 		if (presentState != State.Hold)
 			enemy = Physics.OverlapSphere( transform.position, info.SearchRange, 1 << LayerMask.NameToLayer( "Enemy" ) );
 		else
@@ -284,12 +349,12 @@ public class UnitProcess : MonoBehaviour
 			return false;
 		else
 		{
-			//find shortest distance target
+			//find shortest distance unitTarget
 			for (int i = 0; i < enemy.Length; i++)
 			{
-				if (( ( i == 0 ) || ( Vector3.Distance( enemy[i].transform.position, transform.position ) <= Vector3.Distance( TargetEnemy.transform.position, transform.position ) ) )
+				if (( ( i == 0 ) || ( Vector3.Distance( enemy[i].transform.position, transform.position ) <= Vector3.Distance( unitTarget.transform.position, transform.position ) ) )
 				    && ( enemy[i].gameObject.layer == LayerMask.NameToLayer( "Enemy" ) ))
-					targetEnemy = enemy[i].gameObject;
+					unitTarget = enemy[i].gameObject;
 			}
 			//send unit data
 			return true;		
@@ -333,7 +398,7 @@ public class UnitProcess : MonoBehaviour
 		if (presentState != State.Die)
 		{
 			presentState = State.Idle;
-			targetEnemy = null;
+			unitTarget = null;
 			moveAgent.ResetPath();
 			ActiveAnimator( AnimatorState.Idle );
 			//send unit data
@@ -346,19 +411,19 @@ public class UnitProcess : MonoBehaviour
 		if (presentState != State.Die)
 		{
 			presentState = State.Hold;
-			targetEnemy = null;
+			unitTarget = null;
 			moveAgent.ResetPath();
 			ActiveAnimator( AnimatorState.Idle );
 		}
 	}
 
-	//set attack state & set attack target
+	//set attack state & set attack unitTarget
 	public void SetAttackTarget( GameObject target )
 	{
 		if (presentState != State.Die)
 		{
 			destination = transform.position;
-			targetEnemy = target;
+			unitTarget = target;
 			presentState = State.Attack;
 		}
 	}
@@ -386,15 +451,41 @@ public class UnitProcess : MonoBehaviour
 		}
 	}
 
-	//unit use active skill
+	//unit use active skill -> non unitTarget
 	public void ActiveSkill( int index )
 	{		
-		if (( presentState != State.Die ) && ( (int) info.UnitSkillSet[index].SkillType <= 3 ))
+		if (presentState != State.Die && info.PresentManaPoint >= info.ActiveSkillSet[index].SkillCost && !info.OnSkill[index])
 		{
 			info.OnSkill[index] = true;
-			info.UnitSkillSet[index].UseSkill( transform.position );
+			info.PresentManaPoint -= info.ActiveSkillSet[index].SkillCost;
+			info.ActiveSkillSet[index].UseSkill( transform.position );
 			moveAgent.ResetPath();
 			animator.Play( "Casting" );
+		}
+	}
+
+	//unit use active skill -> unitTarget skill
+	public void ActiveSkill( int index, GameObject _unitTarget )
+	{
+		Debug.Log( "Active skill for target skill" );
+		if (presentState != State.Die && info.PresentManaPoint >= info.ActiveSkillSet[index].SkillCost && !info.OnSkill[index])
+		{
+			presentState = State.CastunitTargetSkill;
+			unitTarget = _unitTarget;
+			presentSkillIndex = index;
+		}
+	}
+
+	//unit use active skill -> range Target skill
+	public void ActiveSkill( int index, Vector3 point )
+	{
+		Debug.Log( "Active skill for target skill" );
+		if (presentState != State.Die && info.PresentManaPoint >= info.ActiveSkillSet[index].SkillCost && !info.OnSkill[index])
+		{
+			presentState = State.CastunitTargetSkill;
+			unitTarget = null;
+			destination = point;
+			presentSkillIndex = index;
 		}
 	}
 
@@ -402,7 +493,7 @@ public class UnitProcess : MonoBehaviour
 	public void ThrowAttackObject()
 	{		
 		GameObject temp = (GameObject) Instantiate( throwObject, transform.position + new Vector3 ( -0.2f, 1.5f, 0.2f ), transform.rotation );
-		temp.GetComponent<ThrowObject>().SetTargetAndSpeed( this, targetEnemy );
+		temp.GetComponent<ThrowObject>().SetTargetAndSpeed( this, unitTarget );
 	}
 
 	//reset animator information
@@ -427,7 +518,8 @@ public class UnitProcess : MonoBehaviour
 	//use casting animation -> animation event
 	public void EndCastingAnimation()
 	{
-
+		presentState = State.Idle;
+		destination = transform.position;
 	}
 
 }

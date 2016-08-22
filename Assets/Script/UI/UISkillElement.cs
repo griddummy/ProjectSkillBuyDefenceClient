@@ -20,7 +20,7 @@ public class UISkillElement :MonoBehaviour
 		skillInfo = new Skill ();
 	}
 
-	public void UpdateSkillIcon( UnitInformation data )
+	public void UpdateSkillIcon( )
 	{
 		skillInfo.SetSkillIcon();
 		skillIcon.sprite = skillInfo.Icon;
