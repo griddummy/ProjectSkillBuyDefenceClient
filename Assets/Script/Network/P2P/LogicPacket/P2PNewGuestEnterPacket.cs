@@ -7,7 +7,7 @@ public class P2PNewGuestEnterPacket : IPacket<P2PNewGuestEnterData>
         public bool Serialize(P2PNewGuestEnterData data)
         {
             bool ret = true;
-            ret &= Serialize(data.guestIndex);
+            ret &= Serialize(data.guestNumber);
             ret &= Serialize(data.userName);
             return ret;
         }
@@ -21,7 +21,7 @@ public class P2PNewGuestEnterPacket : IPacket<P2PNewGuestEnterData>
             }
 
             bool ret = true;
-            ret &= Deserialize(ref element.guestIndex);
+            ret &= Deserialize(ref element.guestNumber);
             ret &= Deserialize(out element.userName, (int)GetDataSize()-1);
             return ret;
         }

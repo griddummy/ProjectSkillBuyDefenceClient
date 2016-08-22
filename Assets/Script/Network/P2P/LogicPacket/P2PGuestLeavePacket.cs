@@ -7,7 +7,7 @@ public class P2PGuestLeavePacket : IPacket<P2PGuestLeaveData>
         public bool Serialize(P2PGuestLeaveData data)
         {
             bool ret = true;
-            ret &= Serialize(data.guestIndex);
+            ret &= Serialize(data.guestNumber);
             return ret;
         }
 
@@ -20,7 +20,7 @@ public class P2PGuestLeavePacket : IPacket<P2PGuestLeaveData>
             }
 
             bool ret = true;
-            ret &= Deserialize(ref element.guestIndex);
+            ret &= Deserialize(ref element.guestNumber);
             return ret;
         }
     }

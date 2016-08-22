@@ -7,18 +7,20 @@ public class RoomInfo
     public enum State { Wait, Play }        // 빈방, 대기, 게임중
     public enum PlayerType{ Host, Guest }   // 플레이어의 타입 [ 게스트, 호스트 ]
     public const int MaxPlayer = 4;         // 최대 플레이어
-    public const int HostIndex = 0;
+    public const int HostNumber = 1;
 
     public int roomNumber;                  // 방번호
     public string title;                    // 방제목
     public int map;                         // 맵번호
     public State state;                     // 방 상태            
     public PlayerType myType;           // 나의 타입
-    public int myIndex;                     // 나의 인덱스
+    public int myNumber;                     // 나의 넘버(호스트가 1부터 시작)
 
-    private PlayerInfo[] players;   // 방장 포함 (0번째). 순서대로. 나가면 빈칸이 있을 수 있음. 빈칸포함 앞번호부터 채워짐.
+    private PlayerInfo[] players;   // 방장 포함 . 순서대로. 나가면 빈칸이 있을 수 있음. 빈칸포함 앞번호부터 채워짐.
     private int m_playerCount;      // 플레이어 수  
     
+    
+
     public RoomInfo(int roomNumber, string title, int map, PlayerInfo hostInfo, PlayerType myType)
     {
         this.roomNumber = roomNumber;
@@ -31,14 +33,14 @@ public class RoomInfo
             players[i] = null;
 
         AddGuest(hostInfo);
-        hostInfo.index = HostIndex;
+        hostInfo.number = HostNumber;
         state = State.Wait;
 
         this.myType = myType;
 
         if(myType == PlayerType.Host)
         {
-            myIndex = HostIndex;
+            myNumber = HostNumber;
         }
     }
 
@@ -61,42 +63,42 @@ public class RoomInfo
             if(players[i] == null)
             {
                 players[i] = guestInfo;
-                guestInfo.index = i;
+                guestInfo.number = i+1;
                 m_playerCount++;
-                return i;
+                return guestInfo.number;
             }
         }
         return -1;
         
     }
 
-    public bool AddGuest(PlayerInfo guestInfo, int index)
+    public bool AddGuest(PlayerInfo guestInfo, int number)
     {
-        if (players[index] != null)
+        if (players[number-1] != null)
         {
-            Debug.Log("AddGuest::게스트정보가 해당 자리에 이미 있습니다" + players[index].playerName);
+            Debug.Log("AddGuest::게스트정보가 해당 자리에 이미 있습니다" + players[number-1].playerName);
             return false;
         }
-        players[index] = guestInfo;
-        guestInfo.index = index;
+        players[number-1] = guestInfo;
+        guestInfo.number = number-1;
         m_playerCount++;
         return true;
     }
 
-    public void RemoveGuest(int index)
+    public void RemoveGuest(int number)
     {
-        if (index == 0 || index >= MaxPlayer)
+        if (number <= 1 || number >= MaxPlayer + 1)
             return;
-        if (players[index] != null)
+        if (players[number - 1] != null)
         {
-            players[index] = null;
+            players[number - 1] = null;
             m_playerCount--;
         }      
     }
 
-    public PlayerInfo GetGuestInfo(int index)
+    public PlayerInfo GetGuestInfo(int number)
     {        
-        return players[index];
+        return players[number-1];
     }
 
     public PlayerInfo GetHostInfo()
@@ -104,16 +106,16 @@ public class RoomInfo
         return players[0];
     }
 
-    public void GetAllGuestInfo(out byte[] index, out string[] userName)
+    public void GetAllGuestInfo(out byte[] number, out string[] userName)
     {
-        index = new byte[m_playerCount];
+        number = new byte[m_playerCount];
         userName = new string[m_playerCount];
         int count = 0;
         for(int i = 0; count < m_playerCount; i++)
         {
             if(players[i] != null)
             {
-                index[count] = (byte)i;
+                number[count] = (byte)i;
                 userName[count] = players[i].playerName;
                 count++;
             }

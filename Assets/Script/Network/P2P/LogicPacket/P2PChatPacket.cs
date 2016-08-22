@@ -8,7 +8,7 @@ public class P2PChatPacket : IPacket<P2PChatData>
         public bool Serialize(P2PChatData data)
         {
             bool ret = true;
-            ret &= Serialize(data.guestIndex);
+            ret &= Serialize(data.guestNumber);
             ret &= Serialize(data.chat);
             return ret;
         }
@@ -22,7 +22,7 @@ public class P2PChatPacket : IPacket<P2PChatData>
             }
 
             bool ret = true;
-            ret &= Deserialize(ref element.guestIndex);
+            ret &= Deserialize(ref element.guestNumber);
             ret &= Deserialize(out element.chat, (int)GetDataSize()-1);            
             return ret;
         }

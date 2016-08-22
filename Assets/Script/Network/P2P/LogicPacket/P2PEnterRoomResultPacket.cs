@@ -10,7 +10,7 @@ public class P2PEnterRoomResultPacket : IPacket<P2PEnterRoomResultData>
             ret &= Serialize(data.result);
             if(data.result == (byte)P2PEnterRoomResultData.RESULT.Success)
             {
-                ret &= Serialize(data.myIndex);
+                ret &= Serialize(data.myNumber);
                 ret &= Serialize(data.otherGuestCount);
                 for (int i = 0; i < data.otherGuestCount; i++)
                 {
@@ -39,7 +39,7 @@ public class P2PEnterRoomResultPacket : IPacket<P2PEnterRoomResultData>
             ret &= Deserialize(ref element.result);
             if (element.result == (byte)P2PEnterRoomResultData.RESULT.Fail)
                 return false;
-            ret &= Deserialize(ref element.myIndex);
+            ret &= Deserialize(ref element.myNumber);
             ret &= Deserialize(ref element.otherGuestCount);
             element.otherGuestIndex = new byte[element.otherGuestCount];            
             for(int i = 0; i < element.otherGuestCount; i++)

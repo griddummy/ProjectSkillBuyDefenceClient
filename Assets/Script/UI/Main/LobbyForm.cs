@@ -266,7 +266,7 @@ public class LobbyForm : UIForm {
 
         // 성공이면
         RoomInfo roomInfo = new RoomInfo(curSelectedRoom.roomNum, curSelectedRoom.roomName, curSelectedRoom.mapType, new PlayerInfo(curSelectedRoom.hostId), RoomInfo.PlayerType.Guest);
-        Debug.Log("서버 - 방입장 성공::이전 사람수:" + resultData.otherGuestCount + " myIndex:" + resultData.myIndex);
+        Debug.Log("서버 - 방입장 성공::이전 사람수:" + resultData.otherGuestCount + " myNumber:" + resultData.myNumber);
 
         // 방정보에 다른 사람 정보 넣기
         for(int i = 0; i < resultData.otherGuestCount; i++)
@@ -274,8 +274,8 @@ public class LobbyForm : UIForm {
             roomInfo.AddGuest(new PlayerInfo(resultData.otherGuestID[i]), resultData.otherGuestIndex[i]);
         }
         // 방정보에 내정보 넣기
-        roomInfo.myIndex = resultData.myIndex;
-        roomInfo.AddGuest(new PlayerInfo(MainManager.instance.login.id), resultData.myIndex);
+        roomInfo.myNumber = resultData.myNumber;
+        roomInfo.AddGuest(new PlayerInfo(MainManager.instance.login.id), resultData.myNumber);
         
         MainManager.instance.currentRoomInfo = roomInfo;
         ChangeForm(typeof(RoomForm).Name); // 폼 변경
