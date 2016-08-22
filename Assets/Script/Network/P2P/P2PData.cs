@@ -24,7 +24,7 @@ public class P2PEnterRoomResultData // Host To Guest 입장요청 결과
     public byte result; // 0이면 실패 1이면 성공
     public byte myNumber; // 룸에서 나의 번호
     public byte otherGuestCount; // 다른 게스트 명수
-    public byte[] otherGuestIndex; // 다른 게스트 번호
+    public byte[] ohterGuestNumber; // 다른 게스트 번호
     public string[] otherGuestID;  // 다른 게스트 아이디
 }
 public class P2PNewGuestEnterData // Host To All 게스트 입장 알림

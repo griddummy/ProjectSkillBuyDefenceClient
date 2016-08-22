@@ -211,7 +211,7 @@ public class RoomForm : UIForm {
         // 보낼 패킷 만들기
         sendData.result = (byte)P2PEnterRoomResultData.RESULT.Success; // 성공
         sendData.otherGuestCount = (byte)curRoomInfo.PlayerCount; // 이전 접속자 수
-        curRoomInfo.GetAllGuestInfo(out sendData.otherGuestIndex, out sendData.otherGuestID); //이전 접속자 정보
+        curRoomInfo.GetAllGuestInfo(out sendData.ohterGuestNumber, out sendData.otherGuestID); //이전 접속자 정보
         int newNumber = curRoomInfo.AddGuest(new PlayerInfo(resultData.userName)); // 게스트 추가
         SetPlayerSlot(newNumber-1, resultData.userName); //슬롯에 표시
         sendData.myNumber = (byte)newNumber; // 게스트 인덱스 부여

@@ -88,7 +88,7 @@ public class GameManager : MonoBehaviour
 		checkAlly[playerNumber-1] = true;
         InGameCreateUnitData data = new InGameCreateUnitData();
         data.level = 1;
-        data.posX = playerNumber;
+        data.posX = playerNumber*2f;
         data.posY = 1;
         data.posZ = 1;
         data.unitId = 1;
