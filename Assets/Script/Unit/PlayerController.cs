@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour
 			modeSkill = false;
 			return;
 		}
-		else if (modeSkill && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
+		else if (modeSkill && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
 		{
 			player.ActiveSkill( presentSkillIndex, hitInfo.point );
 			modeSkill = false;

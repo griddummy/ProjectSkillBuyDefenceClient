@@ -297,18 +297,18 @@ public class UnitProcess : MonoBehaviour
 			info.OnSkill[presentSkillIndex] = true;
 			//send unit data
 		}
-		else if (Vector3.Distance( unitTarget.transform.position, transform.position ) >= info.ActiveSkillSet[presentSkillIndex].SkillRange + unitTarget.transform.lossyScale.x)
+		else if (Vector3.Distance( destination, transform.position ) >= info.ActiveSkillSet[presentSkillIndex].SkillRange)
 		{	
 			//set animation state
 			if (animatorInfo.IsName( "Attack" ))
 				animator.Play( "Idle" );
 
 			//chase unitTarget
-			moveAgent.SetDestination( unitTarget.transform.position );
-			transform.LookAt( unitTarget.transform );
+			moveAgent.SetDestination( destination );
+			transform.LookAt( destination );
 			ActiveAnimator( AnimatorState.Run );
 		}
-		else if (!info.OnSkill[presentSkillIndex] && Vector3.Distance( unitTarget.transform.position, transform.position ) < info.ActiveSkillSet[presentSkillIndex].SkillRange + unitTarget.transform.lossyScale.x)
+		else if (!info.OnSkill[presentSkillIndex] && Vector3.Distance( destination, transform.position ) < info.ActiveSkillSet[presentSkillIndex].SkillRange)
 		{
 			//active skill
 			if (!animatorInfo.IsName( "Casting" ))

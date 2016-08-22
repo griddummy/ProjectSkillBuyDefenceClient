@@ -15,11 +15,11 @@ public class KaBoom : Skill
 		damage = 1000;
 		skillBuyCost = 100;
 		level = 1;
-		skillRange = 8f;
+		skillRange = 12f;
 		onTarget = true;
 		skillType = Type.ActiveTargetArea;
 		skillBuff = null;
-		activeRange = 4f;
+		activeRange = 10f;
 	}
 
 	public override void UseSkill( Vector3 position )
