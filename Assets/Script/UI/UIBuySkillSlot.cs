@@ -20,6 +20,7 @@ public class UIBuySkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 			elements.LinkElement();
 
 		buySkills[0].SkillInfo = Database.Instance.FindSkillByID( 0001 );
+		buySkills[0].UpdateSkillIcon();
 		buySkills[1].SkillInfo = Database.Instance.FindSkillByID( 0002 );
 		buySkills[2].SkillInfo = Database.Instance.FindSkillByID( 0003 );
 		buySkills[3].SkillInfo = Database.Instance.FindSkillByID( 0004 );
