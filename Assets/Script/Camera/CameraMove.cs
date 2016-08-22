@@ -12,11 +12,13 @@ public class CameraMove : MonoBehaviour
 	[SerializeField] Vector3 mousePosition;
 	[SerializeField] Vector3 mouseDirection;
 	[SerializeField] Vector3 keyboardDirection;
-	[SerializeField][Range( 0.1f, 0.6f )] float sensitivity;
+	[SerializeField][Range( 1f, 4f)] float wheelSensitivity;
+	[SerializeField][Range( 0.1f, 0.6f)] float moveSensitivity;
 
 	void Start()
 	{
-		sensitivity = 0.3f;
+		wheelSensitivity = 1f;
+		moveSensitivity = 0.3f;
 		pointY = 20f;
 	}
 
@@ -25,7 +27,7 @@ public class CameraMove : MonoBehaviour
 		pointX = Input.GetAxis( "Horizontal" );
 		pointZ = Input.GetAxis( "Vertical" );
 
-		keyboardDirection = new Vector3 ( pointX, 0f, pointZ );
+		keyboardDirection = new Vector3(pointX, 0f, pointZ);
 
 		mousePosition = Input.mousePosition;
 		screenHeight = Screen.height;
@@ -72,24 +74,24 @@ public class CameraMove : MonoBehaviour
 			pointZ = -1f;
 		}
 
-		mouseDirection = new Vector3 ( pointX, 0f, pointZ );
+		mouseDirection = new Vector3(pointX, 0f, pointZ);
 
-		transform.position += ( ( keyboardDirection + mouseDirection ).normalized * sensitivity );
+		transform.position += ((keyboardDirection + mouseDirection).normalized * moveSensitivity);
 
 		pointY = 0f;
 		pointZ = 0f;
 
 		if (Input.GetAxis( "Mouse ScrollWheel" ) > 0)
 		{
-			pointY += transform.forward.y * Time.deltaTime * 20f * sensitivity;
-			pointZ -= transform.forward.z * Time.deltaTime * -10f * sensitivity;
+			pointY += transform.forward.y * Time.deltaTime * 20f * wheelSensitivity;
+			pointZ -= transform.forward.z * Time.deltaTime * -10f * wheelSensitivity;
 		}
 		else if (Input.GetAxis( "Mouse ScrollWheel" ) < 0)
 		{
-			pointY -= transform.forward.y * Time.deltaTime * 20f * sensitivity;
-			pointZ += transform.forward.z * Time.deltaTime * -10f * sensitivity;
+			pointY -= transform.forward.y * Time.deltaTime * 20f * wheelSensitivity;
+			pointZ += transform.forward.z * Time.deltaTime * -10f * wheelSensitivity;
 		}
 
-		transform.position += new Vector3 ( 0f, pointY, pointZ );
+		transform.position += new Vector3(0f, pointY, pointZ);
 	}
 }
