@@ -3,7 +3,7 @@
 public class PlayerInfo
 {
     public string playerName;
-    public int index;
+    public int number;
 
     public PlayerInfo(string _playerName)
     {

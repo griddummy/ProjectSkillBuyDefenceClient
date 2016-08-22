@@ -124,7 +124,7 @@ public class RoomForm : UIForm {
         {
             // 게스트가 나가려고 하면 호스트에게 알린다
             P2PGuestLeaveData sendDataToHost = new P2PGuestLeaveData();
-            sendDataToHost.guestIndex = (byte)curRoomInfo.myIndex;
+            sendDataToHost.guestNumber = (byte)curRoomInfo.myNumber;
             P2PGuestLeavePacket sendPacketToHost = new P2PGuestLeavePacket(sendDataToHost);
             netManger.SendToHost(sendPacketToHost);
             netManger.DisconnectMyGuestSocket();
@@ -156,11 +156,11 @@ public class RoomForm : UIForm {
         inputChat.text = "";
         P2PChatData data = new P2PChatData();
         data.chat = chat;
-        data.guestIndex = (byte)curRoomInfo.myIndex;       
+        data.guestNumber = (byte)curRoomInfo.myNumber;       
         P2PChatPacket packet = new P2PChatPacket(data);
         if (curRoomInfo.isHost)
         {
-            AddChat(chat,0);
+            AddChat(chat,RoomInfo.HostNumber);
             netManger.SendToAllGuest(packet);
             return;
         }
@@ -212,16 +212,16 @@ public class RoomForm : UIForm {
         sendData.result = (byte)P2PEnterRoomResultData.RESULT.Success; // 성공
         sendData.otherGuestCount = (byte)curRoomInfo.PlayerCount; // 이전 접속자 수
         curRoomInfo.GetAllGuestInfo(out sendData.otherGuestIndex, out sendData.otherGuestID); //이전 접속자 정보
-        int newIndex = curRoomInfo.AddGuest(new PlayerInfo(resultData.userName)); // 게스트 추가
-        SetPlayerSlot(newIndex, resultData.userName); //슬롯에 표시
-        sendData.myIndex = (byte)newIndex; // 게스트 인덱스 부여
+        int newNumber = curRoomInfo.AddGuest(new PlayerInfo(resultData.userName)); // 게스트 추가
+        SetPlayerSlot(newNumber-1, resultData.userName); //슬롯에 표시
+        sendData.myNumber = (byte)newNumber; // 게스트 인덱스 부여
 
         // 성공패킷 전송
         P2PEnterRoomResultPacket sendPacket = new P2PEnterRoomResultPacket(sendData);
         netManger.SendToGuest(client, sendPacket);
         // 기존 인원들에게 새로운 게스트 알림
         P2PNewGuestEnterData newGuestdata = new P2PNewGuestEnterData();
-        newGuestdata.guestIndex = (byte)newIndex; // 인덱스
+        newGuestdata.guestNumber = (byte)newNumber; // 인덱스
         newGuestdata.userName = resultData.userName; // 유져아이디
         P2PNewGuestEnterPacket newGuestPacket = new P2PNewGuestEnterPacket(newGuestdata);
         netManger.SendToAllGuest(client, newGuestPacket);
@@ -235,10 +235,10 @@ public class RoomForm : UIForm {
         P2PNewGuestEnterData newGuest = packet.GetData();
 
         // 현재 방 정보에 새로온 게스트 정보를 넣는다.
-        curRoomInfo.AddGuest(new PlayerInfo(newGuest.userName), newGuest.guestIndex);
+        curRoomInfo.AddGuest(new PlayerInfo(newGuest.userName), newGuest.guestNumber);
 
         // 플레이어 슬롯에 새로운 게스트 정보를 넣는다.
-        SetPlayerSlot(newGuest.guestIndex, newGuest.userName);
+        SetPlayerSlot(newGuest.guestNumber-1, newGuest.userName);
         Debug.Log("RoomForm::새로운 게스트 입장 - " + packet.GetData().userName);
     }
 
@@ -247,7 +247,7 @@ public class RoomForm : UIForm {
     {
         Debug.Log("GuestLeave");
         P2PGuestLeavePacket prePacket = new P2PGuestLeavePacket(data);        
-        int index = prePacket.GetData().guestIndex;
+        int number = prePacket.GetData().guestNumber;
 
         if (curRoomInfo.isHost) // 자신이 호스트면 
         {
@@ -256,17 +256,17 @@ public class RoomForm : UIForm {
 
             // 다른 게스트에게 해당 게스트의 퇴장을 알린다.
             P2PGuestLeaveData newData = new P2PGuestLeaveData();
-            newData.guestIndex = (byte)index;
+            newData.guestNumber = (byte)number;
             P2PGuestLeavePacket packet = new P2PGuestLeavePacket(newData);
             netManger.SendToAllGuest(client, packet);
         }
         // 아래부터는  호스트 게스트 둘다 해야 되는 일들이다.
 
         // 해당 게스트를 방 정보에서 제거한다.
-        curRoomInfo.RemoveGuest(index);
+        curRoomInfo.RemoveGuest(number);
 
         // 해당 플레이어 슬롯을 초기화 한다.
-        SetPlayerSlot(index, "");
+        SetPlayerSlot(number-1, "");
     }
 
     // [ 게스트가 처리하는 패킷 리시브 메서드 ] 호스트 퇴장
@@ -295,7 +295,7 @@ public class RoomForm : UIForm {
         P2PChatPacket packet = new P2PChatPacket(data);
 
         // 화면에 출력
-        AddChat(packet.GetData().chat, packet.GetData().guestIndex);
+        AddChat(packet.GetData().chat, packet.GetData().guestNumber);
         
         if (curRoomInfo.isHost) // 호스트면
         {

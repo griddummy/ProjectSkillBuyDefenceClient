@@ -9,7 +9,7 @@ public class P2PLoadCompletePacket : IPacket<P2PLoadCompleteData>
         public bool Serialize(P2PLoadCompleteData data)
         {
             bool ret = true;
-            ret &= Serialize(data.playerIndex);
+            ret &= Serialize(data.playerNumber);
             return ret;
         }
 
@@ -23,7 +23,7 @@ public class P2PLoadCompletePacket : IPacket<P2PLoadCompleteData>
 
             bool ret = true;
 
-            ret &= Deserialize(ref element.playerIndex);
+            ret &= Deserialize(ref element.playerNumber);
             return ret;
         }
     }

@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour
 
 	public bool[] CheckAlly { get { return checkAlly; } }
 
-    
 
     void Awake()
     {
@@ -32,7 +31,7 @@ public class GameManager : MonoBehaviour
         mainManager = MainManager.instance;
         netManager = mainManager.netManager;
         curRoomInfo = mainManager.currentRoomInfo;
-        playerNumber = curRoomInfo.myIndex;
+        playerNumber = curRoomInfo.myNumber;
 
         // 초기 게임 상태 : 대기
         gameState = State.Waiting;
@@ -40,6 +39,7 @@ public class GameManager : MonoBehaviour
         // 리시버 등록
         netManager.RegisterReceiveNotificationP2P((int)P2PPacketType.LoadComplete, OnReceiveLoadComplete);
         netManager.RegisterReceiveNotificationP2P((int)P2PPacketType.StartGame, OnReceiveStartGame);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.CreateUnit, OnReceiveCreateUnit);
     }
 
     void OnDestroy()
@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
         // 리시버 해제
         netManager.UnRegisterReceiveNotificationP2P((int)P2PPacketType.LoadComplete);
         netManager.UnRegisterReceiveNotificationP2P((int)P2PPacketType.StartGame);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.CreateUnit);
     }
 
 	//initialize this script
@@ -64,21 +65,37 @@ public class GameManager : MonoBehaviour
         {
             LoadCompleteCount++;
         }
-        else // 게스트라면
-        {
-            // 호스트에게 로딩 완료 메세지 전송
+        else // 게스트라면 호스트에게 로딩 완료 메세지 전송
+        {            
             P2PLoadCompleteData data = new P2PLoadCompleteData();
-            data.playerIndex = (byte)playerNumber;
+            data.playerNumber = (byte)playerNumber;
             P2PLoadCompletePacket packet = new P2PLoadCompletePacket(data);
             netManager.SendToHost(packet);
+        }
+    }
+
+    void Update()
+    {
+        if(gameState == State.Playing)
+        {
+            
         }
     }
 
     void InitializeData() 
 	{
 		checkAlly = new bool[8];
-		checkAlly[playerNumber] = true;
-	}
+		checkAlly[playerNumber-1] = true;
+        InGameCreateUnitData data = new InGameCreateUnitData();
+        data.level = 1;
+        data.posX = playerNumber;
+        data.posY = 1;
+        data.posZ = 1;
+        data.unitId = 1;
+        data.unitResourceId = 1;
+        data.unitOwner = (byte)playerNumber;
+        SendAndCreateUnit(data);
+    }
 
 	//start game -> game load process
 	public void LoadProcess()
@@ -104,16 +121,19 @@ public class GameManager : MonoBehaviour
         // TODO
         // 카메라 이벤트 실행
         Debug.Log("게임시작");
+        gameState = State.Playing;
     }
 
     // 로딩 끝 패킷 수신 메서드 [ 게스트 -> 호스트 ]
     void OnReceiveLoadComplete(Socket client, byte[] data)
     {
+        P2PLoadCompletePacket packet = new P2PLoadCompletePacket(data);
+        Debug.Log(curRoomInfo.GetGuestInfo(packet.GetData().playerNumber).playerName + "로딩끝");
         // 로딩 완료 인원 증가
         LoadCompleteCount++;
     }
 
-    IEnumerator CheckAllLoadComplete()
+    IEnumerator CheckAllLoadComplete() //  로딩완료 검사 루틴 - 호스트만 실행
     {
         while (LoadCompleteCount < curRoomInfo.PlayerCount)
         {
@@ -127,5 +147,43 @@ public class GameManager : MonoBehaviour
 
         // 게임 상태 변경 
         gameState = State.Playing; // 게임중
+    }
+
+    void CreateUnit(InGameCreateUnitData createData)
+    {
+        GameObject unitObj = Instantiate(Resources.Load<GameObject>(getResourcePath(createData.unitResourceId)));
+    }
+
+    void SendAndCreateUnit(InGameCreateUnitData createData)
+    {
+        InGameCreateUnitPacket packet = new InGameCreateUnitPacket(createData);
+        if (curRoomInfo.isHost)
+        {
+            netManager.SendToAllGuest(packet);
+        }
+        else
+        {
+            netManager.SendToHost(packet);
+        }
+        CreateUnit(createData);
+    }
+
+    void OnReceiveCreateUnit(Socket client, byte[] data)
+    {        
+        InGameCreateUnitPacket packet = new InGameCreateUnitPacket(data);
+        InGameCreateUnitData createData = packet.GetData();
+        
+        if (curRoomInfo.isHost) // 호스트면 다른 게스트에게 재 전송
+        {
+            netManager.SendToAllGuest(packet);
+        }
+        CreateUnit(createData);
+    }
+
+    string getResourcePath(int id)
+    {
+        //TODO 
+        //ID에 따른 리소스 경로 얻기
+        return "NoBladeGirl";
     }
 }
