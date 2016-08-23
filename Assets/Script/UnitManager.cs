@@ -47,6 +47,14 @@ class UnitManager : MonoBehaviour
 
     //TODO
     // 남이 만든 유닛 생성 메서드
+    public bool InsertSlot(GameObject unit, int unitId) // 유닛을 배열에 넣는...
+    {
+        UnitProcess data = unit.GetComponent<UnitProcess>();
+
+        unitData[data.Info.PlayerNumber - 1, unitId] = unit;
+
+        return true;
+    }
 
     public bool DeleteSlot(int playerNum, int unitId)
     {

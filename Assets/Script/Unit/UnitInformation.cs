@@ -129,10 +129,10 @@ public class UnitInformation
 		SkillInitalize();
 	}
 
-    public UnitInformation(int unitId, int unitOwner, UnitData unitData, UnitLevelData unitLevelData)
+    public UnitInformation(InGameCreateUnitData createData, UnitData unitData, UnitLevelData unitLevelData)
     {
-        this.unitID = unitId;
-        this.playerNum = unitOwner;
+        this.unitID = createData.identity.unitId;
+        this.playerNum = createData.identity.unitOwner;
         this.unitName = unitData.unitName;
         this.level = unitLevelData.level;
         this.presentExp = 0;
