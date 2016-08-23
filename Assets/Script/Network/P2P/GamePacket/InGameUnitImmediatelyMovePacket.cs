@@ -65,6 +65,6 @@ public class InGameUnitImmediatelyMovePacket : IPacket<InGameUnitImmediatlyMoveD
 
     public int GetPacketId()
     {
-        return (int)InGamePacketID.UnitimmediatelyMove;
+        return (int)InGamePacketID.UnitImmediatelyMove;
     }
 }
