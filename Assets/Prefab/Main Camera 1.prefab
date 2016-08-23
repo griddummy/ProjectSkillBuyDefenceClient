@@ -1,44 +1,44 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &191012
+--- !u!1 &163738
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 418424}
-  - 20: {fileID: 2000362}
-  - 92: {fileID: 9206346}
-  - 124: {fileID: 12475682}
-  - 81: {fileID: 8150524}
-  - 114: {fileID: 11462836}
+  - 4: {fileID: 497706}
+  - 20: {fileID: 2048962}
+  - 92: {fileID: 9293958}
+  - 124: {fileID: 12494104}
+  - 81: {fileID: 8106698}
+  - 114: {fileID: 11457106}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Main Camera 1
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &418424
+--- !u!4 &497706
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191012}
+  m_GameObject: {fileID: 163738}
   m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 8.41, z: -10.52}
+  m_LocalPosition: {x: 0, y: 20, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 60, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
---- !u!20 &2000362
+--- !u!20 &2048962
 Camera:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191012}
+  m_GameObject: {fileID: 163738}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
@@ -67,41 +67,48 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
---- !u!81 &8150524
+--- !u!81 &8106698
 AudioListener:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191012}
+  m_GameObject: {fileID: 163738}
   m_Enabled: 1
---- !u!92 &9206346
+--- !u!92 &9293958
 Behaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191012}
+  m_GameObject: {fileID: 163738}
   m_Enabled: 1
---- !u!114 &11462836
+--- !u!114 &11457106
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191012}
+  m_GameObject: {fileID: 163738}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80cca7c224abb2e4d91550ae1cd41557, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   distanceVector: {x: 0, y: 20, z: -10}
-  lerpSpeed: 5
-  sensitivity: 3
---- !u!124 &12475682
+  pointX: 0
+  pointY: 0
+  pointZ: 0
+  screenHeight: 0
+  screenWidth: 0
+  mousePosition: {x: 0, y: 0, z: 0}
+  mouseDirection: {x: 0, y: 0, z: 0}
+  keyboardDirection: {x: 0, y: 0, z: 0}
+  wheelSensitivity: 0
+  moveSensitivity: 0
+--- !u!124 &12494104
 Behaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 191012}
+  m_GameObject: {fileID: 163738}
   m_Enabled: 1
 --- !u!1001 &100100000
 Prefab:
@@ -112,5 +119,5 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 191012}
+  m_RootGameObject: {fileID: 163738}
   m_IsPrefabParent: 1
