@@ -9,12 +9,12 @@ public class InGameCreateUnitPacket : IPacket<InGameCreateUnitData>
         public bool Serialize(InGameCreateUnitData data)
         {
             bool ret = true;
-            ret &= Serialize(data.unitOwner);
-            ret &= Serialize(data.unitId);
+            ret &= Serialize(data.identity.unitOwner);
+            ret &= Serialize(data.identity.unitId);
             ret &= Serialize(data.unitType);
-            ret &= Serialize(data.posX);
-            ret &= Serialize(data.posY);
-            ret &= Serialize(data.posZ);
+            ret &= Serialize(data.position.x);
+            ret &= Serialize(data.position.y);
+            ret &= Serialize(data.position.z);
             ret &= Serialize(data.level);
             return ret;
         }
@@ -29,12 +29,12 @@ public class InGameCreateUnitPacket : IPacket<InGameCreateUnitData>
 
             bool ret = true;
             
-            ret &= Deserialize(ref element.unitOwner);
-            ret &= Deserialize(ref element.unitId);
+            ret &= Deserialize(ref element.identity.unitOwner);
+            ret &= Deserialize(ref element.identity.unitId);
             ret &= Deserialize(ref element.unitType);
-            ret &= Deserialize(ref element.posX);
-            ret &= Deserialize(ref element.posY);
-            ret &= Deserialize(ref element.posZ);
+            ret &= Deserialize(ref element.position.x);
+            ret &= Deserialize(ref element.position.y);
+            ret &= Deserialize(ref element.position.z);
             ret &= Deserialize(ref element.level);
 
             return ret;

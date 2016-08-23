@@ -129,25 +129,25 @@ public class UnitInformation
 		SkillInitalize();
 	}
 
-	public UnitInformation (int unitId, int unitOwner, UnitData unitData, UnitLevelData unitLevelData)
-	{
-		this.unitID = unitId;
-		this.playerNum = unitOwner;
-		this.unitName = unitData.unitName;
-		this.level = unitLevelData.level;
-		this.presentExp = 0;
-		this.requireExp = unitLevelData.exp;
-		this.healthPoint = unitLevelData.hp;
-		this.presentHealthPoint = unitLevelData.hp;
-		this.manaPoint = unitLevelData.mp;
-		this.presentManaPoint = unitLevelData.mp;
-		this.moveSpeed = unitData.mvSpeed;
-		this.attackSpeed = unitData.atkSpeed;
-		this.attackRange = unitData.atkRange;
-		this.searchRange = unitData.searchRange;
+    public UnitInformation(InGameCreateUnitData createData, UnitData unitData, UnitLevelData unitLevelData)
+    {
+        this.unitID = createData.identity.unitId;
+        this.playerNum = createData.identity.unitOwner;
+        this.unitName = unitData.unitName;
+        this.level = unitLevelData.level;
+        this.presentExp = 0;
+        this.requireExp = unitLevelData.exp;
+        this.healthPoint = unitLevelData.hp;
+        this.presentHealthPoint = unitLevelData.hp;
+        this.manaPoint = unitLevelData.mp;
+        this.presentManaPoint = unitLevelData.mp;
+        this.moveSpeed = unitData.mvSpeed;
+        this.attackSpeed = unitData.atkSpeed;
+        this.attackRange = unitData.atkRange;
+        this.searchRange = unitData.searchRange;
 
-		SkillInitalize();
-	}
+        SkillInitalize();
+    }
 
 	//create default use database
 	public UnitInformation (

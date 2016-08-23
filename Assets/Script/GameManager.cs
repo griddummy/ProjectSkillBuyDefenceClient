@@ -44,6 +44,14 @@ public class GameManager : MonoBehaviour
         netManager.RegisterReceiveNotificationP2P((int)P2PPacketType.LoadComplete, OnReceiveLoadComplete);
         netManager.RegisterReceiveNotificationP2P((int)P2PPacketType.StartGame, OnReceiveStartGame);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.CreateUnit, OnReceiveCreateUnit);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitCastSkill, OnReceiveUnitCastSkill);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitDamaged, OnReceiveUnitDamaged);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitDeath, OnReceiveUnitDeath);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitLevelUp, OnReceiveUnitLevelUp);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitMove, OnReceiveUnitMove);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitMove, OnReceiveUnitImmediatelyMove);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop, OnReceiveUnitStop);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitAttack, OnReceiveUnitAttack);
     }
 
     void OnDestroy()
@@ -52,30 +60,23 @@ public class GameManager : MonoBehaviour
         netManager.UnRegisterReceiveNotificationP2P((int)P2PPacketType.LoadComplete);
         netManager.UnRegisterReceiveNotificationP2P((int)P2PPacketType.StartGame);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.CreateUnit);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitCastSkill);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitDamaged);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitDeath);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitLevelUp);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitMove);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitimmediatelyMove);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitAttack);
     }
 
-	//initialize this script
-	void Start()
+    //initialize this script
+    void Start()
 	{
-        if (curRoomInfo.isHost)
-        {
-            StartCoroutine(CheckAllLoadComplete()); // 로딩완료 검사 코루틴 시작
-        }
-            
-        InitializeData(); // 초기화
         
-        // 자신이 호스트라면
-        if (curRoomInfo.isHost)
-        {
-            LoadCompleteCount++;
-        }
-        else // 게스트라면 호스트에게 로딩 완료 메세지 전송
-        {            
-            P2PLoadCompleteData data = new P2PLoadCompleteData();
-            data.playerNumber = (byte)playerNumber;
-            P2PLoadCompletePacket packet = new P2PLoadCompletePacket(data);
-            netManager.SendToHost(packet);
-        }
+         StartCoroutine(DelayLoad()); // 로딩완료 검사 코루틴 시작
+                    
+        
     }
 
     void Update()
@@ -92,12 +93,13 @@ public class GameManager : MonoBehaviour
 		checkAlly[playerNumber-1] = true;
         InGameCreateUnitData data = new InGameCreateUnitData();
         data.level = 1;
-        data.posX = playerNumber*2f;
-        data.posY = 1;
-        data.posZ = 1;
-        data.unitId = 1;
+        data.identity.unitOwner = (byte)playerNumber;
         data.unitType = 1;
-        data.unitOwner = (byte)playerNumber;
+        data.identity.unitId = 1;
+        data.position.x = playerNumber*2f;
+        data.position.y = 1;
+        data.position.z = 1;
+        
         SendAndCreateUnit(data);
     }
 
@@ -118,39 +120,41 @@ public class GameManager : MonoBehaviour
 	{
 
 	}
-
-    // 게임 시작 패킷 수신 메서드 [호스트->게스트]
-    void OnReceiveStartGame(Socket client, byte[] data)
+    
+    IEnumerator DelayLoad() // 로딩 + 로딩완료 검사 루틴 - 호스트만 실행
     {
-        // TODO
-        // 카메라 이벤트 실행
-        Debug.Log("게임시작");
-        gameState = State.Playing;
-    }
+        yield return null;
 
-    // 로딩 끝 패킷 수신 메서드 [ 게스트 -> 호스트 ]
-    void OnReceiveLoadComplete(Socket client, byte[] data)
-    {
-        P2PLoadCompletePacket packet = new P2PLoadCompletePacket(data);
-        Debug.Log(curRoomInfo.GetGuestInfo(packet.GetData().playerNumber).playerName + "로딩끝");
-        // 로딩 완료 인원 증가
-        LoadCompleteCount++;
-    }
+        InitializeData(); // 초기화
 
-    IEnumerator CheckAllLoadComplete() //  로딩완료 검사 루틴 - 호스트만 실행
-    {
-        while (LoadCompleteCount < curRoomInfo.PlayerCount)
+        // 자신이 호스트라면
+        if (curRoomInfo.isHost)
         {
-            yield return null;
+            LoadCompleteCount++;
         }
-        // 모두 로딩 완료
+        else // 게스트라면 호스트에게 로딩 완료 메세지 전송
+        {
+            P2PLoadCompleteData loadCompleteData = new P2PLoadCompleteData();
+            loadCompleteData.playerNumber = (byte)playerNumber;
+            P2PLoadCompletePacket loadCompletePacket = new P2PLoadCompletePacket(loadCompleteData);
+            netManager.SendToHost(loadCompletePacket);
+        }
+        if (curRoomInfo.isHost)
+        {
+            while (LoadCompleteCount < curRoomInfo.PlayerCount)
+            {
+                yield return null;
+            }
 
-        // 게임 시작 메세지 전송
-        P2PStartGamePacket packet = new P2PStartGamePacket();
-        netManager.SendToAllGuest(packet);
+            // 모두 로딩 완료
 
-        // 게임 상태 변경 
-        gameState = State.Playing; // 게임중
+            // 게임 시작 메세지 전송
+            P2PStartGamePacket packet = new P2PStartGamePacket();
+            netManager.SendToAllGuest(packet);
+
+            // 게임 상태 변경 
+            gameState = State.Playing; // 게임중
+        }
     }
 
     GameObject CreateUnit(InGameCreateUnitData createData)
@@ -160,8 +164,7 @@ public class GameManager : MonoBehaviour
             GameObject unitObj = Instantiate(Resources.Load<GameObject>(getResourcePath(createData.unitType)));
             UnitData unitData = unitDatabase.unitData[(int)createData.unitType];
             UnitLevelData unitLevelData = unitData.levelData[(int)createData.level];
-            Vector3 position = new Vector3(createData.posX, createData.posY, createData.posZ);
-            unitObj.GetComponent<UnitProcess>().SetUp(new UnitInformation(createData.unitId, createData.unitOwner, unitData, unitLevelData), position);
+            unitObj.GetComponent<UnitProcess>().SetUp(new UnitInformation(createData, unitData, unitLevelData), createData.position);
 
             return unitObj;
         }
@@ -173,9 +176,8 @@ public class GameManager : MonoBehaviour
 
     void UnitMove (InGameUnitMoveData unitMoveData) // 유닛 이동
     {
-            GameObject unitObj = unitManager.unitData[unitMoveData.unitOwner, unitMoveData.unitId];
-            Vector3 destination = new Vector3(unitMoveData.posX, unitMoveData.posY, unitMoveData.posZ);        
-            unitObj.GetComponent<UnitProcess>().Destination = destination;
+            GameObject unitObj = unitManager.unitData[unitMoveData.identity.unitOwner, unitMoveData.identity.unitId];
+            unitObj.GetComponent<UnitProcess>().SetDestination(unitMoveData.destination);
     }
 
     void SendAndCreateUnit(InGameCreateUnitData createData) // 자신이 유닛이 생성할 때 부르는 메서드
@@ -193,22 +195,107 @@ public class GameManager : MonoBehaviour
         unitManager.InsertSlot(CreateUnit(createData));
     }
 
-    void OnReceiveCreateUnit(Socket client, byte[] data)
-    {        
-        InGameCreateUnitPacket packet = new InGameCreateUnitPacket(data);
-        InGameCreateUnitData createData = packet.GetData();
-        
-        if (curRoomInfo.isHost) // 호스트면 다른 게스트에게 재 전송
-        {
-            netManager.SendToAllGuest(packet);
-        }
-        unitManager.InsertSlot(CreateUnit(createData));
-    }
+   
 
     string getResourcePath(int id)
     {
         // TODO 
         //ID에 따른 리소스 경로 얻기
-        return "NoBladeGirl";
+        return "ProtoType1";
+    }
+
+    // 유닛 생성 수신 리시버 [ 게스트 -> 호스트 ]
+    void OnReceiveCreateUnit(Socket client, byte[] data)
+    {
+        InGameCreateUnitPacket packet = new InGameCreateUnitPacket(data);
+        InGameCreateUnitData createData = packet.GetData();
+
+        if (curRoomInfo.isHost) // 호스트면 다른 게스트에게 재 전송
+        {
+            netManager.SendToAllGuest(client, packet); // 방금 보낸 게스트를 제외하고 전송
+        }
+        unitManager.InsertSlot(CreateUnit(createData));
+    }
+
+    // 로딩 끝 패킷 수신 메서드 [ 게스트 -> 호스트 ]
+    void OnReceiveLoadComplete(Socket client, byte[] data)
+    {
+        P2PLoadCompletePacket packet = new P2PLoadCompletePacket(data);
+        Debug.Log(curRoomInfo.GetGuestInfo(packet.GetData().playerNumber).playerName + "로딩끝");
+        // 로딩 완료 인원 증가
+        LoadCompleteCount++;
+    }
+
+    // 게임 시작 패킷 수신 메서드 [ 호스트 -> 게스트 ]
+    void OnReceiveStartGame(Socket client, byte[] data)
+    {
+        // TODO
+        // 카메라 이벤트 실행
+        Debug.Log("게임시작");
+        gameState = State.Playing;
+    }    
+    
+    // 스킬 사용 리시버 [ 게스트 -> 호스트, 호스트 -> 모든게스트 ]
+    void OnReceiveUnitCastSkill(Socket client, byte[] data)
+    {
+        InGameUnitCastSkillPacket packet = new InGameUnitCastSkillPacket(data);
+        InGameUnitCastSkillData castSkillData = packet.GetData();
+        netManager.SendToAllGuest(client, packet);
+    }
+
+    // 유닛 피해 리시버 [ 게스트 -> 호스트, 호스트 -> 모든게스트 ]
+    void OnReceiveUnitDamaged(Socket client, byte[] data)
+    {
+        InGameUnitDamagedPacket packet = new InGameUnitDamagedPacket(data);
+        InGameUnitDamagedData damagedData = packet.GetData();
+        netManager.SendToAllGuest(client, packet);
+    }
+
+    // 유닛 죽음 리시버 [ 게스트 -> 호스트, 호스트 -> 모든게스트 ]
+    void OnReceiveUnitDeath(Socket client, byte[] data)
+    {
+        InGameUnitDeathPacket packet = new InGameUnitDeathPacket(data);
+        InGameUnitDeathData deathData = packet.GetData();
+        netManager.SendToAllGuest(client, packet);
+    }
+
+    // 유닛 레벨업 리시버[게스트->호스트, 호스트->모든게스트]
+    void OnReceiveUnitLevelUp(Socket client, byte[] data)
+    {
+        InGameUnitLevelUpPacket packet = new InGameUnitLevelUpPacket(data);
+        InGameUnitLevelUpData levelUpData = packet.GetData();
+        netManager.SendToAllGuest(client, packet);
+    }
+
+    // 유닛 이동 리시버 [ 게스트 -> 호스트, 호스트 -> 모든게스트 ]
+    void OnReceiveUnitMove(Socket client, byte[] data)
+    {
+        InGameUnitMovePacket packet = new InGameUnitMovePacket(data);
+        InGameUnitMoveData moveData = packet.GetData();
+        netManager.SendToAllGuest(client, packet);
+    }
+
+    // 유닛 즉시 이동 리시버 [ 게스트 -> 호스트, 호스트 -> 모든게스트 ]
+    void OnReceiveUnitImmediatelyMove(Socket client, byte[] data)
+    {
+        InGameUnitImmediatelyMovePacket packet = new InGameUnitImmediatelyMovePacket(data);
+        InGameUnitImmediatlyMoveData moveData = packet.GetData();
+        netManager.SendToAllGuest(client, packet);
+    }
+
+    // 유닛 멈춤 리시버[게스트->호스트, 호스트->모든게스트]
+    void OnReceiveUnitStop(Socket client, byte[] data)
+    {
+        InGameUnitStopPacket packet = new InGameUnitStopPacket(data);
+        InGameUnitStopData stopData = packet.GetData();
+        netManager.SendToAllGuest(client, packet);
+    }
+
+    // 유닛 공격 [게스트 -> 호스트, 호스트 -> 모든게스트]
+    void OnReceiveUnitAttack(Socket client, byte[] data)
+    {
+        InGameUnitAttackPacket packet = new InGameUnitAttackPacket(data);
+        InGameUnitAttackData stopData = packet.GetData();
+        netManager.SendToAllGuest(client, packet);
     }
 }
