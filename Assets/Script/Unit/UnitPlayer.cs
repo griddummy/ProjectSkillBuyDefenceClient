@@ -13,6 +13,7 @@ public class UnitPlayer : UnitProcess
 		animator = GetComponent<Animator>();
 		moveAgent = GetComponent<NavMeshAgent>();
 		manager = GameObject.FindWithTag( "GameManager" ).GetComponent<GameManager>();
+		DataInitialize();
 	}
 	
 	// Update is called once per frame

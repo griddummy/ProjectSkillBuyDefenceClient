@@ -13,7 +13,7 @@ GameObject:
   - 124: {fileID: 12494104}
   - 81: {fileID: 8106698}
   - 114: {fileID: 11457106}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Main Camera 1
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294950911
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

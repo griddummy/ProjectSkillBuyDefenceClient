@@ -15,6 +15,12 @@ public class CameraMove : MonoBehaviour
 	[SerializeField][Range( 1f, 4f)] float wheelSensitivity;
 	[SerializeField][Range( 0.1f, 0.6f)] float moveSensitivity;
 
+	public Vector3 Position 
+	{
+		get { return transform.position; }
+		set { transform.position = value; }
+	}
+
 	void Start()
 	{
 		wheelSensitivity = 1f;

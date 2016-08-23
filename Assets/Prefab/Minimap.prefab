@@ -11,6 +11,7 @@ GameObject:
   - 20: {fileID: 2035606}
   - 124: {fileID: 12475716}
   - 92: {fileID: 9207056}
+  - 114: {fileID: 11442968}
   m_Layer: 5
   m_Name: Minimap
   m_TagString: Untagged
@@ -47,7 +48,7 @@ Camera:
     y: 0
     width: 0.26
     height: 0.35
-  near clip plane: 0
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 1
@@ -55,7 +56,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294959103
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -72,6 +73,17 @@ Behaviour:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 154384}
   m_Enabled: 1
+--- !u!114 &11442968
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 154384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88062b5f8a5581c41890d55be589d208, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!124 &12475716
 Behaviour:
   m_ObjectHideFlags: 1
