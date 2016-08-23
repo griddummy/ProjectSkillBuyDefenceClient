@@ -522,15 +522,18 @@ public class UnitProcess : MonoBehaviour
 		destination = transform.position;
 	}
 
-	//use melee attack range check
-	public void OnCollisionEnter(Collision col)
-	{
-		if (( presentState == State.Attack || presentState == State.AttackMove ) && ( col.gameObject == unitTarget ))
-		{
-			Debug.Log( "col!" );
-		}
-	}
+    //use melee attack range check
+    public void OnCollisionEnter(Collision col)
+    {
+        if ((presentState == State.Attack || presentState == State.AttackMove) && (col.gameObject == unitTarget))
+        {
+            Debug.Log("col!");
+        }
+    }
 
+    public void SetUp(UnitInformation newInfo, Vector3 vec)
+    {
+        info = new UnitInformation(newInfo);
+        transform.position = vec;
+    }
 }
-
-
