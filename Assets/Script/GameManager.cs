@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitDeath, OnReceiveUnitDeath);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitLevelUp, OnReceiveUnitLevelUp);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitMove, OnReceiveUnitMove);
-        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitMove, OnReceiveUnitImmediatelyMove);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitImmediatelyMove, OnReceiveUnitImmediatelyMove);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop, OnReceiveUnitStop);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitAttack, OnReceiveUnitAttack);
     }
@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitDeath);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitLevelUp);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitMove);
-        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitimmediatelyMove);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitImmediatelyMove);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitAttack);
     }

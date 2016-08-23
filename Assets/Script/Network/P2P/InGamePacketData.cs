@@ -5,7 +5,7 @@ public enum InGamePacketID
 {
     CreateUnit = 20,                 // 유닛 생성
     UnitMove,                   // 유닛 이동 명령 
-    UnitimmediatelyMove,        // 유닛 즉시 이동
+    UnitImmediatelyMove,        // 유닛 즉시 이동
     UnitAttack,                 // 유닛 공격
     UnitCastSkill,              // 스킬 시전
 
