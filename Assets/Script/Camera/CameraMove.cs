@@ -15,10 +15,10 @@ public class CameraMove : MonoBehaviour
 	[SerializeField][Range( 1f, 4f)] float wheelSensitivity;
 	[SerializeField][Range( 0.1f, 0.6f)] float moveSensitivity;
 
-	public Vector3 Position 
+	public Vector3 Position
 	{
 		get { return transform.position; }
-		set { transform.position = value; }
+		set { transform.position = new Vector3(Mathf.Clamp( value.x, -80f, 80f ), Mathf.Clamp( value.y, 15f, 25f ), Mathf.Clamp( value.z, -60f, 40f )); }
 	}
 
 	void Start()
@@ -99,5 +99,12 @@ public class CameraMove : MonoBehaviour
 		}
 
 		transform.position += new Vector3(0f, pointY, pointZ);
+		
+		//x-> +- 80, z +40 - 60
+		pointX = Mathf.Clamp( transform.position.x, -80f, 80f );
+		pointY = Mathf.Clamp( transform.position.y, 15f, 25f );
+		pointZ = Mathf.Clamp( transform.position.z, -60f, 40f );
+		
+		transform.position = new Vector3(pointX, pointY, pointZ);
 	}
 }

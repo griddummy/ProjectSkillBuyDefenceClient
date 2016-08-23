@@ -19,14 +19,14 @@ public class MinimapMove : MonoBehaviour
 	{
 		if (!EventSystem.current.IsPointerOverGameObject())
 		{			
-			if (Input.GetButtonDown( "LeftClick" ))
+			if (Input.GetButton( "LeftClick" ))
 				ProcessMiniMapMove();
 		}
 	}
 
 	public void ProcessMiniMapMove()
 	{
-		Ray ray = minimap.ViewportPointToRay( Input.mousePosition );
+		Ray ray = minimap.ScreenPointToRay( Input.mousePosition );
 		RaycastHit hitInfo;
 
 		if (
