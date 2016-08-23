@@ -1159,6 +1159,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 163738, guid: cc51640eae7db184a82efd0b06f9004b, type: 2}
+      propertyPath: m_Name
+      value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 2048962, guid: cc51640eae7db184a82efd0b06f9004b, type: 2}
+      propertyPath: m_CullingMask.m_Bits
+      value: 4294950911
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cc51640eae7db184a82efd0b06f9004b, type: 2}
   m_IsPrefabParent: 0
@@ -1895,8 +1903,8 @@ GameObject:
   - 33: {fileID: 1235357483}
   - 64: {fileID: 1235357482}
   - 23: {fileID: 1235357481}
-  m_Layer: 0
-  m_Name: Plane
+  m_Layer: 14
+  m_Name: MapBackGround
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2858,30 +2866,6 @@ Prefab:
     - target: {fileID: 2035606, guid: bd8d7f28712537b4bb8cd47e8e69a87b, type: 2}
       propertyPath: m_CullingMask.m_Bits
       value: 4294959103
-      objectReference: {fileID: 0}
-    - target: {fileID: 9207056, guid: bd8d7f28712537b4bb8cd47e8e69a87b, type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 12475716, guid: bd8d7f28712537b4bb8cd47e8e69a87b, type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2035606, guid: bd8d7f28712537b4bb8cd47e8e69a87b, type: 2}
-      propertyPath: m_HDR
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2035606, guid: bd8d7f28712537b4bb8cd47e8e69a87b, type: 2}
-      propertyPath: m_OcclusionCulling
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2035606, guid: bd8d7f28712537b4bb8cd47e8e69a87b, type: 2}
-      propertyPath: near clip plane
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 2035606, guid: bd8d7f28712537b4bb8cd47e8e69a87b, type: 2}
-      propertyPath: orthographic
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bd8d7f28712537b4bb8cd47e8e69a87b, type: 2}
