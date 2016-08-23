@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
 
 //local database -> game info
 //use single tone
@@ -9,7 +11,7 @@ public class Database
 	//complex database
 	static Database databaseInstance = null;
 	List<Skill> skillInformation;
-	List<UnitInformation> unitInformationSet;
+    List<UnitData> unitData;
 
 	//property
 	public static Database Instance { get { return databaseInstance; } }
@@ -24,7 +26,7 @@ public class Database
 	private Database ()
 	{
 		CreateSkillInformation();
-		CreateUnitInformationSet();
+        CreateUnitData();
 	}
 
 	//initialize skill information
@@ -41,17 +43,26 @@ public class Database
 			skillInformation[i].SetSkillIcon();
 	}
 
-	//initialize unitinformation
-	void CreateUnitInformationSet()
-	{
-		unitInformationSet = new List<UnitInformation> ();
-		unitInformationSet.Add( new UnitInformation ( 0001, "UnityChan", 1, 100, 900, 150, 1f, 1f, true, 0f, 8f ) ); 
-	}
+    //유닛 데이터 초기화
+    void CreateUnitData()
+    {
+        FileStream fs = new FileStream("UnitData.data", FileMode.Open);
+        BinaryFormatter bin = new BinaryFormatter();
 
-	//public method
+        try
+        {
+            unitData = (List<UnitData>)bin.Deserialize(fs);
+        }
+        catch
+        {
+            Console.WriteLine("Database::Initialize.Deserialize 에러");
+        }
+    }
 
-	//search skill use id
-	public Skill FindSkillByID( int id )
+    //public method
+
+    //search skill use id
+    public Skill FindSkillByID( int id )
 	{
 		for (int i = 0; i < skillInformation.Count; i++)
 			if (skillInformation[i].ID == id)
@@ -70,23 +81,37 @@ public class Database
 		return null;
 	}
 
-	//search default unit information use default ID
-	public UnitInformation FindUnitInformationName( int defaultID )
-	{
-		for (int i = 0; i < unitInformationSet.Count; i++)
-			if (unitInformationSet[i].DefaultID == defaultID)
-				return unitInformationSet[i];
+    //유닛 기본정보 받아오는 메소드
+    public UnitData GetUnitData(int Id)
+    {
+        if (unitData.Count >= Id - 1) {
+            UnitData data = unitData[Id - 1];
+            return data;
+        }
+        else
+        {
+            return null;
+        }
+    }
 
-		return null;
-	}
-
-	//search default unit information use name
-	public UnitInformation FindUnitInformationName( string name )
-	{
-		for (int i = 0; i < unitInformationSet.Count; i++)
-			if (unitInformationSet[i].Name == name)
-				return unitInformationSet[i];
-
-		return null;
-	}
+    //유닛 레벨정보 받아오는 메소드
+    public UnitLevelData GetUnitLevelData (int Id, int level)
+    {
+        if (unitData.Count >= Id - 1)
+        {
+            if (unitData[Id - 1].levelData.Count >= level - 1)
+            {
+                UnitLevelData data = unitData[Id - 1].levelData[level-1];
+                return data;
+            }
+            else
+            {
+                return null;
+            }
+        }
+        else
+        {
+            return null;
+        }
+    }
 }
