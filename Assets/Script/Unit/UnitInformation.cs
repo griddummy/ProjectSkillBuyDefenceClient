@@ -129,25 +129,25 @@ public class UnitInformation
 		SkillInitalize();
 	}
 
-    public UnitInformation(int unitId, int unitOwner, UnitData unitData, UnitLevelData unitLevelData)
-    {
-        this.unitID = unitId;
-        this.playerNum = unitOwner;
-        this.unitName = unitData.unitName;
-        this.level = unitLevelData.level;
-        this.presentExp = 0;
-        this.requireExp = unitLevelData.exp;
-        this.healthPoint = unitLevelData.hp;
-        this.presentHealthPoint = unitLevelData.hp;
-        this.manaPoint = unitLevelData.mp;
-        this.presentManaPoint = unitLevelData.mp;
-        this.moveSpeed = unitData.mvSpeed;
-        this.attackSpeed = unitData.atkSpeed;
-        this.attackRange = unitData.atkRange;
-        this.searchRange = unitData.searchRange;
+	public UnitInformation (int unitId, int unitOwner, UnitData unitData, UnitLevelData unitLevelData)
+	{
+		this.unitID = unitId;
+		this.playerNum = unitOwner;
+		this.unitName = unitData.unitName;
+		this.level = unitLevelData.level;
+		this.presentExp = 0;
+		this.requireExp = unitLevelData.exp;
+		this.healthPoint = unitLevelData.hp;
+		this.presentHealthPoint = unitLevelData.hp;
+		this.manaPoint = unitLevelData.mp;
+		this.presentManaPoint = unitLevelData.mp;
+		this.moveSpeed = unitData.mvSpeed;
+		this.attackSpeed = unitData.atkSpeed;
+		this.attackRange = unitData.atkRange;
+		this.searchRange = unitData.searchRange;
 
-        SkillInitalize();
-    }
+		SkillInitalize();
+	}
 
 	//create default use database
 	public UnitInformation (
@@ -228,8 +228,7 @@ public class UnitInformation
 		{					
 			for (int i = 0; i < activeSkillSet.Length; i++)
 			{
-				Debug.Log( activeSkillSet[i].Name );
-				if (activeSkillSet[i].Name == null)
+				if (activeSkillSet[i].ID == 0)
 				{
 					activeSkillSet[i] = data;
 					return true;
@@ -239,9 +238,8 @@ public class UnitInformation
 		else
 		{
 			for (int i = 0; i < passiveSkillSet.Length; i++)
-			{
-				Debug.Log( passiveSkillSet[i].Name );
-				if (passiveSkillSet[i].Name == null)
+			{		
+				if (passiveSkillSet[i].ID == 0)
 				{
 					passiveSkillSet[i] = data;
 					unitBuffSet[i] = new Buff ( passiveSkillSet[i].SkillBuff );
@@ -253,8 +251,8 @@ public class UnitInformation
 		return false;	
 	}
 
-    public void SetUnitId(int value)
-    {
-        unitID = value;
-    }
+	public void SetUnitId( int value )
+	{
+		unitID = value;
+	}
 }

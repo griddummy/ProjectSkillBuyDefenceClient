@@ -16,6 +16,7 @@ public class KaBoom : Skill
 		skillBuyCost = 100;
 		level = 1;
 		skillRange = 12f;
+		coolTime = 40f;
 		onTarget = true;
 		skillType = Type.ActiveTargetArea;
 		skillBuff = null;
