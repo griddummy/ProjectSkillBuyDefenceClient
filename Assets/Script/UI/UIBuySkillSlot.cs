@@ -7,6 +7,9 @@ public class UIBuySkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 {
 	[SerializeField] UIControl mainUI;
 	[SerializeField] UISkillElement[] buySkills;
+	[SerializeField] GameObject backGround;
+	[SerializeField] GameObject openTabButton;
+	[SerializeField] GameObject closeTabButton;
 
 	//initialize this script
 	public void LinkComponent()
@@ -20,11 +23,15 @@ public class UIBuySkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 			elements.LinkElement();
 
 		buySkills[0].SkillInfo = Database.Instance.FindSkillByID( 0001 );
-		buySkills[0].UpdateSkillIcon();
 		buySkills[1].SkillInfo = Database.Instance.FindSkillByID( 0002 );
 		buySkills[2].SkillInfo = Database.Instance.FindSkillByID( 0003 );
 		buySkills[3].SkillInfo = Database.Instance.FindSkillByID( 0004 );
 		buySkills[4].SkillInfo = Database.Instance.FindSkillByID( 0005 );
+
+		foreach (UISkillElement elements in buySkills)
+			elements.UpdateSkillIcon();
+
+		CloseBuySkillTab();
 	}
 
 	//pointer enter ui area
@@ -51,5 +58,21 @@ public class UIBuySkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 			if (mainUI.SkillBuyProcess( buySkills[index].SkillInfo ))
 				mainUI.Gold -= buySkills[index].SkillInfo.SkillBuyCost;
 		}
+	}
+
+	//close this ui element
+	public void OpenBuySkillTab()
+	{
+		backGround.SetActive( true );
+		closeTabButton.SetActive( true );
+		openTabButton.SetActive( false );
+	}
+
+	//open this ui element
+	public void CloseBuySkillTab()
+	{
+		backGround.SetActive( false );
+		closeTabButton.SetActive( false );
+		openTabButton.SetActive( true );
 	}
 }

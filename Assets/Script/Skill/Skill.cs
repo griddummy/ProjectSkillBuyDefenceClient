@@ -58,7 +58,7 @@ public class Skill
 	public Skill ()
 	{
 		id = 0;
-		name = null;
+		name = "Default";
 		level = 0;
 		skillRange = 0f;
 		coolTime = 0.0f;

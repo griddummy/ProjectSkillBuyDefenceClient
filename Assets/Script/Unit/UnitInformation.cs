@@ -228,8 +228,7 @@ public class UnitInformation
 		{					
 			for (int i = 0; i < activeSkillSet.Length; i++)
 			{
-				Debug.Log( activeSkillSet[i].Name );
-				if (activeSkillSet[i].Name == null)
+				if (activeSkillSet[i].ID == 0)
 				{
 					activeSkillSet[i] = data;
 					return true;
@@ -239,9 +238,8 @@ public class UnitInformation
 		else
 		{
 			for (int i = 0; i < passiveSkillSet.Length; i++)
-			{
-				Debug.Log( passiveSkillSet[i].Name );
-				if (passiveSkillSet[i].Name == null)
+			{		
+				if (passiveSkillSet[i].ID == 0)
 				{
 					passiveSkillSet[i] = data;
 					unitBuffSet[i] = new Buff ( passiveSkillSet[i].SkillBuff );
@@ -253,8 +251,8 @@ public class UnitInformation
 		return false;	
 	}
 
-    public void SetUnitId(int value)
-    {
-        unitID = value;
-    }
+	public void SetUnitId( int value )
+	{
+		unitID = value;
+	}
 }
