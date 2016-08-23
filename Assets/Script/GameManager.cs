@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using System.IO;
 
 //class - policy control
 public class GameManager : MonoBehaviour
@@ -15,6 +16,8 @@ public class GameManager : MonoBehaviour
     MainManager mainManager;
     NetManager netManager;
     RoomInfo curRoomInfo;
+    UnitDatabase unitDatabase;
+    UnitManager unitManager;
 
     // Load 관련
     int LoadCompleteCount; // 몇명이나 로딩이 끝났는지
@@ -24,7 +27,6 @@ public class GameManager : MonoBehaviour
 
 	public bool[] CheckAlly { get { return checkAlly; } }
 
-
     void Awake()
     {
         //메인 매니저, 넷 매니저, 게임매니저 가져오기
@@ -32,6 +34,8 @@ public class GameManager : MonoBehaviour
         netManager = mainManager.netManager;
         curRoomInfo = mainManager.currentRoomInfo;
         playerNumber = curRoomInfo.myNumber;
+        unitDatabase = new UnitDatabase("UnitData.data", FileMode.Open);
+        unitManager = new UnitManager();
 
         // 초기 게임 상태 : 대기
         gameState = State.Waiting;
@@ -92,7 +96,7 @@ public class GameManager : MonoBehaviour
         data.posY = 1;
         data.posZ = 1;
         data.unitId = 1;
-        data.unitResourceId = 1;
+        data.unitType = 1;
         data.unitOwner = (byte)playerNumber;
         SendAndCreateUnit(data);
     }
@@ -149,12 +153,32 @@ public class GameManager : MonoBehaviour
         gameState = State.Playing; // 게임중
     }
 
-    void CreateUnit(InGameCreateUnitData createData)
+    GameObject CreateUnit(InGameCreateUnitData createData)
     {
-        GameObject unitObj = Instantiate(Resources.Load<GameObject>(getResourcePath(createData.unitResourceId)));
+        try
+        {
+            GameObject unitObj = Instantiate(Resources.Load<GameObject>(getResourcePath(createData.unitType)));
+            UnitData unitData = unitDatabase.unitData[(int)createData.unitType];
+            UnitLevelData unitLevelData = unitData.levelData[(int)createData.level];
+            Vector3 position = new Vector3(createData.posX, createData.posY, createData.posZ);
+            unitObj.GetComponent<UnitProcess>().SetUp(new UnitInformation(createData.unitId, createData.unitOwner, unitData, unitLevelData), position);
+
+            return unitObj;
+        }
+        catch
+        {
+            return null;
+        }
     }
 
-    void SendAndCreateUnit(InGameCreateUnitData createData)
+    void UnitMove (InGameUnitMoveData unitMoveData) // 유닛 이동
+    {
+            GameObject unitObj = unitManager.unitData[unitMoveData.unitOwner, unitMoveData.unitId];
+            Vector3 destination = new Vector3(unitMoveData.posX, unitMoveData.posY, unitMoveData.posZ);        
+            unitObj.GetComponent<UnitProcess>().Destination = destination;
+    }
+
+    void SendAndCreateUnit(InGameCreateUnitData createData) // 자신이 유닛이 생성할 때 부르는 메서드
     {
         InGameCreateUnitPacket packet = new InGameCreateUnitPacket(createData);
         if (curRoomInfo.isHost)
@@ -165,7 +189,8 @@ public class GameManager : MonoBehaviour
         {
             netManager.SendToHost(packet);
         }
-        CreateUnit(createData);
+
+        unitManager.InsertSlot(CreateUnit(createData));
     }
 
     void OnReceiveCreateUnit(Socket client, byte[] data)
@@ -177,12 +202,12 @@ public class GameManager : MonoBehaviour
         {
             netManager.SendToAllGuest(packet);
         }
-        CreateUnit(createData);
+        unitManager.InsertSlot(CreateUnit(createData));
     }
 
     string getResourcePath(int id)
     {
-        //TODO 
+        // TODO 
         //ID에 따른 리소스 경로 얻기
         return "NoBladeGirl";
     }

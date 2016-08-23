@@ -3,12 +3,11 @@
 public class MainManager : MonoBehaviour{
         
     public NetManager m_netManager;
-
-
     private LoginData m_login = null;
     private RoomInfo m_currentRoomInfo;
     
-    public LoginData login {
+    public LoginData login
+    {
         set { m_login = value; }
         get { return m_login; }
     }
@@ -41,7 +40,7 @@ public class MainManager : MonoBehaviour{
         set { m_currentRoomInfo = value; }
         get { return m_currentRoomInfo; }
     }
-        
+    
     void Awake()
     {
         // 싱글톤
