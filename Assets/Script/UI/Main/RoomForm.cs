@@ -46,13 +46,13 @@ public class RoomForm : UIForm {
             Debug.Log("게스트모드");
             btnStart.gameObject.SetActive(false);
             // 플레이어 슬롯 등록
-            byte[] index;
+            byte[] number;
             string[] userName;
-            curRoomInfo.GetAllGuestInfo(out index, out userName);
-            for(int i = 0; i < index.Length; i++)
+            curRoomInfo.GetAllGuestInfo(out number, out userName);
+            for(int i = 0; i < number.Length; i++)
             {
-                Debug.Log("유저이름 : "+userName[i]);
-                SetPlayerSlot(index[i], userName[i]);
+                Debug.Log("유저이름 : "+userName[i] + " Number : "+ number[i]);
+                SetPlayerSlot(number[i]-1, userName[i]);
             }
         }
         dialogMessage.Close(true,1f);
@@ -237,7 +237,7 @@ public class RoomForm : UIForm {
         // 보낼 패킷 만들기
         sendData.result = (byte)P2PEnterRoomResultData.RESULT.Success; // 성공
         sendData.otherGuestCount = (byte)curRoomInfo.PlayerCount; // 이전 접속자 수
-        curRoomInfo.GetAllGuestInfo(out sendData.ohterGuestNumber, out sendData.otherGuestID); //이전 접속자 정보
+        curRoomInfo.GetAllGuestInfo(out sendData.otherGuestNumber, out sendData.otherGuestID); //이전 접속자 정보
         PlayerInfo playerInfo = new PlayerInfo(resultData.userName);
         playerInfo.socket = client;
         int newNumber = curRoomInfo.AddGuest(playerInfo); // 게스트 추가

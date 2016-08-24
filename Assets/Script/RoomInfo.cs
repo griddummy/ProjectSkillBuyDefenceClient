@@ -75,7 +75,7 @@ public class RoomInfo
     {
         if (players[number-1] != null)
         {
-            Debug.Log("AddGuest::게스트정보가 해당 자리에 이미 있습니다" + players[number-1].playerName);
+            Debug.Log("AddGuest::게스트 이미 존재 " + players[number-1].playerName + " num : "+number);
             return false;
         }
         players[number-1] = guestInfo;
