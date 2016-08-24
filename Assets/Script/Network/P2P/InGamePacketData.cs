@@ -55,12 +55,12 @@ public class InGameUnitAttackData // 목표 공격
 }
 
 public class InGameUnitCastSkillData // 스킬 시전
-{
+{    
     public UnitIdentity identity;
-    public byte skillId;                    // 스킬 종류
-    public byte skilllevel;                 // 스킬렙
-    public Vector3 castPosition;           // 스킬 사용위치
-    public UnitIdentity identityTarget;    // 타겟 유닛
+    public byte skillIndex;                 // 배운 스킬의 인덱스
+    public Skill.Type type;                 // 타입 - 즉시발동, 타겟위치, 타겟 유닛...
+    public Vector3 destination;             // 타격 위치
+    public UnitIdentity identityTarget;     // 타격 유닛
 }
 
 public class InGameUnitStopData     // 유닛 스탑
@@ -77,7 +77,7 @@ public class InGameUnitLevelUpData  // 레벨업
 public class InGameUnitDamagedData  // 유닛 피해 입음
 {
     public UnitIdentity identity;
-    public int damage;
+    public float damage;
 }
 public class InGameUnitDeathData    // 유닛 사망
 {

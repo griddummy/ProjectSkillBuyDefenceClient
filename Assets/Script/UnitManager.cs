@@ -13,7 +13,17 @@ class UnitManager
     {
         unitData = new GameObject[maxPlayerNum, maxUnitNum];
     }
-
+    public GameObject getUnitObject(int playerNum, int unitId)
+    {
+        try
+        {
+            return unitData[playerNum - 1, unitId];
+        }
+        catch
+        {
+            return null;
+        }
+    }
     public int FindEmptySlot(int playerNum)
     {
         for (int i = 0; i < maxUnitNum; i++)
@@ -50,7 +60,7 @@ class UnitManager
     public bool InsertSlot(GameObject unit, int unitId) // 유닛을 배열에 넣는...
     {
         UnitProcess data = unit.GetComponent<UnitProcess>();
-
+        Debug.Log("유닛생성::플레이어번호:" + data.Info.PlayerNumber + "  유닛ID : " + unitId);
         unitData[data.Info.PlayerNumber - 1, unitId] = unit;
 
         return true;
