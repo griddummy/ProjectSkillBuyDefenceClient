@@ -58,6 +58,13 @@ public class PlayerController : MonoBehaviour
 			else if (Input.GetButtonDown( "Skill6" ))
 				SkillCasting( 5 );	
 		}
+
+
+	}
+
+	void LateUpdate()
+	{
+		mainUI.UpdateUIInformation( selectedUnit );
 	}
 
 	void InitializeData()
@@ -65,6 +72,7 @@ public class PlayerController : MonoBehaviour
 		modeAttack = false;
 		modeSkill = false;
 		presentSkillIndex = -1;
+		playerNum = manager.PlayerNumber;
 	}
 
 	//click mouse left button
@@ -108,7 +116,6 @@ public class PlayerController : MonoBehaviour
 			layer |= 1 << LayerMask.NameToLayer( "Enemy" );
 			if (Physics.Raycast( ray, out hitInfo, Mathf.Infinity, layer ))
 			{
-				Debug.Log( hitInfo.collider );
 				selectedUnit = hitInfo.collider.gameObject.GetComponent <UnitProcess>();
 			}
 		}
@@ -147,7 +154,7 @@ public class PlayerController : MonoBehaviour
 	{
 		if (selectedUnit == null)
 			return false;
-		else if (selectedUnit.Info.PlayerNumber == manager.PlayerNumber)
+		else if (selectedUnit.Info.PlayerNumber == playerNum)
 			return true;
 		else
 			return false;

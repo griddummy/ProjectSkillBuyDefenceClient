@@ -29,6 +29,8 @@ public class UIControl : MonoBehaviour
 	//link low rank element
 	void LinkComponent()
 	{
+		unitStatus = GetComponentInChildren<UIUnitStatus>();
+
 		unitSkills = GetComponentInChildren<UIUnitSkillSlot>();
 		unitSkills.LinkComponent();
 
@@ -40,8 +42,21 @@ public class UIControl : MonoBehaviour
 	//public method
 
 	//update ui Information
-	public void UpdateUIInformation()
+	public void UpdateUIInformation( UnitProcess data )
 	{
+		if (data != null)
+		{
+			unitStatus.ActiveComponent();
+			unitStatus.UpdateStatus( data );
+		}
+		else
+		{
+			unitStatus.RestComponent();
+		}
+
+
+		//update data
+
 
 	}
 

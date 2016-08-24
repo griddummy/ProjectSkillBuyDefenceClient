@@ -121,7 +121,7 @@ Transform:
   - {fileID: 1411194204}
   - {fileID: 507816207}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 5
 --- !u!1 &61150102
 GameObject:
   m_ObjectHideFlags: 0
@@ -150,6 +150,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1244840135}
   m_RootOrder: 5
+--- !u!1001 &69767752
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -59.533596
+      objectReference: {fileID: 0}
+    - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.9959714
+      objectReference: {fileID: 0}
+    - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 38.479847
+      objectReference: {fileID: 0}
+    - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000016292068
+      objectReference: {fileID: 0}
+    - target: {fileID: 419252, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: info.unitName
+      value: Heroine
+      objectReference: {fileID: 0}
+    - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: info.damage
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: info.playerNum
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &88840270
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,49 +1118,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 633547497}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &687841440
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 687841441}
-  - 114: {fileID: 687841442}
-  m_Layer: 0
-  m_Name: GameManager
-  m_TagString: GameManager
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &687841441
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 687841440}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.17256597, y: -2.1502275, z: -1.8088155}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
---- !u!114 &687841442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 687841440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18105bedc44d2734bb77873d9cc9998b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerNumber: 1
-  checkAlly: 
-  isAI: 0
 --- !u!1 &750430972
 GameObject:
   m_ObjectHideFlags: 0
@@ -1344,7 +1355,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 4
 --- !u!1 &991249527
 GameObject:
   m_ObjectHideFlags: 0
@@ -1491,7 +1502,7 @@ Transform:
   - {fileID: 1464709159}
   - {fileID: 1409915743}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 6
 --- !u!1 &1027657257
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,6 +1710,52 @@ CapsuleCollider:
   m_Height: 5
   m_Direction: 1
   m_Center: {x: 0, y: 2.5, z: 0}
+--- !u!1001 &1090050183
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 495980, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: -56.78112
+      objectReference: {fileID: 0}
+    - target: {fileID: 495980, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.9959714
+      objectReference: {fileID: 0}
+    - target: {fileID: 495980, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 23.855288
+      objectReference: {fileID: 0}
+    - target: {fileID: 495980, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 495980, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 495980, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 495980, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: -0.00000016292068
+      objectReference: {fileID: 0}
+    - target: {fileID: 495980, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 120432, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+      propertyPath: m_Layer
+      value: 10
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1091665787
 GameObject:
   m_ObjectHideFlags: 0
@@ -1975,7 +2032,7 @@ Transform:
   - {fileID: 1822367828}
   - {fileID: 2115726074}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 12
 --- !u!1 &1271762550
 GameObject:
   m_ObjectHideFlags: 0
@@ -2067,7 +2124,7 @@ Transform:
   - {fileID: 750430973}
   - {fileID: 1415789573}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 8
 --- !u!1 &1299450991
 GameObject:
   m_ObjectHideFlags: 0
@@ -2352,7 +2409,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
 --- !u!1 &1382154883
 GameObject:
   m_ObjectHideFlags: 0
@@ -2417,7 +2474,7 @@ Transform:
   - {fileID: 2098809595}
   - {fileID: 1271762551}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 7
 --- !u!1 &1409915742
 GameObject:
   m_ObjectHideFlags: 0
@@ -2912,6 +2969,511 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1495485649}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1537268950 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 120432, guid: 46baa38d76c2e0b4eafbbb589d128fe9, type: 2}
+  m_PrefabInternal: {fileID: 1090050183}
+--- !u!114 &1537268951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1537268950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9dbad1ce2418ba43b9aa9c86e61b614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRig: {fileID: 0}
+  destination: {x: 0, y: 0, z: 0}
+  presentState: 0
+  info:
+    defaultID: 0
+    unitID: 0
+    playerNum: 0
+    unitName: EnemyBlueFrog
+    level: 1
+    presentExp: 0
+    requireExp: 1000
+    healthPoint: 1000
+    presentHealthPoint: 1000
+    manaPoint: 100
+    presentManaPoint: 100
+    damage: 100
+    moveSpeed: 5
+    attackSpeed: 10
+    isMeleeAttack: 0
+    attackRange: 10
+    searchRange: 10
+    activeSkillSet:
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    passiveSkillSet:
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    - id: 0
+      name: Default
+      skillBuyCost: 0
+      level: 0
+      damage: 0
+      skillCost: 0
+      skillRange: 0
+      coolTime: 0
+      onTarget: 0
+      skillType: 0
+      icon: {fileID: 0}
+      skillBuff:
+        id: 0
+        buffName: 
+        onActivate: 0
+        buffTime: 0
+        buffRange: 0
+        damage: 0
+        attackSpeed: 0
+        moveSpeed: 0
+        healthPoint: 0
+        manaPoint: 0
+        healAmount: 0
+        target: []
+    onSkill: 000000000000000000000000
+    coolTime:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    unitBuffSet:
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+    - id: 0
+      buffName: 
+      onActivate: 0
+      buffTime: 0
+      buffRange: 0
+      damage: 0
+      attackSpeed: 0
+      moveSpeed: 0
+      healthPoint: 0
+      manaPoint: 0
+      healAmount: 0
+      target: []
+  presentSkillIndex: 0
+  enemy: []
+  unitTarget: {fileID: 0}
+  throwObject: {fileID: 0}
+  animator: {fileID: 0}
+  moveAgent: {fileID: 0}
+  manager: {fileID: 0}
+  presentAnimatorState: 0
+--- !u!65 &1537268952
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1537268950}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.3, z: 2}
+  m_Center: {x: 0, y: 0.65, z: 0}
 --- !u!1 &1576205353
 GameObject:
   m_ObjectHideFlags: 0
@@ -3530,6 +4092,48 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2081621183}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &2097363821
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 477220, guid: 59230391e57738a4490030e809aa187a, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 17.64958
+      objectReference: {fileID: 0}
+    - target: {fileID: 477220, guid: 59230391e57738a4490030e809aa187a, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 34.92109
+      objectReference: {fileID: 0}
+    - target: {fileID: 477220, guid: 59230391e57738a4490030e809aa187a, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 57.39909
+      objectReference: {fileID: 0}
+    - target: {fileID: 477220, guid: 59230391e57738a4490030e809aa187a, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477220, guid: 59230391e57738a4490030e809aa187a, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477220, guid: 59230391e57738a4490030e809aa187a, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 477220, guid: 59230391e57738a4490030e809aa187a, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 477220, guid: 59230391e57738a4490030e809aa187a, type: 2}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 59230391e57738a4490030e809aa187a, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &2098809594
 GameObject:
   m_ObjectHideFlags: 0
