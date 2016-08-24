@@ -19,6 +19,8 @@ public class RoomForm : UIForm {
     private RoomInfo curRoomInfo;
     private NetManager netManger;
     private Coroutine corCountDown;
+    private Coroutine corCheckChatEnter;
+
     protected override void OnResume()
     {
         mainManager = MainManager.instance;
@@ -54,10 +56,12 @@ public class RoomForm : UIForm {
             }
         }
         dialogMessage.Close(true,1f);
+        corCheckChatEnter = StartCoroutine(CheckChatEnter());
     }
 
     protected override void OnPause()
     {
+        StopCoroutine(corCheckChatEnter);
         netManger.UnRegisterReceiveNotificationP2P((int)P2PPacketType.EnterRoom);
         netManger.UnRegisterReceiveNotificationP2P((int)P2PPacketType.NewGuestEnter);
         netManger.UnRegisterReceiveNotificationP2P((int)P2PPacketType.GuestLeave);
@@ -76,6 +80,26 @@ public class RoomForm : UIForm {
         }
         if (corCountDown != null)
             StopCoroutine(corCountDown);
+    }
+    IEnumerator CheckChatEnter()
+    {
+        inputChat.Select();
+        bool bSelectInput = true;
+        while (true)
+        {
+            if(Input.GetKeyDown(KeyCode.Return) && bSelectInput)
+            {
+                OnClickChat();
+            }
+            if (inputChat.isFocused)
+            {
+                bSelectInput = true;
+            }else
+            {
+                bSelectInput = false;
+            }
+            yield return null;
+        }
     }
 
     public void SetPlayerSlot(int index, string playerName)
@@ -166,6 +190,7 @@ public class RoomForm : UIForm {
             return;
         }
         netManger.SendToHost(packet);
+        inputChat.Select();
     }
 
     private void AddChat(string chat, int index)

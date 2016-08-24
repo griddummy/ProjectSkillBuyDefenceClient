@@ -5,9 +5,11 @@ using UnityEngine.UI;
 public class DialogCreateRoom : Dialog {
 
     public InputField input;
-
+    bool bSelectInput;
     public override void Init()
     {
+        input.Select();
+        bSelectInput = true;
         input.text = "";
     }
     protected override void OnClickPositive()
@@ -21,5 +23,21 @@ public class DialogCreateRoom : Dialog {
             SetResultObject(data);
             base.OnClickPositive();
         }        
-    }   
+    }
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return) && bSelectInput)
+        {
+            OnClickPositive();
+        }
+
+        if (input.isFocused)
+        {
+            bSelectInput = true;
+        }
+        else
+        {
+            bSelectInput = false;
+        }
+    }
 }

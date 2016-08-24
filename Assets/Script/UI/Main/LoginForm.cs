@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.UI;
 using System.Net.Sockets;
+using UnityEngine.EventSystems;
 
 public class LoginForm : UIForm
 {
@@ -16,6 +17,8 @@ public class LoginForm : UIForm
     private NetManager netManager;
     private MainManager mainManager;
     private LoginData lastLoginData;
+    private Coroutine corCheckTabStop;
+
     void Start()
     {
         mainManager = MainManager.instance;
@@ -40,11 +43,43 @@ public class LoginForm : UIForm
     {
         netManager.RegisterReceiveNotificationServer((int)ServerPacketId.CreateIdResult, OnReceiveResultCreateID);
         netManager.RegisterReceiveNotificationServer((int)ServerPacketId.LoginResult, OnReceiveResultLogin);
+        corCheckTabStop = StartCoroutine(CheckTabStop());
+        inputID.Select();
     }
+
     protected override void OnPause()
     {
+        StopCoroutine(corCheckTabStop);
         netManager.UnRegisterReceiveNotificationServer((int)ServerPacketId.CreateIdResult);
-        netManager.UnRegisterReceiveNotificationServer((int)ServerPacketId.LoginResult);
+        netManager.UnRegisterReceiveNotificationServer((int)ServerPacketId.LoginResult);        
+    }
+    IEnumerator CheckTabStop()
+    {
+        bool bSelectedPassword = false;
+        while (true)
+        {
+            if (Input.GetKeyDown(KeyCode.Return) && bSelectedPassword)
+            {                
+                OnClickLogin();
+            }
+            if (inputID.isFocused)
+            {
+                if (Input.GetKeyUp(KeyCode.Tab))
+                {                    
+                    inputPassword.Select();
+                    
+                }
+            }
+            else if (inputPassword.isFocused)
+            {
+                bSelectedPassword = true;    
+            }
+            else
+            {
+                bSelectedPassword = false;
+            }
+            yield return null;
+        }
     }
     private void ClearWarning()
     {
