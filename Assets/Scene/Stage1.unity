@@ -201,6 +201,10 @@ Prefab:
       propertyPath: info.playerNum
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: throwObject
+      value: 
+      objectReference: {fileID: 183196, guid: 417869332e23313499a003fae9d9f083, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a8dba25e471841c469170edb2563d77b, type: 2}
   m_IsPrefabParent: 0
@@ -983,7 +987,7 @@ GameObject:
   - 154: {fileID: 615706944}
   m_Layer: 12
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: PlayerSection
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -1235,7 +1239,7 @@ GameObject:
   - 154: {fileID: 853094301}
   m_Layer: 12
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: PlayerSection
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2137,7 +2141,7 @@ GameObject:
   - 154: {fileID: 1299450993}
   m_Layer: 12
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: PlayerSection
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -2272,6 +2276,48 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1334181424}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1345011792
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 1345011794}
+  - 114: {fileID: 1345011793}
+  m_Layer: 0
+  m_Name: AILogic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1345011793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1345011792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c188aaf35e06dd94cb49097f7a7d3cdc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  manager: {fileID: 0}
+  terrainSet: []
+--- !u!4 &1345011794
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1345011792}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 15.504395, y: 1.7734375, z: 10.1875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 14
 --- !u!1 &1359227240
 GameObject:
   m_ObjectHideFlags: 0
@@ -2406,7 +2452,7 @@ Transform:
   m_LocalRotation: {x: 0.4330127, y: 0.4330127, z: -0.25, w: 0.75}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 60, y: 60, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -2985,7 +3031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerRig: {fileID: 0}
-  destination: {x: 0, y: 0, z: 0}
+  destination: {x: -55, y: 0, z: 32}
   presentState: 0
   info:
     defaultID: 0
@@ -3461,7 +3507,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
-  presentAnimatorState: 0
+  presentAnimatorState: 2
 --- !u!65 &1537268952
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3672,7 +3718,7 @@ GameObject:
   - 154: {fileID: 1676690242}
   m_Layer: 12
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: PlayerSection
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -4130,6 +4176,10 @@ Prefab:
     - target: {fileID: 477220, guid: 59230391e57738a4490030e809aa187a, type: 2}
       propertyPath: m_RootOrder
       value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 124804, guid: 59230391e57738a4490030e809aa187a, type: 2}
+      propertyPath: m_TagString
+      value: GameManager
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 59230391e57738a4490030e809aa187a, type: 2}

@@ -20,7 +20,10 @@ public class UnitPlayer : UnitProcess
 	void Update()
 	{
 		if (Vector3.Distance( transform.position, destination ) >= 0.1f)
+		{
+			transform.LookAt( destination );
 			moveAgent.SetDestination( destination );
+		}
 
 		ActiveAnimator( presentAnimatorState );
 	}
