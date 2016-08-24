@@ -16,9 +16,9 @@ public class GameManager : MonoBehaviour
     MainManager mainManager;
     NetManager netManager;
     RoomInfo curRoomInfo;
-    UnitDatabase unitDatabase;
+    //UnitDatabase unitDatabase;
     UnitManager unitManager;
-
+    Database dataBase;
     // Load 관련
     int LoadCompleteCount; // 몇명이나 로딩이 끝났는지
 
@@ -34,7 +34,8 @@ public class GameManager : MonoBehaviour
         netManager = mainManager.netManager;
         curRoomInfo = mainManager.currentRoomInfo;
         playerNumber = curRoomInfo.myNumber;
-        unitDatabase = new UnitDatabase("UnitData.data", FileMode.Open);
+        //unitDatabase = new UnitDatabase("UnitData.data", FileMode.Open);
+        dataBase = Database.Instance;
         unitManager = new UnitManager();
 
         // 초기 게임 상태 : 대기
@@ -48,7 +49,7 @@ public class GameManager : MonoBehaviour
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitDamaged, OnReceiveUnitDamaged);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitDeath, OnReceiveUnitDeath);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitLevelUp, OnReceiveUnitLevelUp);
-        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitMove, OnReceiveUnitMove);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitSetDestination, OnReceiveUnitMove);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitImmediatelyMove, OnReceiveUnitImmediatelyMove);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop, OnReceiveUnitStop);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitAttack, OnReceiveUnitAttack);
@@ -64,7 +65,7 @@ public class GameManager : MonoBehaviour
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitDamaged);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitDeath);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitLevelUp);
-        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitMove);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitSetDestination);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitImmediatelyMove);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitAttack);
@@ -72,58 +73,40 @@ public class GameManager : MonoBehaviour
 
     //initialize this script
     void Start()
-	{
-        
-         StartCoroutine(DelayLoad()); // 로딩완료 검사 코루틴 시작
-                    
-        
-    }
-
-    void Update()
-    {
-        if(gameState == State.Playing)
-        {
-            
-        }
+	{        
+         StartCoroutine(GameLoading()); // 로딩 + 로딩완료검사
     }
 
     void InitializeData() 
 	{
+        // 동맹 배열
 		checkAlly = new bool[8];
-		checkAlly[playerNumber-1] = true;
+    	//checkAlly[playerNumber-1] = true; // 자기 자신은 true;
+
+        // 플레이어는 전부 동맹
+        List<PlayerInfo> listPlayer = curRoomInfo.GetAllGuestInfo();
+        for(int i = 0; i < listPlayer.Count; i++)
+        {
+            checkAlly[listPlayer[i].number - 1] = true;
+        }
+
+        // 자신의 케릭터 생성하기
         InGameCreateUnitData data = new InGameCreateUnitData();
+        
         data.level = 1;
         data.identity.unitOwner = (byte)playerNumber;
         data.unitType = 1;
         data.identity.unitId = 1;
-        data.position.x = playerNumber*2f;
-        data.position.y = 1;
-        data.position.z = 1;
-        
-        SendAndCreateUnit(data);
+        //TODO
+        // 자신의 스타팅 포인트에 케릭터를 위치시킴. 해야되지만 테스트용으로 땜빵함.
+        data.position = new Vector3(playerNumber * 2f, 0f, 0f);
+
+        UnitCreate(data); //  유닛 생성
     }
-
-	//start game -> game load process
-	public void LoadProcess()
-	{
-
-	}
-
-	//send unit data -> changed unit data
-	public void SendUnitData()
-	{
-
-	}
-
-	//receive unit data -> changed unit data
-	public void ReceiveUnitData()
-	{
-
-	}
     
-    IEnumerator DelayLoad() // 로딩 + 로딩완료 검사 루틴 - 호스트만 실행
+    IEnumerator GameLoading() // 로딩 + 로딩완료 검사 루틴 - 호스트만 실행
     {
-        yield return null;
+        yield return null; // 한 프레임 기다리기        
 
         InitializeData(); // 초기화
 
@@ -155,66 +138,144 @@ public class GameManager : MonoBehaviour
             // 게임 상태 변경 
             gameState = State.Playing; // 게임중
         }
-    }
+    }    
 
-    GameObject CreateUnit(InGameCreateUnitData createData)
+    // 자신의 유닛(호스트일 경우 AI 유닛 포함)을 생성하고 메세지를 전송한다.
+    public GameObject UnitCreate(InGameCreateUnitData createUnitData)
     {
-        try
-        {
-            GameObject unitObj = Instantiate(Resources.Load<GameObject>(getResourcePath(createData.unitType)));
-            UnitData unitData = unitDatabase.unitData[(int)createData.unitType];
-            UnitLevelData unitLevelData = unitData.levelData[(int)createData.level];
-            unitObj.GetComponent<UnitProcess>().SetUp(new UnitInformation(createData, unitData, unitLevelData), createData.position);
+        // 유닛 생성이 가능한지 물어봄
+        int unitId = unitManager.FindEmptySlot(createUnitData.identity.unitOwner);
 
-            return unitObj;
-        }
-        catch
+        if(unitId < 0)
         {
+            return null; // Full unit
+        }
+        createUnitData.identity.unitId = (byte)unitId;
+        // TODO : 데이터베이스에 프리팹의 경로가 있어야 할듯!
+        GameObject unitObj = Instantiate(Resources.Load<GameObject>("ProtoType1"), createUnitData.position, Quaternion.identity) as GameObject;
+
+        // 유닛 타입 정보 얻기
+        UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
+        UnitLevelData unitLevelData = unitData.levelData[createUnitData.level];
+
+        // 유닛 정보 초기화, 자신의 유닛은 UnitProcess를 붙인다.
+        unitObj.AddComponent<UnitProcess>().SetUp(new UnitInformation(createUnitData, unitData, unitLevelData), createUnitData.position);
+
+        // 유닛 매니져에 유닛 등록
+        if (!unitManager.InsertSlot(unitObj, unitId))
+        {
+            Destroy(unitObj); // 실패시 삭제
             return null;
         }
+
+        // 생성 결과를 다른 사람들에게 알림.
+        InGameCreateUnitPacket packet = new InGameCreateUnitPacket(createUnitData);
+        SendChangedData(packet);
+        return unitObj;
     }
 
-    void UnitMove (InGameUnitMoveData unitMoveData) // 유닛 이동
+    public void UnitSetDestination (UnitProcess unit, Vector3 destination) // 목표지점 설정
     {
-            GameObject unitObj = unitManager.unitData[unitMoveData.identity.unitOwner, unitMoveData.identity.unitId];
-            unitObj.GetComponent<UnitProcess>().SetDestination(unitMoveData.destination);
+        InGameUnitSetDestinationData data = new InGameUnitSetDestinationData();
+        InGameUnitSetDestinationPacket packet = new InGameUnitSetDestinationPacket(data);
+        SendChangedData(packet);
+    }    
+
+    public void UnitSetTarget(UnitProcess sourceUnit, GameObject targetUnit) // 목표 설정
+    {
+        InGameUnitSetTargetData data = new InGameUnitSetTargetData();
+        InGameUnitSetTargetPacket packet = new InGameUnitSetTargetPacket(data);
+        SendChangedData(packet);
     }
 
-    void SendAndCreateUnit(InGameCreateUnitData createData) // 자신이 유닛이 생성할 때 부르는 메서드
+    public void UnitImmediateMove(UnitProcess unit, Vector3 position) // 해당지점으로 즉시 이동
     {
-        InGameCreateUnitPacket packet = new InGameCreateUnitPacket(createData);
-        if (curRoomInfo.isHost)
+        InGameUnitImmediatlyMoveData data = new InGameUnitImmediatlyMoveData();
+        InGameUnitImmediatelyMovePacket packet = new InGameUnitImmediatelyMovePacket(data);
+        SendChangedData(packet);
+    }
+
+    public void UnitAttack(UnitProcess sourceUnit, GameObject targetUnit) // 자신의 유닛 공격
+    {
+        InGameUnitAttackData data = new InGameUnitAttackData();
+        InGameUnitAttackPacket packet = new InGameUnitAttackPacket(data);
+        SendChangedData(packet);
+    }
+
+    public void UnitCastSkill(UnitProcess unit, Skill skill)    // 스킬 시전
+    {
+        InGameUnitCastSkillData data = new InGameUnitCastSkillData();
+        InGameUnitCastSkillPacket packet = new InGameUnitCastSkillPacket(data);
+        SendChangedData(packet);
+    }
+
+    public void UnitStop(UnitProcess unit) // 유닛 멈춤 또는 홀드
+    {
+        InGameUnitStopData data = new InGameUnitStopData();
+        InGameUnitStopPacket packet = new InGameUnitStopPacket(data);
+        SendChangedData(packet);
+    }
+
+    public void UnitLevelUp(UnitProcess unit, int level) // 레벨업
+    {
+        InGameUnitLevelUpData data = new InGameUnitLevelUpData();
+        InGameUnitLevelUpPacket packet = new InGameUnitLevelUpPacket(data);
+        SendChangedData(packet);
+    }
+
+    public void UnitDamaged(UnitProcess unit, int damage) // 피해입음
+    {
+        InGameUnitDamagedData data = new InGameUnitDamagedData();
+        InGameUnitDamagedPacket packet = new InGameUnitDamagedPacket(data);
+        SendChangedData(packet);
+    }
+
+    public void UnitDeath(UnitProcess unit) // 죽음
+    {
+        InGameUnitDeathData data = new InGameUnitDeathData();
+        InGameUnitDeathPacket packet = new InGameUnitDeathPacket(data);
+        SendChangedData(packet);        
+    }    
+
+    // 패킷을 전송할 대상을 정해 전송하는 메서드
+    void SendChangedData<T>(IPacket<T> packet)
+    {
+        if (curRoomInfo.isHost) // 자신이 호스트라면
         {
-            netManager.SendToAllGuest(packet);
+            netManager.SendToAllGuest(packet); // 모든 게스트에게 보낸다.
         }
-        else
+        else // 자신이 게스트라면
         {
-            netManager.SendToHost(packet);
+            netManager.SendToHost(packet); // 호스트에게 보낸다.
         }
-
-        unitManager.InsertSlot(CreateUnit(createData));
-    }
-
-   
-
-    string getResourcePath(int id)
-    {
-        // TODO 
-        //ID에 따른 리소스 경로 얻기
-        return "ProtoType1";
     }
 
     // 유닛 생성 수신 리시버 [ 게스트 -> 호스트 ]
     void OnReceiveCreateUnit(Socket client, byte[] data)
     {
         InGameCreateUnitPacket packet = new InGameCreateUnitPacket(data);
-        InGameCreateUnitData createData = packet.GetData();
+        InGameCreateUnitData createUnitData = packet.GetData();
 
-        if (curRoomInfo.isHost) // 호스트면 다른 게스트에게 재 전송
+        // TODO : 데이터베이스에 프리팹의 경로가 있어야 할듯!
+        GameObject unitObj = Instantiate(Resources.Load<GameObject>("ProtoType1"), createUnitData.position, Quaternion.identity) as GameObject;
+
+        // 유닛 타입 정보 얻기
+        UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
+        UnitLevelData unitLevelData = unitData.levelData[createUnitData.level];
+
+        // 유닛 정보 초기화, 다른사람의 유닛은 UnitPlayer 스크립트를 붙인다.
+        unitObj.AddComponent<UnitPlayer>().SetUp(new UnitInformation(createUnitData, unitData, unitLevelData), createUnitData.position);
+
+        // 유닛 매니져에 유닛 등록
+        unitManager.InsertSlot(unitObj, createUnitData.identity.unitId);
+        
+        // 자신이 호스트라면
+        if (curRoomInfo.isHost)
         {
-            netManager.SendToAllGuest(client, packet); // 방금 보낸 게스트를 제외하고 전송
+            // 모두에게 전송, 너만빼고
+            PlayerInfo player = curRoomInfo.GetGuestInfo(createUnitData.identity.unitOwner);
+            netManager.SendToAllGuest(client, packet);
         }
-        unitManager.InsertSlot(CreateUnit(createData));
     }
 
     // 로딩 끝 패킷 수신 메서드 [ 게스트 -> 호스트 ]
@@ -270,8 +331,8 @@ public class GameManager : MonoBehaviour
     // 유닛 이동 리시버 [ 게스트 -> 호스트, 호스트 -> 모든게스트 ]
     void OnReceiveUnitMove(Socket client, byte[] data)
     {
-        InGameUnitMovePacket packet = new InGameUnitMovePacket(data);
-        InGameUnitMoveData moveData = packet.GetData();
+        InGameUnitSetDestinationPacket packet = new InGameUnitSetDestinationPacket(data);
+        InGameUnitSetDestinationData moveData = packet.GetData();
         netManager.SendToAllGuest(client, packet);
     }
 

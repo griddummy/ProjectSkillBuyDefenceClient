@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-class UnitManager : MonoBehaviour
+class UnitManager
 {
     public const int maxPlayerNum = 5;
     public const int maxUnitNum = 100;
@@ -30,7 +30,7 @@ class UnitManager : MonoBehaviour
     public bool InsertSlot (GameObject unit) // 유닛을 배열에 넣는...
     {
         UnitProcess data = unit.GetComponent<UnitProcess>();
-        int index = FindEmptySlot(data.Info.UnitID); // 빈슬롯
+        int index = FindEmptySlot(data.Info.PlayerNumber); // 빈슬롯
 
         if (index != -1)
         {

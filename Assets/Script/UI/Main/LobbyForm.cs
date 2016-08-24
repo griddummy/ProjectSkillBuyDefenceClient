@@ -234,7 +234,7 @@ public class LobbyForm : UIForm {
         {   
             dialogMessage.Alert("방 만들기 실패");
             Debug.Log("방생성 - 실패");
-            dialogMessage.Close(false, 3f);
+            dialogMessage.Close(false, 1f);
         }
         else // 방 생성 성공
         {

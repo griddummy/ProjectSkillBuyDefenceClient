@@ -118,7 +118,7 @@ public class LoginForm : UIForm
                 Debug.Log("Fail 폼 체인징");
             }
             msgBox.Alert("접속 성공");
-            msgBox.Close(true, 3f);
+            msgBox.Close(true, 1f);
         }
         else
         {            
@@ -144,7 +144,7 @@ public class LoginForm : UIForm
             Debug.Log("ResultCreateID() - 가입 성공");
             dialogCreateId.Close(true);            
             msgBox.Alert("가입 성공");
-            msgBox.Close(true, 2f);
+            msgBox.Close(true, 1f);
         }
         else
         {
