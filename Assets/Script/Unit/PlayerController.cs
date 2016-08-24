@@ -153,11 +153,20 @@ public class PlayerController : MonoBehaviour
 	bool CheckSelectedUnit()
 	{
 		if (selectedUnit == null)
+		{
+			Debug.Log( "1" );
 			return false;
+		}
 		else if (selectedUnit.Info.PlayerNumber == playerNum)
+		{
+			Debug.Log( "2" );
 			return true;
+		}
 		else
+		{
+			Debug.Log( "3" );
 			return false;
+		}
 	}
 
 	void SkillCasting( int index )
