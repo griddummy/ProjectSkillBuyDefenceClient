@@ -9,6 +9,7 @@ public class UnitWeapon : MonoBehaviour
 
 	void Start()
 	{
+		unit = GetComponentInParent<UnitProcess>();
 		weapon = GetComponent<Collider>();
 		gameObject.layer = LayerMask.NameToLayer( "UnitWeapon" );
 	}

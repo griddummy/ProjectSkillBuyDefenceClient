@@ -7,14 +7,22 @@ public class PlayerController : MonoBehaviour
 	//simple data field
 	[SerializeField] bool modeAttack;
 	[SerializeField] bool modeSkill;
+	[SerializeField] int playerNum;
+	[SerializeField] int presentSkillIndex;
 
 	//complex data field
-	[SerializeField] int presentSkillIndex;
-	[SerializeField] UnitProcess player;
+	[SerializeField] GameManager manager;
+	[SerializeField] UnitProcess selectedUnit;
+	[SerializeField] UIControl mainUI;
+
+	//property
+	public UnitProcess SelectedUnit { get { return selectedUnit; } }
 
 	//initialize this script
 	void Start()
 	{
+		manager = GetComponent<GameManager>();
+		mainUI = GameObject.FindWithTag( "MainUI" ).GetComponent<UIControl>();
 		InitializeData();
 	}
 
@@ -29,24 +37,27 @@ public class PlayerController : MonoBehaviour
 				ProcessRightClick();			
 		}
 
-		if (Input.GetButtonDown( "CommandStop" ))
-			player.SetStop();
-		else if (Input.GetButtonDown( "CommandHold" ))
-			player.SetHold();
-		else if (Input.GetButtonDown( "CommandAttack" ))
-			modeAttack = true;
-		else if (Input.GetButtonDown( "Skill1" ))
-			SkillCasting( 0 );
-		else if (Input.GetButtonDown( "Skill2" ))
-			SkillCasting( 1 );
-		else if (Input.GetButtonDown( "Skill3" ))
-			SkillCasting( 2 );
-		else if (Input.GetButtonDown( "Skill4" ))
-			SkillCasting( 3 );
-		else if (Input.GetButtonDown( "Skill5" ))
-			SkillCasting( 4 );
-		else if (Input.GetButtonDown( "Skill6" ))
-			SkillCasting( 5 );	
+		if (CheckSelectedUnit())
+		{
+			if (Input.GetButtonDown( "CommandStop" ))
+				selectedUnit.SetStop();
+			else if (Input.GetButtonDown( "CommandHold" ))
+				selectedUnit.SetHold();
+			else if (Input.GetButtonDown( "CommandAttack" ))
+				modeAttack = true;
+			else if (Input.GetButtonDown( "Skill1" ))
+				SkillCasting( 0 );
+			else if (Input.GetButtonDown( "Skill2" ))
+				SkillCasting( 1 );
+			else if (Input.GetButtonDown( "Skill3" ))
+				SkillCasting( 2 );
+			else if (Input.GetButtonDown( "Skill4" ))
+				SkillCasting( 3 );
+			else if (Input.GetButtonDown( "Skill5" ))
+				SkillCasting( 4 );
+			else if (Input.GetButtonDown( "Skill6" ))
+				SkillCasting( 5 );	
+		}
 	}
 
 	void InitializeData()
@@ -58,37 +69,50 @@ public class PlayerController : MonoBehaviour
 
 	//click mouse left button
 	void ProcessLeftClick()
-	{
+	{		
 		Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
 		RaycastHit hitInfo;
 
 		// clickmode - attack , left click on enemy unit
-		if (modeAttack && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
+		if (CheckSelectedUnit() && modeAttack && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
 		{
-			player.SetAttackTarget( hitInfo.transform.gameObject );
+			selectedUnit.SetAttackTarget( hitInfo.transform.gameObject );
 			modeAttack = false;
 			return;
 		}
 		// clickmode - attack , left click on terrain point
-		else if (modeAttack && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
+		else if (CheckSelectedUnit() && modeAttack && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
 		{
-			player.SetAttackDestination( hitInfo.point );
+			selectedUnit.SetAttackDestination( hitInfo.point );
 			modeAttack = false;
 			return;
 		}
 		//clickmode - skill target set
-		else if (modeSkill && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
+		else if (CheckSelectedUnit() && modeSkill && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
 		{
-			player.ActiveSkill( presentSkillIndex, hitInfo.collider.gameObject );
+			selectedUnit.ActiveSkill( presentSkillIndex, hitInfo.collider.gameObject );
 			modeSkill = false;
 			return;
 		}
-		else if (modeSkill && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
+		else if (CheckSelectedUnit() && modeSkill && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
 		{
-			player.ActiveSkill( presentSkillIndex, hitInfo.point );
+			selectedUnit.ActiveSkill( presentSkillIndex, hitInfo.point );
 			modeSkill = false;
 			return;
 		}
+		else
+		{
+			int layer = 0;
+			layer = 1 << LayerMask.NameToLayer( "Player" );
+			layer |= 1 << LayerMask.NameToLayer( "Ally" );
+			layer |= 1 << LayerMask.NameToLayer( "Enemy" );
+			if (Physics.Raycast( ray, out hitInfo, Mathf.Infinity, layer ))
+			{
+				Debug.Log( hitInfo.collider );
+				selectedUnit = hitInfo.collider.gameObject.GetComponent <UnitProcess>();
+			}
+		}
+			
 	}
 
 	//click mouse right button
@@ -106,27 +130,37 @@ public class PlayerController : MonoBehaviour
 		RaycastHit hitInfo;
 
 		//right click on terrain point
-		if (Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
+		if (CheckSelectedUnit() && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Enemy" ) ))
 		{
-			player.SetAttackTarget( hitInfo.transform.gameObject );
+			selectedUnit.SetAttackTarget( hitInfo.transform.gameObject );
 			return;
 		}
 		//right click on enemy unit
-		else if (Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
+		else if (CheckSelectedUnit() && Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "Terrain" ) ))
 		{
-			player.SetDestination( hitInfo.point );		
+			selectedUnit.SetDestination( hitInfo.point );		
 			return;
 		}
 	}
 
+	bool CheckSelectedUnit()
+	{
+		if (selectedUnit == null)
+			return false;
+		else if (selectedUnit.Info.PlayerNumber == manager.PlayerNumber)
+			return true;
+		else
+			return false;
+	}
+
 	void SkillCasting( int index )
 	{
-		if (player.Info.ActiveSkillSet[index].OnTarget && !player.Info.OnSkill[index])
+		if (selectedUnit.Info.ActiveSkillSet[index].OnTarget && !selectedUnit.Info.OnSkill[index])
 		{
 			modeSkill = true;
 			presentSkillIndex = index;
 		}
 		else
-			player.ActiveSkill( index );		
+			selectedUnit.ActiveSkill( index );		
 	}
 }

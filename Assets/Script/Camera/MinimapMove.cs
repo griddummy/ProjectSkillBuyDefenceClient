@@ -20,19 +20,18 @@ public class MinimapMove : MonoBehaviour
 		if (!EventSystem.current.IsPointerOverGameObject())
 		{			
 			if (Input.GetButton( "LeftClick" ))
-				ProcessMiniMapMove();
+				ProcessMinimapMove();
 		}
 	}
 
-	public void ProcessMiniMapMove()
+	public void ProcessMinimapMove()
 	{
 		Ray ray = minimap.ScreenPointToRay( Input.mousePosition );
 		RaycastHit hitInfo;
 
-		if (
-			Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "MinimapBackGround" ) ))
+		if (Physics.Raycast( ray, out hitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer( "MinimapBackGround" ) ))
 		{
-			mainCamera.Position = new Vector3 ( hitInfo.point.x, Camera.main.transform.position.y, hitInfo.point.z - 6f );
+			mainCamera.Position = new Vector3 ( hitInfo.point.x, Camera.main.transform.position.y, hitInfo.point.z - 10f );
 		}
 	}
 }

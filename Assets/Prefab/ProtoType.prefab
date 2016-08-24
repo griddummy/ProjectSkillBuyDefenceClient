@@ -664,7 +664,6 @@ GameObject:
   - 54: {fileID: 5407256}
   - 136: {fileID: 13614818}
   - 195: {fileID: 19535442}
-  - 114: {fileID: 11496656}
   - 114: {fileID: 11422114}
   m_Layer: 8
   m_Name: ProtoType
@@ -2955,10 +2954,10 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 127392}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000016292068}
   m_LocalPosition: {x: 0, y: 0, z: 7.71}
   m_LocalScale: {x: 2, y: 2, z: 2}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -180, z: 0}
   m_Children:
   - {fileID: 440280}
   - {fileID: 459558}
@@ -4993,14 +4992,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac285cf82ef3e6c40a5bb06e975b34c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isMeleeAttack: 1
   playerRig: {fileID: 0}
   destination: {x: 0, y: 0, z: 0}
   presentState: 0
   info:
+    defaultID: 0
     unitID: 0
-    playerNum: 1
-    unitName: 
+    playerNum: 0
+    unitName: default
     level: 1
     presentExp: 0
     requireExp: 1000
@@ -5011,8 +5010,9 @@ MonoBehaviour:
     damage: 0
     moveSpeed: 5
     attackSpeed: 1
+    isMeleeAttack: 1
     attackRange: 0
-    searchRange: 3
+    searchRange: 5
     activeSkillSet:
     - id: 0
       name: 
@@ -5159,8 +5159,12 @@ MonoBehaviour:
         healAmount: 0
         target: []
     passiveSkillSet: []
-    onSkill: 0000000000000000
+    onSkill: 000000000000000000000000
     coolTime:
+    - 0
+    - 0
+    - 0
+    - 0
     - 0
     - 0
     - 0
@@ -5335,21 +5339,6 @@ MonoBehaviour:
   unit: {fileID: 11422114}
   weapon: {fileID: 0}
   temp: {fileID: 0}
---- !u!114 &11496656
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 127392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9cabb7f1dd467d4ea3f4949e5d08c9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  modeAttack: 0
-  modeSkill: 0
-  presentSkillIndex: 0
-  player: {fileID: 0}
 --- !u!136 &13614818
 CapsuleCollider:
   m_ObjectHideFlags: 1
