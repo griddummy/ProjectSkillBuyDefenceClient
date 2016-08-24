@@ -11,13 +11,24 @@ public class InGameUnitCastSkillPacket : IPacket<InGameUnitCastSkillData>
 
             ret &= Serialize(data.identity.unitOwner);
             ret &= Serialize(data.identity.unitId);
-            ret &= Serialize(data.skillId);
-            ret &= Serialize(data.skilllevel);
-            ret &= Serialize(data.castPosition.x);
-            ret &= Serialize(data.castPosition.y);
-            ret &= Serialize(data.castPosition.z);
-            ret &= Serialize(data.identityTarget.unitOwner);
-            ret &= Serialize(data.identityTarget.unitId);
+            ret &= Serialize(data.skillIndex);
+            ret &= Serialize((byte)data.type);            
+
+            if (data.type == Skill.Type.ActiveNonTarget) // 논타겟
+            {
+               
+            }
+            else if (data.type == Skill.Type.ActiveTarget) // 유닛 타겟 스킬
+            {
+                ret &= Serialize(data.identityTarget.unitOwner);
+                ret &= Serialize(data.identityTarget.unitId);
+            }
+            else if (data.type == Skill.Type.ActiveTargetArea) // 지역 타겟 스킬
+            {                
+                ret &= Serialize(data.destination.x);
+                ret &= Serialize(data.destination.y);
+                ret &= Serialize(data.destination.z);
+            }
 
             return ret;
         }
@@ -31,15 +42,29 @@ public class InGameUnitCastSkillPacket : IPacket<InGameUnitCastSkillData>
             }
 
             bool ret = true;
+            byte type = 0;
             ret &= Deserialize(ref element.identity.unitOwner);
             ret &= Deserialize(ref element.identity.unitId);
-            ret &= Deserialize(ref element.skillId);
-            ret &= Deserialize(ref element.skilllevel);
-            ret &= Deserialize(ref element.castPosition.x);
-            ret &= Deserialize(ref element.castPosition.y);
-            ret &= Deserialize(ref element.castPosition.z);
-            ret &= Deserialize(ref element.identityTarget.unitOwner);
-            ret &= Deserialize(ref element.identityTarget.unitId);
+            ret &= Deserialize(ref element.skillIndex);           
+            ret &= Deserialize(ref type);
+            element.type = (Skill.Type)type;
+            if (element.type == Skill.Type.ActiveNonTarget) // 논타겟
+            {
+
+            }
+            else if (element.type == Skill.Type.ActiveTarget) // 유닛 타겟 스킬
+            {
+                ret &= Deserialize(ref element.identityTarget.unitOwner);
+                ret &= Deserialize(ref element.identityTarget.unitId);
+            }
+            else if (element.type == Skill.Type.ActiveTargetArea) // 지역 타겟 스킬
+            {
+                ret &= Deserialize(ref element.destination.x);
+                ret &= Deserialize(ref element.destination.y);
+                ret &= Deserialize(ref element.destination.z);
+            }
+
+            
 
             return ret;
         }

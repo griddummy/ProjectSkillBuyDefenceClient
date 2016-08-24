@@ -93,6 +93,8 @@ public class UnitInformation
 
 	public UnitInformation (UnitInformation info)
 	{
+        unitID = info.unitID;
+        playerNum = info.playerNum;
 		unitName = info.unitName;
 		level = info.level;
 		presentExp = info.presentExp;
