@@ -346,8 +346,11 @@ public class GameManager : MonoBehaviour
         GameObject unitObj = Instantiate(Resources.Load<GameObject>("ProtoType1"), createUnitData.position, Quaternion.identity) as GameObject;
 
         // 유닛 타입 정보 얻기
-        UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
-        UnitLevelData unitLevelData = unitData.levelData[createUnitData.level];
+        //TODO : 데이터베이스에서 유닛 자료를 얻어야함.
+        //UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
+        //UnitLevelData unitLevelData = unitData.levelData[createUnitData.level];
+        UnitData unitData = new UnitData(0, "유니짜장", 5, 1, 0, 5);
+        UnitLevelData unitLevelData = new UnitLevelData(1, 10, 300, 200, 0);
 
         // 유닛 정보 초기화, 다른사람의 유닛은 UnitPlayer 스크립트를 붙인다.
         unitObj.AddComponent<UnitPlayer>().SetUp(new UnitInformation(createUnitData, unitData, unitLevelData), createUnitData.position);
