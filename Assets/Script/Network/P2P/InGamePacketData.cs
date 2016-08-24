@@ -3,12 +3,13 @@ using System.Collections;
 
 public enum InGamePacketID
 {
-    CreateUnit = 20,                 // 유닛 생성
-    UnitMove,                   // 유닛 이동 명령 
+    CreateUnit = 20,            // 유닛 생성
+    UnitSetDestination,         // 유닛 목적지 설정
     UnitImmediatelyMove,        // 유닛 즉시 이동
+    UnitSetTarget,              // 유닛 타겟 설정
     UnitAttack,                 // 유닛 공격
-    UnitCastSkill,              // 스킬 시전
 
+    UnitCastSkill,              // 스킬 시전
     UnitStop,                   // 정지
     UnitLevelUp,                // 레벨업
     UnitDamaged,                // 피해입음
@@ -18,7 +19,7 @@ public enum InGamePacketID
 public struct UnitIdentity // 유닛 정체성
 {
     public byte unitOwner;  // 유닛 주인
-    public int unitId;      // 인스턴스 유닛의 ID
+    public byte unitId;      // 인스턴스 유닛의 ID
 }
 
 public class InGameCreateUnitData // 유닛생성 데이터
@@ -29,10 +30,16 @@ public class InGameCreateUnitData // 유닛생성 데이터
     public byte level;            // 유닛 레벨
 }
 
-public class InGameUnitMoveData // 유닛 이동
+public class InGameUnitSetDestinationData // 유닛 목적지로 이동
 {
     public UnitIdentity identity;
     public Vector3 destination;        // 목적지
+}
+
+public class InGameUnitSetTargetData // 다른 유닛에게로 이동
+{
+    public UnitIdentity identitySource;
+    public UnitIdentity identityTarget;
 }
 
 public class InGameUnitImmediatlyMoveData // 유닛 즉시 이동
@@ -50,8 +57,8 @@ public class InGameUnitAttackData // 목표 공격
 public class InGameUnitCastSkillData // 스킬 시전
 {
     public UnitIdentity identity;
-    public int skillId;                    // 스킬 종류
-    public int skilllevel;                 // 스킬렙
+    public byte skillId;                    // 스킬 종류
+    public byte skilllevel;                 // 스킬렙
     public Vector3 castPosition;           // 스킬 사용위치
     public UnitIdentity identityTarget;    // 타겟 유닛
 }
@@ -64,7 +71,7 @@ public class InGameUnitStopData     // 유닛 스탑
 public class InGameUnitLevelUpData  // 레벨업
 {
     public UnitIdentity identity;
-    public int level;                 
+    public byte level;                 
 }
 
 public class InGameUnitDamagedData  // 유닛 피해 입음

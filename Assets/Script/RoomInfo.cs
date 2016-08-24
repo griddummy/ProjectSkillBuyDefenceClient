@@ -33,7 +33,6 @@ public class RoomInfo
             players[i] = null;
 
         AddGuest(hostInfo);
-        hostInfo.number = HostNumber;
         state = State.Wait;
 
         this.myType = myType;
@@ -80,14 +79,14 @@ public class RoomInfo
             return false;
         }
         players[number-1] = guestInfo;
-        guestInfo.number = number-1;
+        guestInfo.number = number;
         m_playerCount++;
         return true;
     }
 
     public void RemoveGuest(int number)
     {
-        if (number <= 1 || number >= MaxPlayer + 1)
+        if (number <= 0 || number - 1 >= MaxPlayer)
             return;
         if (players[number - 1] != null)
         {
@@ -111,7 +110,7 @@ public class RoomInfo
         number = new byte[m_playerCount];
         userName = new string[m_playerCount];
         int count = 0;
-        for(int i = 0; i < m_playerCount; i++)
+        for(int i = 0; i < MaxPlayer; i++)
         {
             if(players[i] != null)
             {
@@ -120,5 +119,18 @@ public class RoomInfo
                 count++;
             }
         }
+    }
+    public List<PlayerInfo> GetAllGuestInfo()
+    {
+        List<PlayerInfo> listResult = new List<PlayerInfo>();
+
+        for (int i = 0; i < MaxPlayer; i++)
+        {
+            if (players[i] != null)
+            {
+                listResult.Add(players[i]);
+            }
+        }
+        return listResult;
     }
 }

@@ -143,6 +143,7 @@ public class RoomForm : UIForm {
 
     public void OnClickStartGame()
     {
+        btnStart.gameObject.SetActive(false);
         btnExit.gameObject.SetActive(false);
         P2PGameStartCountPacket packetCount = new P2PGameStartCountPacket();
         netManger.SendToAllGuest(packetCount);
@@ -212,7 +213,10 @@ public class RoomForm : UIForm {
         sendData.result = (byte)P2PEnterRoomResultData.RESULT.Success; // 성공
         sendData.otherGuestCount = (byte)curRoomInfo.PlayerCount; // 이전 접속자 수
         curRoomInfo.GetAllGuestInfo(out sendData.ohterGuestNumber, out sendData.otherGuestID); //이전 접속자 정보
-        int newNumber = curRoomInfo.AddGuest(new PlayerInfo(resultData.userName)); // 게스트 추가
+        PlayerInfo playerInfo = new PlayerInfo(resultData.userName);
+        playerInfo.socket = client;
+        int newNumber = curRoomInfo.AddGuest(playerInfo); // 게스트 추가
+
         SetPlayerSlot(newNumber-1, resultData.userName); //슬롯에 표시
         sendData.myNumber = (byte)newNumber; // 게스트 인덱스 부여
 
