@@ -74,7 +74,7 @@ public class UIControl : MonoBehaviour
 			return false;
 		}
 		//input skilldata by unit skill
-		else if (presentUnit.Info.AddSkill( data ))
+		else if (presentUnit.AddSkill( data ))
 		{
 			//synchroize skill info unit & UIUnitSkill
 			unitSkills.UpdateSkillSlot( presentUnit, playerNum );
