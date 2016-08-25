@@ -276,6 +276,7 @@ public class GameManager : MonoBehaviour
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         InGameUnitSetDestinationPacket packet = new InGameUnitSetDestinationPacket(data);
         SendChangedData(packet);
+        Debug.Log("어택땅 전송 : player" + data.identity.unitOwner + " id" + unit.Info.UnitID);
     }
 
     public void UnitSetTarget(UnitProcess sourceUnit, GameObject targetUnit) // 목표 설정
@@ -297,6 +298,7 @@ public class GameManager : MonoBehaviour
             data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
             InGameUnitSetTargetPacket packet = new InGameUnitSetTargetPacket(data);
             SendChangedData(packet);
+            Debug.Log("목표설정 전송 : player" + sourceUnit.Info.PlayerNumber + " id" + sourceUnit.Info.UnitID);
         }
     }
 
@@ -309,6 +311,7 @@ public class GameManager : MonoBehaviour
         data.forward = unit.transform.forward;        
         InGameUnitImmediatelyMovePacket packet = new InGameUnitImmediatelyMovePacket(data);
         SendChangedData(packet);
+        Debug.Log("즉시이동 전송 : player" + unit.Info.PlayerNumber + " id" + unit.Info.UnitID);
     }
 
     public void UnitAttack(UnitProcess sourceUnit, GameObject targetUnit) // 자신의 유닛 공격
@@ -330,6 +333,7 @@ public class GameManager : MonoBehaviour
             data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
             InGameUnitAttackPacket packet = new InGameUnitAttackPacket(data);
             SendChangedData(packet);
+            //Debug.Log("공격 전송 : player" + sourceUnit.Info.PlayerNumber + " id" + sourceUnit.Info.UnitID);
         }
     }
 
@@ -343,6 +347,7 @@ public class GameManager : MonoBehaviour
         data.type = Skill.Type.ActiveNonTarget;
         InGameUnitCastSkillPacket packet = new InGameUnitCastSkillPacket(data);
         SendChangedData(packet);
+        Debug.Log("스킬 전송 : player" + unit.Info.PlayerNumber + " id" + unit.Info.UnitID + " skill"+ skillIndex);
     }
     public void UnitCastSkillTargetArea(UnitProcess unit, int skillIndex, Vector3 targetPosition)    // 스킬 시전
     {
@@ -355,6 +360,7 @@ public class GameManager : MonoBehaviour
         data.destination = targetPosition;
         InGameUnitCastSkillPacket packet = new InGameUnitCastSkillPacket(data);
         SendChangedData(packet);
+        Debug.Log("스킬 전송 : player" + unit.Info.PlayerNumber + " id" + unit.Info.UnitID + " skill" + skillIndex);
     }
     public void UnitCastSkillActiveTarget(UnitProcess unit, int skillIndex, GameObject targetUnit)    // 스킬 시전
     {
@@ -376,6 +382,7 @@ public class GameManager : MonoBehaviour
             data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
             InGameUnitCastSkillPacket packet = new InGameUnitCastSkillPacket(data);
             SendChangedData(packet);
+            Debug.Log("스킬 전송 : player" + unit.Info.PlayerNumber + " id" + unit.Info.UnitID + " skill" + skillIndex);
         }
     }
 
@@ -388,6 +395,7 @@ public class GameManager : MonoBehaviour
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         InGameUnitStopPacket packet = new InGameUnitStopPacket(data);
         SendChangedData(packet);
+        Debug.Log("스탑 전송 : player" + unit.Info.PlayerNumber + " id" + unit.Info.UnitID);
     }
 
     public void UnitLevelUp(UnitProcess unit, int level) // 레벨업
@@ -398,6 +406,7 @@ public class GameManager : MonoBehaviour
         data.level = (byte)level;
         InGameUnitLevelUpPacket packet = new InGameUnitLevelUpPacket(data);
         SendChangedData(packet);
+        Debug.Log("레벨업 전송 : player" + unit.Info.PlayerNumber + " id" + unit.Info.UnitID);
     }
 
     public void UnitDamaged(UnitProcess unit, float damage) // 피해입음
@@ -408,6 +417,7 @@ public class GameManager : MonoBehaviour
         data.damage = damage;
         InGameUnitDamagedPacket packet = new InGameUnitDamagedPacket(data);
         SendChangedData(packet);
+        Debug.Log("데미지드 전송 : player" + unit.Info.PlayerNumber + " id" + unit.Info.UnitID);
     }
 
     public void UnitDeath(UnitProcess unit) // 죽음
@@ -417,6 +427,7 @@ public class GameManager : MonoBehaviour
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         InGameUnitDeathPacket packet = new InGameUnitDeathPacket(data);
         SendChangedData(packet);
+        Debug.Log("죽음 전송 : player" + unit.Info.PlayerNumber + " id" + unit.Info.UnitID);
     }
 
     // 패킷을 전송할 대상을 정해 전송하는 메서드
@@ -431,6 +442,7 @@ public class GameManager : MonoBehaviour
             netManager.SendToHost(packet); // 호스트에게 보낸다.
         }
     }
+
     // 로딩 끝 패킷 수신 메서드 [ 게스트 -> 호스트 ]
     void OnReceiveLoadComplete(Socket client, byte[] data)
     {
@@ -583,6 +595,7 @@ public class GameManager : MonoBehaviour
 
         GameObject objTarget = unitManager.GetUnitObject(targetData.identityTarget.unitOwner, targetData.identityTarget.unitId);
         unit.SetAttackTarget(objTarget);
+        Debug.Log("OnReceive::목표 유닛 설정, " + unit.Info.PlayerNumber + " " + unit.Info.Name);
     }
 
     // 유닛 이동 리시버 [ 게스트 -> 호스트, 호스트 -> 모든게스트 ]
@@ -674,7 +687,7 @@ public class GameManager : MonoBehaviour
         GameObject obj = unitManager.GetUnitObject(posData.identity.unitOwner, posData.identity.unitId);
 
         obj.transform.position = posData.position;
-        //obj.transform.forward = posData.forward;
+        obj.transform.forward = posData.forward;
 
         if (curRoomInfo.isHost)
         {
