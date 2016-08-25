@@ -23,6 +23,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 496744}
+  - 65: {fileID: 6547512}
+  - 114: {fileID: 11462330}
   m_Layer: 0
   m_Name: Leg_F-R2
   m_TagString: Untagged
@@ -83,8 +85,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 414870}
-  - 65: {fileID: 6537054}
-  - 114: {fileID: 11400792}
   m_Layer: 0
   m_Name: Leg_F-R1
   m_TagString: Untagged
@@ -239,7 +239,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 179742}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_LocalPosition: {x: 7.61, y: 3.2895745e-18, z: 7.58}
+  m_LocalPosition: {x: 2.088409, y: 6.47128, z: -17.435902}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_Children:
@@ -456,18 +456,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &6537054
+--- !u!65 &6547512
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147840}
+  m_GameObject: {fileID: 113980}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 1.1, z: 0.6}
-  m_Center: {x: -0.02, y: -0.15, z: -0.03}
+  m_Size: {x: 0.84, y: 0.87, z: 1.8}
+  m_Center: {x: 0.1, y: 0.05, z: -0.6}
 --- !u!65 &6598962
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -497,12 +497,12 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11400792
+--- !u!114 &11462330
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 147840}
+  m_GameObject: {fileID: 113980}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dfcd5bf769a9a9243aa9862b7797382b, type: 3}

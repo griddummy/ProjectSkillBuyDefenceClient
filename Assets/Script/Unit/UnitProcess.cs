@@ -137,6 +137,11 @@ public class UnitProcess : MonoBehaviour
 		animator.speed = info.AttackSpeed;
 		animatorInfo = this.animator.GetCurrentAnimatorStateInfo( 0 );
 
+		if (animatorInfo.IsName( "Attack" ))
+			moveAgent.updatePosition = false;
+		else
+			moveAgent.updatePosition = true;
+
 		//aura move
 		for (int i = 0; i < auraEffect.Length; i++)
 			if (auraEffect[i] != null)
