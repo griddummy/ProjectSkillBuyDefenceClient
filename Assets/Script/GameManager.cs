@@ -171,9 +171,10 @@ public class GameManager : MonoBehaviour
         {
             return null; // Full unit
         }
+
         createUnitData.identity.unitId = (byte)unitId;
         // TODO : 데이터베이스에 프리팹의 경로가 있어야 할듯!
-        string unitName = dataBase.GetUnitData(createUnitData.unitType).unitName;
+        string unitName = "Prefab/" + dataBase.GetUnitData(createUnitData.unitType).unitName;
         GameObject unitObj = Instantiate(Resources.Load<GameObject>(unitName), createUnitData.position, Quaternion.identity) as GameObject;
 
         // 유닛 타입 정보 얻기
@@ -364,13 +365,12 @@ public class GameManager : MonoBehaviour
         InGameCreateUnitPacket packet = new InGameCreateUnitPacket(data);
         InGameCreateUnitData createUnitData = packet.GetData();
 
+        string unitName = "Prefab/" + dataBase.GetUnitData(createUnitData.unitType).unitName;
         // TODO : 데이터베이스에 프리팹의 경로가 있어야 할듯!
-        GameObject unitObj = Instantiate(Resources.Load<GameObject>("ProtoType1"), createUnitData.position, Quaternion.identity) as GameObject;
+        GameObject unitObj = Instantiate(Resources.Load<GameObject>(unitName), createUnitData.position, Quaternion.identity) as GameObject;
 
         // 유닛 타입 정보 얻기
         //TODO : 데이터베이스에서 유닛 자료를 얻어야함.
-        //UnitData unitData = new UnitData(0, "유니짜장", 5, 1, 0, 5);
-        //UnitLevelData unitLevelData = new UnitLevelData(1, 10, 300, 200, 0);
         UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
         UnitLevelData unitLevelData = dataBase.GetUnitLevelData(createUnitData.unitType, createUnitData.level);
 
@@ -565,6 +565,8 @@ public class GameManager : MonoBehaviour
     {
         if (stageIsOver)
         {
+            stageIsOver = false;
+
             monsters = stageManager.GetStageData(currentStageNum).Monsters;
 
             monsterNum = 0;
@@ -604,6 +606,7 @@ public class GameManager : MonoBehaviour
     IEnumerator CheckStageOver()
     {
         bool stop = false;
+        
         while (!stop)
         {
             yield return new WaitForSeconds(0.5f);            
@@ -618,7 +621,7 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     stageIsOver = true;
-                }               
+                }
             }
 
             Debug.Log(stageIsOver);
