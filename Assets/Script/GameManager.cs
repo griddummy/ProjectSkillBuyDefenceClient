@@ -173,13 +173,7 @@ public class GameManager : MonoBehaviour
         }
         createUnitData.identity.unitId = (byte)unitId;
         // TODO : 데이터베이스에 프리팹의 경로가 있어야 할듯!
-<<<<<<< HEAD
-
         string unitName = dataBase.GetUnitData(createUnitData.unitType).unitName;
-        Debug.Log(unitName);
-=======
-        string unitName = dataBase.GetUnitData(createUnitData.unitType).unitName;
->>>>>>> 7ee5bddbef726c96d6ff829058d70e54e29e5e2e
         GameObject unitObj = Instantiate(Resources.Load<GameObject>(unitName), createUnitData.position, Quaternion.identity) as GameObject;
 
         // 유닛 타입 정보 얻기
