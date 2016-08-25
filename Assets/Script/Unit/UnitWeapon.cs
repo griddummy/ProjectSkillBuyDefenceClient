@@ -22,7 +22,8 @@ public class UnitWeapon : MonoBehaviour
 
 	void OnTriggerEnter( Collider col )
 	{
-		if (col.gameObject.layer == LayerMask.NameToLayer( "Enemy" ))
+		if (( unit.gameObject.layer == LayerMask.NameToLayer( "Player" ) )
+		   && ( col.gameObject.layer == LayerMask.NameToLayer( "Enemy" ) ))
 		{
 			temp = col.gameObject.GetComponent<UnitProcess>();
 			temp.Damaged( unit.Info.Damage );
@@ -33,5 +34,7 @@ public class UnitWeapon : MonoBehaviour
 			temp = col.gameObject.GetComponent<UnitProcess>();
 			temp.Damaged( unit.Info.Damage );
 		}
+		Debug.Log( unit.gameObject );
+		Debug.Log( col.gameObject );
 	}
 }
