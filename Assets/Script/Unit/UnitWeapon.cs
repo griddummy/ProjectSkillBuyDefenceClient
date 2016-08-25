@@ -34,7 +34,5 @@ public class UnitWeapon : MonoBehaviour
 			temp = col.gameObject.GetComponent<UnitProcess>();
 			temp.Damaged( unit.Info.Damage );
 		}
-		Debug.Log( unit.gameObject );
-		Debug.Log( col.gameObject );
 	}
 }

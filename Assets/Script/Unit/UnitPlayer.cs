@@ -49,10 +49,17 @@ public class UnitPlayer : UnitProcess
 		animator.speed = info.AttackSpeed;
 		animatorInfo = this.animator.GetCurrentAnimatorStateInfo( 0 );
 
+		//aura move
+		for (int i = 0; i < auraEffect.Length; i++)
+			if (auraEffect[i] != null)
+				auraEffect[i].transform.position = transform.position + ( Vector3.up * 0.3f );
+
 		if (animatorInfo.IsName( "Attack" ))
 			moveAgent.updatePosition = false;
 		else
 			moveAgent.updatePosition = true;
+
+
 	}
 
 	//set player animation - use present state

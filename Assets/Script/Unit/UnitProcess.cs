@@ -6,7 +6,6 @@ using System.Collections.Generic;
 public class UnitProcess : MonoBehaviour
 {
 	//simple data field
-	[SerializeField] protected bool isAttack;
 	[SerializeField] protected Rigidbody playerRig;
 	[SerializeField] protected Vector3 destination;
 	[SerializeField] protected State presentState;
@@ -109,10 +108,6 @@ public class UnitProcess : MonoBehaviour
 				DieProcess();
 				break;
 		}
-
-		//send interpolate packet -> cycle set 
-		if (animatorInfo.IsName( "Run" ))
-			;
 	}
 
 	//set layer -> use player information
@@ -137,6 +132,11 @@ public class UnitProcess : MonoBehaviour
 		moveAgent.speed = info.MoveSpeed;
 		animator.speed = info.AttackSpeed;
 		animatorInfo = this.animator.GetCurrentAnimatorStateInfo( 0 );
+
+		if (animatorInfo.IsName( "Attack" ))
+			moveAgent.updatePosition = false;
+		else
+			moveAgent.updatePosition = true;
 
 		//aura move
 		for (int i = 0; i < auraEffect.Length; i++)
@@ -220,7 +220,7 @@ public class UnitProcess : MonoBehaviour
 	//chase and attack unitTarget
 	protected virtual void AttackProcess()
 	{
-		if (( unitTarget != null ) && ( !isAttack ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > 3f ))
+		if (( unitTarget != null ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > 3f ))
 		{
 			// Chase
 			if (animatorInfo.IsName( "Attack" ))
@@ -611,25 +611,6 @@ public class UnitProcess : MonoBehaviour
 	{
 		presentState = State.Idle;
 		destination = transform.position;
-	}
-
-	//use melee attack range check
-	public void OnCollisionEnter( Collision col )
-	{
-		if (( presentState == State.Attack || presentState == State.AttackMove ) && ( col.gameObject == unitTarget ))
-		{
-			isAttack = true;
-			moveAgent.updatePosition = false;
-		}
-	}
-
-	public void OnCollisionExit( Collision col )
-	{
-		if (( presentState == State.Attack || presentState == State.AttackMove ) && ( col.gameObject == unitTarget ))
-		{
-			isAttack = false;
-			moveAgent.updatePosition = true;
-		}
 	}
 
 	public bool AddSkill( Skill data )
