@@ -44,6 +44,8 @@ public class UnitPlayer : UnitProcess
 
 	protected override void PreProcess()
 	{
+		moveAgent.speed = info.MoveSpeed;
+		animator.speed = info.AttackSpeed;
 		animatorInfo = this.animator.GetCurrentAnimatorStateInfo( 0 );
 
 		if (animatorInfo.IsName( "Attack" ))
