@@ -173,15 +173,16 @@ public class GameManager : MonoBehaviour
         }
         createUnitData.identity.unitId = (byte)unitId;
         // TODO : 데이터베이스에 프리팹의 경로가 있어야 할듯!
+<<<<<<< HEAD
 
         string unitName = dataBase.GetUnitData(createUnitData.unitType).unitName;
         Debug.Log(unitName);
+=======
+        string unitName = dataBase.GetUnitData(createUnitData.unitType).unitName;
+>>>>>>> 7ee5bddbef726c96d6ff829058d70e54e29e5e2e
         GameObject unitObj = Instantiate(Resources.Load<GameObject>(unitName), createUnitData.position, Quaternion.identity) as GameObject;
 
         // 유닛 타입 정보 얻기
-        // UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
-        // UnitLevelData unitLevelData = unitData.levelData[createUnitData.level];
-
         UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
         UnitLevelData unitLevelData = dataBase.GetUnitLevelData(createUnitData.unitType, createUnitData.level);
 
@@ -589,18 +590,14 @@ public class GameManager : MonoBehaviour
                 {
                     for (int k = 0; k < monsters[j].number; k++)
                     {
-                        int unitId = unitManager.FindEmptySlot(AIPlayerNum);
+                        InGameCreateUnitData data = new InGameCreateUnitData();
 
-                        string monsterName = dataBase.GetUnitData(monsters[j].Id).unitName;
-                        GameObject monster = Instantiate(Resources.Load<GameObject>(monsterName), monsterSpawnPoint[i].transform.position, Quaternion.identity) as GameObject;
-                        monster.AddComponent<UnitPlayer>();
-                        
-                        UnitData unitData = dataBase.GetUnitData(monsters[j].Id);
-                        UnitLevelData unitLevelData = dataBase.GetUnitLevelData(monsters[j].Id, 1);
+                        data.level = 1;
+                        data.identity.unitOwner = AIPlayerNum;
+                        data.unitType = (byte) monsters[j].Id;
+                        data.position = monsterSpawnPoint[i].transform.position + Vector3.forward * j * 3 + Vector3.right * k * 3;
 
-                        monster.GetComponent<UnitPlayer>().SetUp(new UnitInformation(unitId, AIPlayerNum, unitData, unitLevelData));
-
-                        monsterChecker[monsterNum++] = monster;
+                        monsterChecker[monsterNum++] = UnitCreate(data);
                     }
                 }
             }
