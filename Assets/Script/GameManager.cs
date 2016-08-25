@@ -73,6 +73,7 @@ public class GameManager : MonoBehaviour
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop, OnReceiveUnitStop);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitAttack, OnReceiveUnitAttack);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitInterpolation, OnReceiveUnitInterpolation);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitAddSKill, OnReceiveUniAddSkill);
     }
 
     void OnDestroy()
@@ -91,6 +92,7 @@ public class GameManager : MonoBehaviour
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitAttack);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitInterpolation);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitAddSKill);
     }
 
     //initialize this script
@@ -175,7 +177,7 @@ public class GameManager : MonoBehaviour
             {
                 SendSyncMove(AIPlayerNum);
             }
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForSeconds(0.03f);
         }
     }
 
@@ -337,8 +339,29 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void UnitAddSkill(UnitProcess unit, int skillid)
+    {
+        UnitPlayer player = unit as UnitPlayer;
+        if(player == null)
+        {
+            InGameUnitAddSkillData data = new InGameUnitAddSkillData();
+            data.identity.unitId = (byte)unit.Info.UnitID;
+            data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
+            data.skillid = (byte)skillid;
+            InGameUnitAddSkillPacket packet = new InGameUnitAddSkillPacket(data);
+            SendChangedData(packet);
+        }
+    }
+
     public void UnitCastSkillActiveNonTarget(UnitProcess unit, int skillIndex)    // 스킬 시전
     {
+        if(unit.Info.PlayerNumber != playerNumber)
+        {
+            if(!( curRoomInfo.isHost && (unit.Info.PlayerNumber == AIPlayerNum)) )
+            {
+                return;
+            }
+        }
         InGameUnitCastSkillData data = new InGameUnitCastSkillData();
         data.currentPosition = unit.transform.position;
         data.forward = unit.transform.forward;
@@ -490,7 +513,22 @@ public class GameManager : MonoBehaviour
             netManager.SendToAllGuest(client, packet);
         }
     }
+    void OnReceiveUniAddSkill(Socket client, byte[] data)
+    {
+        InGameUnitAddSkillPacket packet = new InGameUnitAddSkillPacket(data);
+        InGameUnitAddSkillData addSkillData = packet.GetData();
 
+        GameObject obj = unitManager.GetUnitObject(addSkillData.identity.unitOwner, addSkillData.identity.unitId);
+        if(obj != null)
+        {
+            UnitPlayer unit = obj.GetComponent<UnitPlayer>();
+            unit.AddSkill(Database.Instance.FindSkillByID(addSkillData.skillid));
+        }
+
+        if (curRoomInfo.isHost)
+            netManager.SendToAllGuest(client, packet);
+
+    }
     // 스킬 사용 리시버 [ 게스트 -> 호스트, 호스트 -> 모든게스트 ]
     void OnReceiveUnitCastSkill(Socket client, byte[] data)
     {
@@ -507,7 +545,7 @@ public class GameManager : MonoBehaviour
         // 스킬 타입 알아내야함
         if (castSkillData.type == Skill.Type.ActiveNonTarget) // 논타겟 스킬
         {
-
+            
         }
         else if (castSkillData.type == Skill.Type.ActiveTarget) // 유닛 타겟 스킬
         {
@@ -518,6 +556,7 @@ public class GameManager : MonoBehaviour
         {
 
         }
+       
 
         if (curRoomInfo.isHost)
         {
@@ -668,7 +707,6 @@ public class GameManager : MonoBehaviour
         Debug.Log("OnReceive::유닛 멈춤, " + unit.Info.PlayerNumber + " " + unit.Info.Name);
         unit.ReceiveData(unit.transform.position, UnitProcess.AnimatorState.Idle);
 
-
         if (curRoomInfo.isHost)
         {
             netManager.SendToAllGuest(client, packet);
@@ -714,10 +752,15 @@ public class GameManager : MonoBehaviour
     {
         InGameUnitInterpolationPacket packet = new InGameUnitInterpolationPacket(data);
         InGameUnitInterpolationData posData = packet.GetData();
+
         GameObject obj = unitManager.GetUnitObject(posData.identity.unitOwner, posData.identity.unitId);
 
-        obj.transform.position = posData.position;
-        obj.transform.forward = posData.forward;
+        if(obj != null)
+        {
+            obj.transform.position = posData.position;
+            obj.transform.forward = posData.forward;
+        }
+        
 
         if (curRoomInfo.isHost)
         {

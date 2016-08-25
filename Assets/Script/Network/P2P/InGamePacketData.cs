@@ -9,12 +9,13 @@ public enum InGamePacketID
     UnitSetTarget,              // 유닛 타겟 설정
     UnitAttack,                 // 유닛 공격
         
+    UnitAddSKill,               // 스킬 추가
     UnitCastSkill,              // 스킬 시전
     UnitStop,                   // 정지
     UnitLevelUp,                // 레벨업
     UnitDamaged,                // 피해입음
-    UnitDeath,                   // 죽음
 
+    UnitDeath,                   // 죽음
     UnitInterpolation           // 유닛 보간 패킷 ( 위치, 회전값 )
 }
 
@@ -62,7 +63,11 @@ public class InGameUnitAttackData // 목표 공격
     public Vector3 currentPosition;             // 현재 위치
     public Vector3 forward;                     // 방향
 }
-
+public class InGameUnitAddSkillData
+{
+    public UnitIdentity identity;
+    public byte skillid;    
+}
 public class InGameUnitCastSkillData // 스킬 시전
 {
     public UnitIdentity identity;

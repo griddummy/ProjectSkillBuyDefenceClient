@@ -149,7 +149,7 @@ public class UnitProcess : MonoBehaviour
 	}
 
 	//check skill and process coolTime
-	protected void SkillProcess()
+	protected virtual void SkillProcess()
 	{
 		//check active skill cool Time
 		for (int i = 0; i < info.ActiveSkillSet.Length; i++)
@@ -624,7 +624,8 @@ public class UnitProcess : MonoBehaviour
 	{
 		if (info.AddSkill( data ))
 		{
-			//send packet
+            //send packet
+            manager.UnitAddSkill(this, data.ID);
 			return true;
 		}
 		else

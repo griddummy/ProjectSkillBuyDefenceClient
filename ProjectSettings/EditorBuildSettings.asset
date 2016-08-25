@@ -9,3 +9,5 @@ EditorBuildSettings:
     path: Assets/Scene/UITestScene.unity
   - enabled: 1
     path: Assets/Scene/SceneTestGame.unity
+  - enabled: 1
+    path: Assets/Scene/Stage1.unity
