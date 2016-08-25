@@ -93,8 +93,8 @@ public class UnitInformation
 
 	public UnitInformation (UnitInformation info)
 	{
-        unitID = info.unitID;
-        playerNum = info.playerNum;
+		unitID = info.unitID;
+		playerNum = info.playerNum;
 		unitName = info.unitName;
 		level = info.level;
 		presentExp = info.presentExp;
@@ -131,45 +131,45 @@ public class UnitInformation
 		SkillInitalize();
 	}
 
-    public UnitInformation(int _unitID, int _playerNum, UnitData unitData, UnitLevelData unitLevelData)
-    {
-        unitID = _unitID;
-        playerNum = _playerNum;
-        unitName = unitData.unitName;
-        level = unitLevelData.level;
-        presentExp = 0;
-        requireExp = unitLevelData.exp;
-        healthPoint = unitLevelData.hp;
-        presentHealthPoint = unitLevelData.hp;
-        manaPoint = unitLevelData.mp;
-        presentManaPoint = unitLevelData.mp;
-        moveSpeed = unitData.mvSpeed;
-        attackSpeed = unitData.atkSpeed;
-        attackRange = unitData.atkRange;
-        searchRange = unitData.searchRange;
+	public UnitInformation (int _unitID, int _playerNum, UnitData unitData, UnitLevelData unitLevelData)
+	{
+		unitID = _unitID;
+		playerNum = _playerNum;
+		unitName = unitData.unitName;
+		level = unitLevelData.level;
+		presentExp = 0;
+		requireExp = unitLevelData.exp;
+		healthPoint = unitLevelData.hp;
+		presentHealthPoint = unitLevelData.hp;
+		manaPoint = unitLevelData.mp;
+		presentManaPoint = unitLevelData.mp;
+		moveSpeed = unitData.mvSpeed;
+		attackSpeed = unitData.atkSpeed;
+		attackRange = unitData.atkRange;
+		searchRange = unitData.searchRange;
 
-        SkillInitalize();
-    }
+		SkillInitalize();
+	}
 
-    public UnitInformation(InGameCreateUnitData createData, UnitData unitData, UnitLevelData unitLevelData)
-    {
-        this.unitID = createData.identity.unitId;
-        this.playerNum = createData.identity.unitOwner;
-        this.unitName = unitData.unitName;
-        this.level = unitLevelData.level;
-        this.presentExp = 0;
-        this.requireExp = unitLevelData.exp;
-        this.healthPoint = unitLevelData.hp;
-        this.presentHealthPoint = unitLevelData.hp;
-        this.manaPoint = unitLevelData.mp;
-        this.presentManaPoint = unitLevelData.mp;
-        this.moveSpeed = unitData.mvSpeed;
-        this.attackSpeed = unitData.atkSpeed;
-        this.attackRange = unitData.atkRange;
-        this.searchRange = unitData.searchRange;
+	public UnitInformation (InGameCreateUnitData createData, UnitData unitData, UnitLevelData unitLevelData)
+	{
+		this.unitID = createData.identity.unitId;
+		this.playerNum = createData.identity.unitOwner;
+		this.unitName = unitData.unitName;
+		this.level = unitLevelData.level;
+		this.presentExp = 0;
+		this.requireExp = unitLevelData.exp;
+		this.healthPoint = unitLevelData.hp;
+		this.presentHealthPoint = unitLevelData.hp;
+		this.manaPoint = unitLevelData.mp;
+		this.presentManaPoint = unitLevelData.mp;
+		this.moveSpeed = unitData.mvSpeed;
+		this.attackSpeed = unitData.atkSpeed;
+		this.attackRange = unitData.atkRange;
+		this.searchRange = unitData.searchRange;
 
-        SkillInitalize();
-    }
+		SkillInitalize();
+	}
 
 	//create default use database
 	public UnitInformation (
@@ -273,23 +273,24 @@ public class UnitInformation
 		return false;	
 	}
 
-	public void ActiveSkillUse(int index, UnitProcess target, Vector3 targetArea)
+	public void ActiveSkillUse( int index, UnitProcess target, Vector3 targetArea )
 	{
 		if (activeSkillSet[index].SkillCost > presentManaPoint)
 			return;
 
+		Debug.Log( "activeSkill" );
 		presentManaPoint -= activeSkillSet[index].SkillCost;
 
 		switch (activeSkillSet[index].SkillType)
 		{
 			case Skill.Type.ActiveNonTarget:
-				activeSkillSet[index].UseSkill();
+				activeSkillSet[index].UseSkill(targetArea);
 				break;
 			case Skill.Type.ActiveTarget:
-				activeSkillSet[index].UseSkill(target);
+				activeSkillSet[index].UseSkill( target );
 				break;
 			case Skill.Type.ActiveTargetArea:
-				activeSkillSet[index].UseSkill(targetArea);
+				activeSkillSet[index].UseSkill( targetArea );
 				break;
 		}
 

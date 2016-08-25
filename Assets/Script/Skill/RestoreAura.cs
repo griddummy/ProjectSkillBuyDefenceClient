@@ -19,8 +19,6 @@ public class RestoreAura : Skill
 		onTarget = false;
 		skillType = Type.PassiveAura;
 		healAmount = 10;
-		skillBuff = new Buff ( id, name, Mathf.Infinity, skillRange, 0f, 0f, 0f, 0f, 0f, healAmount );
+		skillBuff = new Buff ( id, name, Mathf.Infinity, skillRange, 0f, 0f, 0f, 0f, 0f, healAmount, 0f );
 	}
 }
-
-

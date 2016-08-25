@@ -18,6 +18,7 @@ public class Buff
 	[SerializeField] float healthPoint;
 	[SerializeField] float manaPoint;
 	[SerializeField] float healAmount;
+	[SerializeField] float manaRegenAmount;
 	[SerializeField] Collider[] target;
 
 	//property
@@ -41,7 +42,8 @@ public class Buff
 		float _moveSpeed,
 		float _healthPoint,
 		float _manaPoint,
-		float _healAmount)
+		float _healAmount,
+		float _manaRegenAmount)
 	{
 		id = _id;
 		buffName = _buffName;
@@ -54,6 +56,7 @@ public class Buff
 		healthPoint = _healthPoint;
 		manaPoint = _manaPoint;
 		healAmount = _healAmount;
+		manaRegenAmount = _manaRegenAmount;
 	}
 
 	public Buff (Buff data)
@@ -69,6 +72,7 @@ public class Buff
 		healthPoint = data.healthPoint;
 		manaPoint = data.manaPoint;
 		healAmount = data.healAmount;
+		manaRegenAmount = data.manaRegenAmount;
 	}
 
 	//apply buff
@@ -84,14 +88,15 @@ public class Buff
 		if (buffRange != 0)
 		{
 			data.Info.PresentHealthPoint += healAmount * Time.deltaTime;
+			data.Info.PresentManaPoint += manaRegenAmount * Time.deltaTime;
 
 			int layer = 1 << LayerMask.NameToLayer( "player" );
 			layer |= 1 << LayerMask.NameToLayer( "Ally" );
 			target = Physics.OverlapSphere( data.transform.position, buffRange, layer );
 			for (int i = 0; i < target.Length; i++)
 			{			
-				Debug.Log( target[i] );	
 				target[i].gameObject.GetComponent<UnitProcess>().Info.PresentHealthPoint += healAmount * Time.deltaTime;
+				target[i].gameObject.GetComponent<UnitProcess>().Info.PresentManaPoint += manaRegenAmount * Time.deltaTime;
 			}
 		}
 

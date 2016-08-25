@@ -13,6 +13,7 @@ public class KaBoom : Skill
 		id = 0005;
 		name = "KaBoom";
 		damage = 1000;
+		skillCost = 50f;
 		skillBuyCost = 100;
 		level = 1;
 		skillRange = 12f;
