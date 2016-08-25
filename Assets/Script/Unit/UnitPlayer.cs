@@ -62,6 +62,25 @@ public class UnitPlayer : UnitProcess
 
 	}
 
+	protected override void SkillProcess()
+	{
+		//create aura effect 
+		for (int i = 0; i < info.PassiveSkillSet.Length; i++)
+		{
+			if (info.PassiveSkillSet[i].SkillType == Skill.Type.PassiveAura && !info.UnitBuffSet[i].Activate)
+			{
+				auraEffect[i] = (GameObject) Instantiate( Resources.Load<GameObject>( "SkillEffect/" + info.PassiveSkillSet[i].Name ), transform.position + ( Vector3.up * 0.3f ), new Quaternion ( 0f, 0f, 0f, 0f ) );
+			}
+		}
+
+		//process buff
+		for (int i = 0; i < info.UnitBuffSet.Length; i++)
+		{
+			if (info.UnitBuffSet[i].ID != 0)
+				info.UnitBuffSet[i].ActiveBuff( this );	
+		}
+	}
+
 	//set player animation - use present state
 	protected override void ActiveAnimator( AnimatorState present )
 	{

@@ -179,8 +179,6 @@ public class UnitProcess : MonoBehaviour
 			if (info.UnitBuffSet[i].ID != 0)
 				info.UnitBuffSet[i].ActiveBuff( this );	
 		}
-
-
 	}
 
 	//idle state process
@@ -412,14 +410,14 @@ public class UnitProcess : MonoBehaviour
 		}
 		else if (this.gameObject.layer == LayerMask.NameToLayer( "Enemy" ))
 		{
-			int layer = LayerMask.NameToLayer( "Player" );
-			layer |= LayerMask.NameToLayer( "Ally" );
+			int layer = 1 << LayerMask.NameToLayer( "Player" );
+			layer |= 1 << LayerMask.NameToLayer( "Ally" );
 
 			//make collider array -> enemy unitTarget in range
 			if (presentState != State.Hold)
-				enemy = Physics.OverlapSphere( transform.position, info.SearchRange, 1 << layer );
+				enemy = Physics.OverlapSphere( transform.position, info.SearchRange, layer );
 			else
-				enemy = Physics.OverlapSphere( transform.position, info.AttackRange, 1 << layer );
+				enemy = Physics.OverlapSphere( transform.position, info.AttackRange, layer );
 
 			//if no enemy -> return false
 			if (enemy.Length == 0)
