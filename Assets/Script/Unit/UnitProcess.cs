@@ -122,7 +122,7 @@ public class UnitProcess : MonoBehaviour
 
 		if (info.PlayerNumber == manager.PlayerNumber)
 			gameObject.layer = LayerMask.NameToLayer( "Player" );
-		else if (manager.CheckAlly[info.PlayerNumber])
+		else if (manager.CheckAlly[info.PlayerNumber-1])
 			gameObject.layer = LayerMask.NameToLayer( "Ally" );
 		else
 			gameObject.layer = LayerMask.NameToLayer( "Enemy" );
@@ -508,7 +508,7 @@ public class UnitProcess : MonoBehaviour
 	}
 
 	//set attack state & set attack unitTarget
-	public void SetAttackTarget( GameObject target )
+	public virtual void SetAttackTarget( GameObject target )
 	{
 		if (presentState != State.Die)
 		{
