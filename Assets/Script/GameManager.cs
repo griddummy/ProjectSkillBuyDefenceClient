@@ -159,8 +159,10 @@ public class GameManager : MonoBehaviour
         }
 
         // 유닛의 이동 동기
-        // 
-        StartCoroutine(SyncMoving());
+        if(curRoomInfo.PlayerCount > 1)
+        {
+            StartCoroutine(SyncMoving());
+        }        
     }
 
     IEnumerator SyncMoving()
@@ -173,7 +175,7 @@ public class GameManager : MonoBehaviour
             {
                 SendSyncMove(AIPlayerNum);
             }
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
@@ -282,12 +284,20 @@ public class GameManager : MonoBehaviour
         data.identitySource.unitId = (byte)sourceUnit.Info.UnitID;
         data.identitySource.unitOwner = (byte)sourceUnit.Info.PlayerNumber;
         data.currentPosition = sourceUnit.transform.position;
-        data.forward = sourceUnit.transform.forward;
+        data.forward = sourceUnit.transform.forward;        
+        
         UnitProcess target = targetUnit.GetComponent<UnitProcess>();
-        data.identityTarget.unitId = (byte)target.Info.UnitID;
-        data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
-        InGameUnitSetTargetPacket packet = new InGameUnitSetTargetPacket(data);
-        SendChangedData(packet);
+        if(target == null)
+        {
+            target = targetUnit.GetComponent<UnitPlayer>();            
+        }
+        if(target != null)
+        {
+            data.identityTarget.unitId = (byte)target.Info.UnitID;
+            data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
+            InGameUnitSetTargetPacket packet = new InGameUnitSetTargetPacket(data);
+            SendChangedData(packet);
+        }
     }
 
     public void UnitImmediateMove(UnitProcess unit, Vector3 position) // 해당지점으로 즉시 이동
