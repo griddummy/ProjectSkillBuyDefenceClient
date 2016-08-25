@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-class StageManager
+public class StageManager
 {
     private const int stageNum = 10;
-    List<Stage> stages;
+    public List<Stage> stages;
 
     public StageManager()
     {
@@ -56,7 +56,7 @@ class StageManager
     }
 }
 
-class Stage
+public class Stage
 {
     int stageNum;
     private int rewardGold;
