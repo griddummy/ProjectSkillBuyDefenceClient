@@ -13,6 +13,7 @@ public class LobbyForm : UIForm {
     public Button btnPopupCreateRoom;    
     public Button btnEnterRoom;    
     public Button btnLogout;
+    public Button btnRefresh;
     public GameObject viewScroll;
     
     private Dictionary<int,Room> listRoomInfo = new Dictionary<int,Room>();
@@ -97,6 +98,10 @@ public class LobbyForm : UIForm {
         if (curSelectedRoom == null)
             return;
         txtRoomInfo.text = curSelectedRoom.roomName;
+    }
+    private void OnClickRefresh()
+    {
+        RequestRoomList();
     }
     private void OnClickRoomNode(int number) // 리스트에서 방 클릭 시, 방선택 + 방정보 표시
     {

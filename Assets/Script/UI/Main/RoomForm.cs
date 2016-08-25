@@ -197,6 +197,7 @@ public class RoomForm : UIForm {
     {
         txtChatWindow.text += curRoomInfo.GetGuestInfo(index).playerName+ ":"+chat + "\n";        
     }
+
     private void AddChat(string chat)
     {
         txtChatWindow.text += chat + "\n";
