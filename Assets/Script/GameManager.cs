@@ -533,26 +533,28 @@ public class GameManager : MonoBehaviour
 
         GameObject obj = unitManager.GetUnitObject(damagedData.identity.unitOwner, damagedData.identity.unitId);
         
-        // TODO : 유닛 피해입음    
-        if (damagedData.identity.unitOwner == playerNumber)
+        if(obj != null)
         {
-            // 자기꺼라면
-           obj.GetComponent<UnitProcess>().SelfDamaged(damagedData.damage);
-        }
-        else
-        {
-            // 다른사람
-            UnitPlayer unit = obj.GetComponent<UnitPlayer>();
-            if(unit == null)
+            // TODO : 유닛 피해입음    
+            if (damagedData.identity.unitOwner == playerNumber)
             {
+                // 자기꺼라면
                 obj.GetComponent<UnitProcess>().SelfDamaged(damagedData.damage);
             }
             else
             {
-                unit.SelfDamaged(damagedData.damage);
+                // 다른사람
+                UnitPlayer unit = obj.GetComponent<UnitPlayer>();
+                if (unit == null)
+                {
+                    obj.GetComponent<UnitProcess>().SelfDamaged(damagedData.damage);
+                }
+                else
+                {
+                    unit.SelfDamaged(damagedData.damage);
+                }
             }
-        }        
-
+        }
 
         if (curRoomInfo.isHost)
             netManager.SendToAllGuest(client, packet);
@@ -683,21 +685,24 @@ public class GameManager : MonoBehaviour
         UnitPlayer unitSource = objSourceUnit.GetComponent<UnitPlayer>();
 
         GameObject objTargetUnit = unitManager.GetUnitObject(stopData.identityTarget.unitOwner, stopData.identityTarget.unitId);
-        if (stopData.identityTarget.unitOwner == playerNumber) // 목표가 내 유닛이면
+        if(objTargetUnit != null)
         {
-            UnitProcess unitMine = objTargetUnit.GetComponent<UnitPlayer>();
+            if (stopData.identityTarget.unitOwner == playerNumber) // 목표가 내 유닛이면
+            {
+                UnitProcess unitMine = objTargetUnit.GetComponent<UnitPlayer>();
 
-        }
-        else // 목표가 다른사람 유닛 이면
-        {
-            UnitPlayer unitTarget = objTargetUnit.GetComponent<UnitPlayer>();
-        }
+            }
+            else // 목표가 다른사람 유닛 이면
+            {
+                UnitPlayer unitTarget = objTargetUnit.GetComponent<UnitPlayer>();
+            }
 
-        unitSource.transform.position = stopData.currentPosition;
-        //unitSource.transform.forward = stopData.forward;
+            unitSource.transform.position = stopData.currentPosition;
+            //unitSource.transform.forward = stopData.forward;
 
-        //TODO : 목표유닛 공격
-        unitSource.ReceiveData(unitSource.transform.position, UnitProcess.AnimatorState.Attack);
+            //TODO : 목표유닛 공격
+            unitSource.ReceiveData(unitSource.transform.position, UnitProcess.AnimatorState.Attack);
+        }      
 
         if (curRoomInfo.isHost)
         {
@@ -736,8 +741,8 @@ public class GameManager : MonoBehaviour
 
             monsterChecker = new GameObject[curRoomInfo.PlayerCount * monsterNum];
             monsterNum = 0;
-
-            for (int i = 0; i < curRoomInfo.PlayerCount; i++)
+            int spawnPointCount = monsterSpawnPoint.Length;
+            for (int i = 0; i < spawnPointCount; i++)
             {
                 for (int j = 0; j < monsters.Count; j++)
                 {
