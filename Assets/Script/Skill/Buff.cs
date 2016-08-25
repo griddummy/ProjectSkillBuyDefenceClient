@@ -26,6 +26,8 @@ public class Buff
 
 	public int ID { get { return id; } }
 
+	public bool Activate { get { return onActivate; } }
+
 	public Buff ()
 	{
 		buffName = null;

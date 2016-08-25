@@ -20,6 +20,7 @@ public class UnitProcess : MonoBehaviour
 	[SerializeField] protected AnimatorStateInfo animatorInfo;
 	[SerializeField] protected NavMeshAgent moveAgent;
 	[SerializeField] protected GameManager manager;
+	[SerializeField] protected GameObject[] auraEffect;
 
 	public enum State
 	{
@@ -117,12 +118,14 @@ public class UnitProcess : MonoBehaviour
 	//set layer -> use player information
 	protected void DataInitialize()
 	{
-        if (info.PlayerNumber == manager.PlayerNumber)
+		if (info.PlayerNumber == manager.PlayerNumber)
 			gameObject.layer = LayerMask.NameToLayer( "Player" );
 		else if (manager.CheckAlly[info.PlayerNumber])
 			gameObject.layer = LayerMask.NameToLayer( "Ally" );
 		else
 			gameObject.layer = LayerMask.NameToLayer( "Enemy" );
+
+		auraEffect = new GameObject[6];
 
 		info.SkillInitalize();	
 	}
@@ -134,8 +137,14 @@ public class UnitProcess : MonoBehaviour
 		animator.speed = info.AttackSpeed;
 		animatorInfo = this.animator.GetCurrentAnimatorStateInfo( 0 );
 
+		//aura move
+		for (int i = 0; i < auraEffect.Length; i++)
+			if (auraEffect[i] != null)
+				auraEffect[i].transform.position = transform.position + ( Vector3.up * 0.3f );
+
 		if (info.PresentHealthPoint <= 0)
 			presentState = State.Die;
+		
 	}
 
 	//check skill and process coolTime
@@ -154,6 +163,14 @@ public class UnitProcess : MonoBehaviour
 				}
 			}
 		}
+		//create aura effect 
+		for (int i = 0; i < info.PassiveSkillSet.Length; i++)
+		{
+			if (info.PassiveSkillSet[i].SkillType == Skill.Type.PassiveAura && !info.UnitBuffSet[i].Activate)
+			{
+				auraEffect[i] = (GameObject) Instantiate( Resources.Load<GameObject>( "SkillEffect/" + info.PassiveSkillSet[i].Name ), transform.position + ( Vector3.up * 0.3f ), new Quaternion ( 0f, 0f, 0f, 0f ) );
+			}
+		}
 
 		//process buff
 		for (int i = 0; i < info.UnitBuffSet.Length; i++)
@@ -161,6 +178,8 @@ public class UnitProcess : MonoBehaviour
 			if (info.UnitBuffSet[i].ID != 0)
 				info.UnitBuffSet[i].ActiveBuff( this );	
 		}
+
+
 	}
 
 	//idle state process
@@ -200,7 +219,7 @@ public class UnitProcess : MonoBehaviour
 	//chase and attack unitTarget
 	protected virtual void AttackProcess()
 	{
-        if (( unitTarget != null ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > info.AttackRange + unitTarget.GetComponent<Collider>().transform.lossyScale.x) )
+		if (( unitTarget != null ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > info.AttackRange + unitTarget.GetComponent<Collider>().transform.lossyScale.x ))
 		{
 			// Chase
 			if (animatorInfo.IsName( "Attack" ))
@@ -209,7 +228,7 @@ public class UnitProcess : MonoBehaviour
 			transform.LookAt( unitTarget.transform );
 			ActiveAnimator( AnimatorState.Run );
 		}
-		else if (( unitTarget != null ) && ( ( Vector3.Distance( unitTarget.transform.position, transform.position ) <= info.AttackRange + unitTarget.GetComponent<Collider>().transform.lossyScale.x) ))
+		else if (( unitTarget != null ) && ( ( Vector3.Distance( unitTarget.transform.position, transform.position ) <= info.AttackRange + unitTarget.GetComponent<Collider>().transform.lossyScale.x ) ))
 		{
 			//Attack
 			if (!animatorInfo.IsName( "Attack" ))
@@ -567,14 +586,25 @@ public class UnitProcess : MonoBehaviour
 		}
 	}
 
+	public bool AddSkill(Skill data)
+	{
+		if (info.AddSkill( data ))
+		{
+			//send packet
+			return true;
+		}
+		else
+			return false;
+	}
+
 	public void SetUp( UnitInformation newInfo, Vector3 vec )
 	{
 		info = new UnitInformation ( newInfo );        
 		transform.position = vec;
 	}
 
-    public void SetUp(UnitInformation newInfo)
-    {
-        info = new UnitInformation(newInfo);
-    }
+	public void SetUp( UnitInformation newInfo )
+	{
+		info = new UnitInformation ( newInfo );
+	}
 }
