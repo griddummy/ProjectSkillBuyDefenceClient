@@ -21,6 +21,11 @@ public class UnitPlayer : UnitProcess
 	// Update is called once per frame
 	void Update()
 	{
+		if (unitTarget != null)
+		{
+			destination = unitTarget.transform.position;
+		}
+
 		if (isMove && ( Vector3.Distance( transform.position, destination ) >= 0.1f ))
 		{
 			transform.LookAt( destination );		
@@ -101,5 +106,10 @@ public class UnitPlayer : UnitProcess
 	{
 		info.PresentHealthPoint -= damage;
 		//send unit data
+	}
+
+	public override void SetAttackTarget(GameObject target)
+	{
+		unitTarget = target;
 	}
 }
