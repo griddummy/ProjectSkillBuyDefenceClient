@@ -179,23 +179,33 @@ public class GameManager : MonoBehaviour
     {
         LinkedList<GameObject> listUnit = unitManager.GetUnitList(number);
         InGameUnitInterpolationData data = new InGameUnitInterpolationData();
-        foreach (GameObject objUnit in listUnit)
+        LinkedListNode<GameObject> node = listUnit.First;
+        while(node != null)
         {
-            data.identity.unitOwner = (byte)number;
-            data.identity.unitId = (byte)objUnit.GetComponent<UnitProcess>().Info.UnitID;
-            data.forward = objUnit.transform.forward;
-            data.position = objUnit.transform.position;
-
-            // 패킷 만들어서 보내기
-            InGameUnitInterpolationPacket packet = new InGameUnitInterpolationPacket(data);
-            if (curRoomInfo.isHost)
+            var next = node.Next;
+            if (node.Value == null)
             {
-                netManager.SendToAllGuest(packet);
+                listUnit.Remove(node);
             }
             else
             {
-                netManager.SendToHost(packet);
+                data.identity.unitOwner = (byte)number;
+                data.identity.unitId = (byte)node.Value.GetComponent<UnitProcess>().Info.UnitID;
+                data.forward = node.Value.transform.forward;
+                data.position = node.Value.transform.position;
+
+                // 패킷 만들어서 보내기
+                InGameUnitInterpolationPacket packet = new InGameUnitInterpolationPacket(data);
+                if (curRoomInfo.isHost)
+                {
+                    netManager.SendToAllGuest(packet);
+                }
+                else
+                {
+                    netManager.SendToHost(packet);
+                }
             }
+            node = next;
         }
     }
     // 자신의 유닛(호스트일 경우 AI 유닛 포함)을 생성하고 메세지를 전송한다.
