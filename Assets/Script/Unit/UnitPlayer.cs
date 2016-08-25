@@ -36,6 +36,7 @@ public class UnitPlayer : UnitProcess
 		{
 			destination = transform.position;
 			moveAgent.ResetPath();
+			presentAnimatorState = AnimatorState.Idle;
 			isMove = false;
 		}
 
@@ -122,7 +123,7 @@ public class UnitPlayer : UnitProcess
 		//send unit data
 	}
 
-	public override void SetAttackTarget(GameObject target)
+	public override void SetAttackTarget( GameObject target )
 	{
 		unitTarget = target;
 	}

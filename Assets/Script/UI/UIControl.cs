@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class UIControl : MonoBehaviour
@@ -13,6 +14,7 @@ public class UIControl : MonoBehaviour
 	[SerializeField] UICommandButton commandButton;
 	[SerializeField] UIUnitSkillSlot unitSkills;
 	[SerializeField] UIBuySkillSlot buySkills;
+	[SerializeField] Text moneyText;
 
 	//complex data field -> temp data
 	[SerializeField] UISkillElement presentSelectSkill;
@@ -63,6 +65,8 @@ public class UIControl : MonoBehaviour
 			unitStatus.RestComponent();
 			unitSkills.UpdateDefault();
 		}
+
+		moneyText.text = " $ " + gold.ToString();
 	}
 
 	//skill buy process
@@ -82,10 +86,5 @@ public class UIControl : MonoBehaviour
 		}
 		else
 			return false;
-	}
-
-	public void UnitSkillSynchroize()
-	{
-		Debug.Log( "Synchroize Success" );
 	}
 }
