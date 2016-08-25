@@ -1134,7 +1134,7 @@ GameObject:
   - 136: {fileID: 13654444}
   - 195: {fileID: 19575836}
   m_Layer: 8
-  m_Name: PlayerCharacter
+  m_Name: UnityChan
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
