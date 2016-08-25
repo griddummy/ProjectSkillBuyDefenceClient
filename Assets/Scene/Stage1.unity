@@ -95,7 +95,7 @@ GameObject:
   - 4: {fileID: 4466082}
   m_Layer: 0
   m_Name: Player1 Stage
-  m_TagString: Untagged
+  m_TagString: PlayerSpawnPoint
   m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -413,7 +413,7 @@ GameObject:
   - 4: {fileID: 180451680}
   m_Layer: 0
   m_Name: MonsterSpawnPoint
-  m_TagString: Untagged
+  m_TagString: MonsterSpawnPoint
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1509,7 +1509,7 @@ GameObject:
   - 4: {fileID: 1026225630}
   m_Layer: 0
   m_Name: Player2 Stage
-  m_TagString: Untagged
+  m_TagString: PlayerSpawnPoint
   m_Icon: {fileID: -964228994112308473, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2132,7 +2132,7 @@ GameObject:
   - 4: {fileID: 1297002133}
   m_Layer: 0
   m_Name: 'Player4 Stage '
-  m_TagString: Untagged
+  m_TagString: PlayerSpawnPoint
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2525,7 +2525,7 @@ GameObject:
   - 4: {fileID: 1387175686}
   m_Layer: 0
   m_Name: Player3 Stage
-  m_TagString: Untagged
+  m_TagString: PlayerSpawnPoint
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3057,7 +3057,7 @@ GameObject:
   - 4: {fileID: 1497101977}
   m_Layer: 0
   m_Name: MonsterSpawnPoint
-  m_TagString: Untagged
+  m_TagString: MonsterSpawnPoint
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3847,7 +3847,7 @@ GameObject:
   - 4: {fileID: 1764639292}
   m_Layer: 0
   m_Name: MonsterSpawnPoint
-  m_TagString: Untagged
+  m_TagString: MonsterSpawnPoint
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4013,7 +4013,7 @@ GameObject:
   - 4: {fileID: 1958873639}
   m_Layer: 0
   m_Name: MonsterSpawnPoint
-  m_TagString: Untagged
+  m_TagString: MonsterSpawnPoint
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

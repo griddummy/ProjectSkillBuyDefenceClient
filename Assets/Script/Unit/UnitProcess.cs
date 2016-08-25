@@ -117,7 +117,9 @@ public class UnitProcess : MonoBehaviour
 	//set layer -> use player information
 	protected void DataInitialize()
 	{
-		if (info.PlayerNumber == manager.PlayerNumber)
+        Debug.Log(info.PlayerNumber);
+        Debug.Log(manager.PlayerNumber);
+        if (info.PlayerNumber == manager.PlayerNumber)
 			gameObject.layer = LayerMask.NameToLayer( "Player" );
 		else if (manager.CheckAlly[info.PlayerNumber])
 			gameObject.layer = LayerMask.NameToLayer( "Ally" );

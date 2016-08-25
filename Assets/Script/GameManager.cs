@@ -9,23 +9,34 @@ public class GameManager : MonoBehaviour
 {
     public enum State { Waiting, Playing, End } // 로딩 대기, 게임 중, 게임 끝
 
-	[SerializeField] int playerNumber;
-	[SerializeField] bool[] checkAlly;
-	[SerializeField] bool isAI;
+    [SerializeField] int playerNumber;
+    [SerializeField] bool[] checkAlly;
+    [SerializeField] bool isAI;
+    [SerializeField] int currentStageNum;
+    [SerializeField] bool stageIsOver = true;
+
     State gameState;                    // 현재 게임 상태
     MainManager mainManager;
     NetManager netManager;
     RoomInfo curRoomInfo;
-    //UnitDatabase unitDatabase;
+
     UnitManager unitManager;
     Database dataBase;
+
+    StageManager stageManager;
+    UIControl uiControl;
+    GameObject[] playerSpawnPoint;
+    GameObject[] monsterSpawnPoint;
+    GameObject[,] monsterChecker;
+    List<SpawnMonster> monsters;
+
     // Load 관련
     int LoadCompleteCount; // 몇명이나 로딩이 끝났는지
 
     //property
     public int PlayerNumber { get { return playerNumber; } }
 
-	public bool[] CheckAlly { get { return checkAlly; } }
+    public bool[] CheckAlly { get { return checkAlly; } }
 
     void Awake()
     {
@@ -34,9 +45,12 @@ public class GameManager : MonoBehaviour
         netManager = mainManager.netManager;
         curRoomInfo = mainManager.currentRoomInfo;
         playerNumber = curRoomInfo.myNumber;
-        //unitDatabase = new UnitDatabase("UnitData.data", FileMode.Open);
         dataBase = Database.Instance;
         unitManager = new UnitManager();
+        stageManager = new StageManager();
+        playerSpawnPoint = GameObject.FindGameObjectsWithTag("PlayerSpawnPoint");
+        monsterSpawnPoint = GameObject.FindGameObjectsWithTag("MonsterSpawnPoint");
+        currentStageNum = 1;
 
         // 초기 게임 상태 : 대기
         gameState = State.Waiting;
@@ -73,26 +87,26 @@ public class GameManager : MonoBehaviour
 
     //initialize this script
     void Start()
-	{        
-         StartCoroutine(GameLoading()); // 로딩 + 로딩완료검사
+    {
+        StartCoroutine(GameLoading()); // 로딩 + 로딩완료검사
     }
 
-    void InitializeData() 
-	{
+    void InitializeData()
+    {
         // 동맹 배열
-		checkAlly = new bool[8];
-    	//checkAlly[playerNumber-1] = true; // 자기 자신은 true;
+        checkAlly = new bool[8];
+        //checkAlly[playerNumber-1] = true; // 자기 자신은 true;
 
         // 플레이어는 전부 동맹
         List<PlayerInfo> listPlayer = curRoomInfo.GetAllGuestInfo();
-        for(int i = 0; i < listPlayer.Count; i++)
+        for (int i = 0; i < listPlayer.Count; i++)
         {
             checkAlly[listPlayer[i].number - 1] = true;
         }
 
         // 자신의 케릭터 생성하기
         InGameCreateUnitData data = new InGameCreateUnitData();
-        
+
         data.level = 1;
         data.identity.unitOwner = (byte)playerNumber;
         data.unitType = 1;
@@ -103,7 +117,7 @@ public class GameManager : MonoBehaviour
 
         UnitCreate(data); //  유닛 생성
     }
-    
+
     IEnumerator GameLoading() // 로딩 + 로딩완료 검사 루틴 - 호스트만 실행
     {
         yield return null; // 한 프레임 기다리기        
@@ -138,7 +152,7 @@ public class GameManager : MonoBehaviour
             // 게임 상태 변경 
             gameState = State.Playing; // 게임중
         }
-    }    
+    }
 
     // 자신의 유닛(호스트일 경우 AI 유닛 포함)을 생성하고 메세지를 전송한다.
     public GameObject UnitCreate(InGameCreateUnitData createUnitData)
@@ -146,7 +160,7 @@ public class GameManager : MonoBehaviour
         // 유닛 생성이 가능한지 물어봄
         int unitId = unitManager.FindEmptySlot(createUnitData.identity.unitOwner);
 
-        if(unitId < 0)
+        if (unitId < 0)
         {
             return null; // Full unit
         }
@@ -176,7 +190,7 @@ public class GameManager : MonoBehaviour
         return unitObj;
     }
 
-    public void UnitSetDestination (UnitProcess unit, Vector3 destination) // 목표지점 설정
+    public void UnitSetDestination(UnitProcess unit, Vector3 destination) // 목표지점 설정
     {
         /*
         if (playerNumber != unit.Info.PlayerNumber) // 자기유닛이 아니고
@@ -200,11 +214,11 @@ public class GameManager : MonoBehaviour
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         InGameUnitSetDestinationPacket packet = new InGameUnitSetDestinationPacket(data);
         SendChangedData(packet);
-    }    
+    }
 
     public void UnitSetTarget(UnitProcess sourceUnit, GameObject targetUnit) // 목표 설정
     {
-        InGameUnitSetTargetData data = new InGameUnitSetTargetData();        
+        InGameUnitSetTargetData data = new InGameUnitSetTargetData();
         data.identitySource.unitId = (byte)sourceUnit.Info.UnitID;
         data.identitySource.unitOwner = (byte)sourceUnit.Info.PlayerNumber;
         UnitProcess target = targetUnit.GetComponent<UnitProcess>();
@@ -246,7 +260,7 @@ public class GameManager : MonoBehaviour
         SendChangedData(packet);
     }
     public void UnitCastSkillTargetArea(UnitProcess unit, int skillIndex, Vector3 targetPosition)    // 스킬 시전
-    {        
+    {
         InGameUnitCastSkillData data = new InGameUnitCastSkillData();
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
@@ -304,8 +318,8 @@ public class GameManager : MonoBehaviour
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         InGameUnitDeathPacket packet = new InGameUnitDeathPacket(data);
-        SendChangedData(packet);        
-    }    
+        SendChangedData(packet);
+    }
 
     // 패킷을 전송할 대상을 정해 전송하는 메서드
     void SendChangedData<T>(IPacket<T> packet)
@@ -357,7 +371,7 @@ public class GameManager : MonoBehaviour
 
         // 유닛 매니져에 유닛 등록
         unitManager.InsertSlot(unitObj, createUnitData.identity.unitId);
-        
+
         // 자신이 호스트라면
         if (curRoomInfo.isHost)
         {
@@ -380,9 +394,9 @@ public class GameManager : MonoBehaviour
         unit.ReceiveData(unit.transform.position, UnitProcess.AnimatorState.Casting);
 
         // 스킬 타입 알아내야함
-        if(castSkillData.type == Skill.Type.ActiveNonTarget) // 논타겟 스킬
+        if (castSkillData.type == Skill.Type.ActiveNonTarget) // 논타겟 스킬
         {
-            
+
         }
         else if (castSkillData.type == Skill.Type.ActiveTarget) // 유닛 타겟 스킬
         {
@@ -397,7 +411,7 @@ public class GameManager : MonoBehaviour
         if (curRoomInfo.isHost)
         {
             netManager.SendToAllGuest(client, packet);
-        }            
+        }
     }
 
     // 유닛 피해 리시버 [ 게스트 -> 호스트, 호스트 -> 모든게스트 ]
@@ -418,11 +432,11 @@ public class GameManager : MonoBehaviour
         {
             // 다른사람
             UnitPlayer unit = obj.GetComponent<UnitPlayer>();
-            
-        }
-            
 
-        
+        }
+
+
+
 
         if (curRoomInfo.isHost)
             netManager.SendToAllGuest(client, packet);
@@ -532,6 +546,63 @@ public class GameManager : MonoBehaviour
         if (curRoomInfo.isHost)
         {
             netManager.SendToAllGuest(client, packet);
+        }
+    }
+
+    //스테이지 시작
+    public void StageStart()
+    {
+        if (stageIsOver)
+        {
+            monsters = stageManager.GetStageData(currentStageNum).Monsters;
+            int monsterNum = monsters.Count;
+
+            monsterChecker = new GameObject[curRoomInfo.PlayerCount, monsterNum];
+
+            for (int i = 0; i < curRoomInfo.PlayerCount; i++)
+            {
+                for (int j = 0; j < monsters.Count; j++)
+                {
+                    string monsterName = dataBase.GetUnitData(monsters[i].Id).unitName;
+                    Debug.Log(monsterName);
+                    GameObject monster = Instantiate(Resources.Load<GameObject>(monsterName), monsterSpawnPoint[i].transform.position, Quaternion.identity) as GameObject;
+                    monster.AddComponent<UnitPlayer>();
+                    monsterChecker[i, j] = monster;
+                }
+            }
+
+            StartCoroutine(CheckStageOver());
+        }
+    }
+
+    //몬스터가 다 죽었는지 체크
+    IEnumerator CheckStageOver()
+    {
+        yield return new WaitForSeconds(0.5f);
+
+        for (int i = 0; i < monsterSpawnPoint.Length; i++)
+        {
+            for (int j = 0; j < monsters.Count; j++)
+            {
+                if (monsterChecker[i, j] != null)
+                {
+                    stageIsOver = false;
+                    yield return null;
+                }
+                else
+                {
+                    stageIsOver = true;
+                }
+            }
+        }
+
+        if (stageIsOver)
+        {
+            int rewardGold = stageManager.GetStageData(currentStageNum).RewardGold;
+            GameObject.FindGameObjectWithTag("MainUI").GetComponent<UIControl>().Gold += rewardGold;
+            currentStageNum++;
+            stageIsOver = false;
+            StopCoroutine(CheckStageOver());
         }
     }
 }
