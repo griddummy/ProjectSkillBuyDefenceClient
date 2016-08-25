@@ -113,6 +113,9 @@ public class UnitPlayer : UnitProcess
 		presentAnimatorState = stateData;
 		moveAgent.SetDestination( destination );
 		isMove = true;
+
+		if (stateData == AnimatorState.Die)
+			Destroy( this.gameObject, 3f );
 	}
 
 	//receive data -> interpolate position
@@ -127,9 +130,9 @@ public class UnitPlayer : UnitProcess
 	public override void Damaged( float damage )
 	{
 		info.PresentHealthPoint -= damage;
-        //send unit data
-        manager.UnitDamaged(this, damage);
-    }   
+		//send unit data
+		manager.UnitDamaged( this, damage );
+	}
 
 	public override void SetAttackTarget( GameObject target )
 	{
