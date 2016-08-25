@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InGameUnitImmediatelyMovePacket : IPacket<InGameUnitImmediatlyMoveData>
+public class InGameUnitImmediatelyMovePacket : IPacket<InGameUnitImmediatelyMoveData>
 {
     public class InGameUnitMoveSerializer : Serializer
     {
-        public bool Serialize(InGameUnitImmediatlyMoveData data)
+        public bool Serialize(InGameUnitImmediatelyMoveData data)
         {
             bool ret = true;
             ret &= Serialize(data.identity.unitOwner);
@@ -13,11 +13,14 @@ public class InGameUnitImmediatelyMovePacket : IPacket<InGameUnitImmediatlyMoveD
             ret &= Serialize(data.destination.x);
             ret &= Serialize(data.destination.y);
             ret &= Serialize(data.destination.z);
+            ret &= Serialize(data.forward.x);
+            ret &= Serialize(data.forward.y);
+            ret &= Serialize(data.forward.z); 
 
             return ret;
         }
 
-        public bool Deserialize(ref InGameUnitImmediatlyMoveData element)
+        public bool Deserialize(ref InGameUnitImmediatelyMoveData element)
         {
             if (GetDataSize() == 0)
             {
@@ -32,13 +35,16 @@ public class InGameUnitImmediatelyMovePacket : IPacket<InGameUnitImmediatlyMoveD
             ret &= Deserialize(ref element.destination.x);
             ret &= Deserialize(ref element.destination.y);
             ret &= Deserialize(ref element.destination.z);
+            ret &= Deserialize(ref element.forward.x);
+            ret &= Deserialize(ref element.forward.y);
+            ret &= Deserialize(ref element.forward.z);
 
             return ret;
         }
     }
-    InGameUnitImmediatlyMoveData m_data;
+    InGameUnitImmediatelyMoveData m_data;
 
-    public InGameUnitImmediatelyMovePacket(InGameUnitImmediatlyMoveData data) // 데이터로 초기화(송신용)
+    public InGameUnitImmediatelyMovePacket(InGameUnitImmediatelyMoveData data) // 데이터로 초기화(송신용)
     {
         m_data = data;
     }
@@ -47,7 +53,7 @@ public class InGameUnitImmediatelyMovePacket : IPacket<InGameUnitImmediatlyMoveD
     {
         InGameUnitMoveSerializer serializer = new InGameUnitMoveSerializer();
         serializer.SetDeserializedData(data);
-        m_data = new InGameUnitImmediatlyMoveData();
+        m_data = new InGameUnitImmediatelyMoveData();
         serializer.Deserialize(ref m_data);
     }
 
@@ -58,7 +64,7 @@ public class InGameUnitImmediatelyMovePacket : IPacket<InGameUnitImmediatlyMoveD
         return serializer.GetSerializedData();
     }
 
-    public InGameUnitImmediatlyMoveData GetData() // 데이터 얻기(수신용)
+    public InGameUnitImmediatelyMoveData GetData() // 데이터 얻기(수신용)
     {
         return m_data;
     }

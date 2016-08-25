@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public const int AIPlayerNum = 5;
     public enum State { Waiting, Playing, End } // 로딩 대기, 게임 중, 게임 끝
 
+
     [SerializeField] int playerNumber;
     [SerializeField] bool[] checkAlly;
     [SerializeField] bool isAI;
@@ -18,8 +19,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] int monsterNum;
 
     State gameState;                    // 현재 게임 상태
-    MainManager mainManager;
-    NetManager netManager;
+    MainManager mainManager;            // 메인메니져, 로그인정보, 방정보를 얻을 수 있음
+    NetManager netManager;              // 네트워크 메니져
+
     RoomInfo curRoomInfo;
 
     UnitManager unitManager;
@@ -70,6 +72,7 @@ public class GameManager : MonoBehaviour
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitImmediatelyMove, OnReceiveUnitImmediatelyMove);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop, OnReceiveUnitStop);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitAttack, OnReceiveUnitAttack);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitInterpolation, OnReceiveUnitInterpolation);
     }
 
     void OnDestroy()
@@ -86,6 +89,7 @@ public class GameManager : MonoBehaviour
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitImmediatelyMove);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitAttack);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitInterpolation);
     }
 
     //initialize this script
@@ -169,7 +173,10 @@ public class GameManager : MonoBehaviour
         }
         createUnitData.identity.unitId = (byte)unitId;
         // TODO : 데이터베이스에 프리팹의 경로가 있어야 할듯!
-        GameObject unitObj = Instantiate(Resources.Load<GameObject>("Prefab/PlayerCharacter"), createUnitData.position, Quaternion.identity) as GameObject;
+
+        string unitName = dataBase.GetUnitData(createUnitData.unitType).unitName;
+        Debug.Log(unitName);
+        GameObject unitObj = Instantiate(Resources.Load<GameObject>(unitName), createUnitData.position, Quaternion.identity) as GameObject;
 
         // 유닛 타입 정보 얻기
         // UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
@@ -179,6 +186,7 @@ public class GameManager : MonoBehaviour
         UnitLevelData unitLevelData = dataBase.GetUnitLevelData(createUnitData.unitType, createUnitData.level);
 
         Debug.Log("나의 플레이어 번호 : " + createUnitData.identity.unitOwner);
+        
         // 유닛 정보 초기화, 자신의 유닛은 UnitProcess를 붙인다.
         unitObj.AddComponent<UnitProcess>().SetUp(new UnitInformation(createUnitData, unitData, unitLevelData), createUnitData.position);
 
@@ -235,7 +243,7 @@ public class GameManager : MonoBehaviour
 
     public void UnitImmediateMove(UnitProcess unit, Vector3 position) // 해당지점으로 즉시 이동
     {
-        InGameUnitImmediatlyMoveData data = new InGameUnitImmediatlyMoveData();
+        InGameUnitImmediatelyMoveData data = new InGameUnitImmediatelyMoveData();
         data.destination = position;
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
@@ -366,10 +374,10 @@ public class GameManager : MonoBehaviour
 
         // 유닛 타입 정보 얻기
         //TODO : 데이터베이스에서 유닛 자료를 얻어야함.
-        //UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
-        //UnitLevelData unitLevelData = unitData.levelData[createUnitData.level];
-        UnitData unitData = new UnitData(0, "유니짜장", 5, 1, 0, 5);
-        UnitLevelData unitLevelData = new UnitLevelData(1, 10, 300, 200, 0);
+        //UnitData unitData = new UnitData(0, "유니짜장", 5, 1, 0, 5);
+        //UnitLevelData unitLevelData = new UnitLevelData(1, 10, 300, 200, 0);
+        UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
+        UnitLevelData unitLevelData = dataBase.GetUnitLevelData(createUnitData.unitType, createUnitData.level);
 
         // 유닛 정보 초기화, 다른사람의 유닛은 UnitPlayer 스크립트를 붙인다.
         unitObj.AddComponent<UnitPlayer>().SetUp(new UnitInformation(createUnitData, unitData, unitLevelData), createUnitData.position);
@@ -431,17 +439,15 @@ public class GameManager : MonoBehaviour
         if (damagedData.identity.unitOwner == playerNumber)
         {
             // 자기꺼라면
-
+           // obj.GetComponent<UnitProcess>().Damaged(damagedData.damage);
         }
         else
         {
             // 다른사람
             UnitPlayer unit = obj.GetComponent<UnitPlayer>();
 
-        }
 
-
-
+        }        
 
         if (curRoomInfo.isHost)
             netManager.SendToAllGuest(client, packet);
@@ -501,7 +507,7 @@ public class GameManager : MonoBehaviour
     void OnReceiveUnitImmediatelyMove(Socket client, byte[] data)
     {
         InGameUnitImmediatelyMovePacket packet = new InGameUnitImmediatelyMovePacket(data);
-        InGameUnitImmediatlyMoveData moveData = packet.GetData();
+        InGameUnitImmediatelyMoveData moveData = packet.GetData();
 
         GameObject obj = unitManager.GetUnitObject(moveData.identity.unitOwner, moveData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
@@ -552,6 +558,11 @@ public class GameManager : MonoBehaviour
         {
             netManager.SendToAllGuest(client, packet);
         }
+    }
+
+    void OnReceiveUnitInterpolation(Socket client, byte[] data)
+    {
+
     }
 
     //스테이지 시작

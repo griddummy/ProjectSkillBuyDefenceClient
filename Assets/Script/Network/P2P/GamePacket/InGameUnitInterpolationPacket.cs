@@ -1,31 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InGameUnitStopPacket : IPacket<InGameUnitStopData>
+public class InGameUnitInterpolationPacket : IPacket<InGameUnitInterpolationData>
 {
-    public class InGameUnitStopSerializer : Serializer
+    public class InGameUnitInterpolationSerializer : Serializer
     {
-        public bool Serialize(InGameUnitStopData data)
+        public bool Serialize(InGameUnitInterpolationData data)
         {
             bool ret = true;
-
             ret &= Serialize(data.identity.unitOwner);
             ret &= Serialize(data.identity.unitId);
-
-            ret &= Serialize(data.currentPosition.x);
-            ret &= Serialize(data.currentPosition.y);
-            ret &= Serialize(data.currentPosition.z);
-
+            ret &= Serialize(data.position.x);
+            ret &= Serialize(data.position.y);
+            ret &= Serialize(data.position.z);
             ret &= Serialize(data.forward.x);
             ret &= Serialize(data.forward.y);
             ret &= Serialize(data.forward.z);
 
-
-
             return ret;
         }
 
-        public bool Deserialize(ref InGameUnitStopData element)
+        public bool Deserialize(ref InGameUnitInterpolationData element)
         {
             if (GetDataSize() == 0)
             {
@@ -37,46 +32,45 @@ public class InGameUnitStopPacket : IPacket<InGameUnitStopData>
 
             ret &= Deserialize(ref element.identity.unitOwner);
             ret &= Deserialize(ref element.identity.unitId);
-
-            ret &= Deserialize(ref element.currentPosition.x);
-            ret &= Deserialize(ref element.currentPosition.y);
-            ret &= Deserialize(ref element.currentPosition.z);
-
+            ret &= Deserialize(ref element.position.x);
+            ret &= Deserialize(ref element.position.y);
+            ret &= Deserialize(ref element.position.z);
             ret &= Deserialize(ref element.forward.x);
             ret &= Deserialize(ref element.forward.y);
             ret &= Deserialize(ref element.forward.z);
+
             return ret;
         }
     }
-    InGameUnitStopData m_data;
+    InGameUnitInterpolationData m_data;
 
-    public InGameUnitStopPacket(InGameUnitStopData data)
+    public InGameUnitInterpolationPacket(InGameUnitInterpolationData data) // 데이터로 초기화(송신용)
     {
         m_data = data;
     }
 
-    public InGameUnitStopPacket(byte[] data) // 패킷을 데이터로 변환(수신용)
+    public InGameUnitInterpolationPacket(byte[] data) // 패킷을 데이터로 변환(수신용)
     {
-        InGameUnitStopSerializer serializer = new InGameUnitStopSerializer();
+        InGameUnitInterpolationSerializer serializer = new InGameUnitInterpolationSerializer();
         serializer.SetDeserializedData(data);
-        m_data = new InGameUnitStopData();
+        m_data = new InGameUnitInterpolationData();
         serializer.Deserialize(ref m_data);
     }
 
     public byte[] GetPacketData() // 바이트형 패킷(송신용)
     {
-        InGameUnitStopSerializer serializer = new InGameUnitStopSerializer();
+        InGameUnitInterpolationSerializer serializer = new InGameUnitInterpolationSerializer();
         serializer.Serialize(m_data);
         return serializer.GetSerializedData();
     }
 
-    public InGameUnitStopData GetData()
+    public InGameUnitInterpolationData GetData() // 데이터 얻기(수신용)
     {
         return m_data;
     }
 
     public int GetPacketId()
     {
-        return (int)InGamePacketID.UnitStop;
+        return (int)InGamePacketID.UnitInterpolation;
     }
 }

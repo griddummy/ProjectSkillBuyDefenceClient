@@ -55,7 +55,7 @@ public class RoomForm : UIForm {
                 SetPlayerSlot(number[i]-1, userName[i]);
             }
         }
-        dialogMessage.Close(true,1f);
+        dialogMessage.Close(true,0.5f);
         corCheckChatEnter = StartCoroutine(CheckChatEnter());
     }
 

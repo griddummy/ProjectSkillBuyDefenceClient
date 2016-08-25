@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 
 public class LoginForm : UIForm
 {
-
     public InputField inputID;
     public InputField inputPassword;
     public Button btnLogin;

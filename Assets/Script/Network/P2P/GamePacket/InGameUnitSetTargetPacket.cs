@@ -10,8 +10,18 @@ public class InGameUnitSetTargetPacket : IPacket<InGameUnitSetTargetData>
             bool ret = true;
             ret &= Serialize(data.identitySource.unitOwner);
             ret &= Serialize(data.identitySource.unitId);
+
             ret &= Serialize(data.identityTarget.unitOwner);
             ret &= Serialize(data.identityTarget.unitId);
+
+            ret &= Serialize(data.currentPosition.x);
+            ret &= Serialize(data.currentPosition.y);
+            ret &= Serialize(data.currentPosition.z);
+
+            ret &= Serialize(data.forward.x);
+            ret &= Serialize(data.forward.y);
+            ret &= Serialize(data.forward.z);
+
 
             return ret;
         }
@@ -28,8 +38,17 @@ public class InGameUnitSetTargetPacket : IPacket<InGameUnitSetTargetData>
 
             ret &= Deserialize(ref element.identitySource.unitOwner);
             ret &= Deserialize(ref element.identitySource.unitId);
+
             ret &= Deserialize(ref element.identityTarget.unitOwner);
             ret &= Deserialize(ref element.identityTarget.unitId);
+
+            ret &= Deserialize(ref element.currentPosition.x);
+            ret &= Deserialize(ref element.currentPosition.y);
+            ret &= Deserialize(ref element.currentPosition.z);
+
+            ret &= Deserialize(ref element.forward.x);
+            ret &= Deserialize(ref element.forward.y);
+            ret &= Deserialize(ref element.forward.z);
 
             return ret;
         }

@@ -13,7 +13,15 @@ public class InGameUnitSetDestinationPacket : IPacket<InGameUnitSetDestinationDa
             ret &= Serialize(data.destination.x);
             ret &= Serialize(data.destination.y);
             ret &= Serialize(data.destination.z);
-            
+            ret &= Serialize(data.currentPosition.x);
+            ret &= Serialize(data.currentPosition.y);
+            ret &= Serialize(data.currentPosition.z);
+            ret &= Serialize(data.forward.x);
+            ret &= Serialize(data.forward.y);
+            ret &= Serialize(data.forward.z);
+
+
+
             return ret;
         }
 
@@ -32,6 +40,12 @@ public class InGameUnitSetDestinationPacket : IPacket<InGameUnitSetDestinationDa
             ret &= Deserialize(ref element.destination.x);
             ret &= Deserialize(ref element.destination.y);
             ret &= Deserialize(ref element.destination.z);
+            ret &= Deserialize(ref element.currentPosition.x);
+            ret &= Deserialize(ref element.currentPosition.y);
+            ret &= Deserialize(ref element.currentPosition.z);
+            ret &= Deserialize(ref element.forward.x);
+            ret &= Deserialize(ref element.forward.y);
+            ret &= Deserialize(ref element.forward.z);
 
             return ret;
         }

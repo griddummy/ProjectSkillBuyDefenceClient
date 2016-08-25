@@ -11,6 +11,16 @@ public class InGameUnitCastSkillPacket : IPacket<InGameUnitCastSkillData>
 
             ret &= Serialize(data.identity.unitOwner);
             ret &= Serialize(data.identity.unitId);
+
+            ret &= Serialize(data.currentPosition.x);
+            ret &= Serialize(data.currentPosition.y);
+            ret &= Serialize(data.currentPosition.z);
+
+            ret &= Serialize(data.forward.x);
+            ret &= Serialize(data.forward.y);
+            ret &= Serialize(data.forward.z);
+
+
             ret &= Serialize(data.skillIndex);
             ret &= Serialize((byte)data.type);            
 
@@ -45,6 +55,15 @@ public class InGameUnitCastSkillPacket : IPacket<InGameUnitCastSkillData>
             byte type = 0;
             ret &= Deserialize(ref element.identity.unitOwner);
             ret &= Deserialize(ref element.identity.unitId);
+
+            ret &= Deserialize(ref element.currentPosition.x);
+            ret &= Deserialize(ref element.currentPosition.y);
+            ret &= Deserialize(ref element.currentPosition.z);
+
+            ret &= Deserialize(ref element.forward.x);
+            ret &= Deserialize(ref element.forward.y);
+            ret &= Deserialize(ref element.forward.z);
+
             ret &= Deserialize(ref element.skillIndex);           
             ret &= Deserialize(ref type);
             element.type = (Skill.Type)type;

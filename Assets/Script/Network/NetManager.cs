@@ -23,14 +23,14 @@ public class NetManager : MonoBehaviour {
 
     byte[] m_sendBuffer;
     byte[] m_recvBuffer;
-    const int BufferSize = 1024;
+    const int BufferSize = 2048;
 
     public delegate void RecvNotifier(Socket sock, byte[] data); // 누가, 어떤 데이타를 보냇는지    
     private Dictionary<int, RecvNotifier> m_notiServer = new Dictionary<int, RecvNotifier>();
     private Dictionary<int, RecvNotifier> m_notiP2P = new Dictionary<int, RecvNotifier>();
 
     public delegate void OnDisconnectGuest(Socket sock); // 클라이언트 끊어짐
-
+    
     public string GameServerIP;
     public int GameServerPort = 9800;
     
@@ -152,7 +152,7 @@ public class NetManager : MonoBehaviour {
     }
     private void OnReceivedPacketFromGuest(Socket socket, byte[] msg, int size) // 게스트들에게 받는
     {
-        Debug.Log("OnReceivedPacketFromGuest::" + socket.RemoteEndPoint.ToString() + " " + msg.Length);
+        //Debug.Log("OnReceivedPacketFromGuest::" + socket.RemoteEndPoint.ToString() + " " + msg.Length);
         m_recvQueueFromGuest.Enqueue(msg, size);
         lock (m_objLockGuestPacketQueue)
         {
@@ -174,7 +174,7 @@ public class NetManager : MonoBehaviour {
 
         header.length = (short)packetData.Length; // 패킷 데이터의 길이를 헤더에 입력
         header.id = (byte)packet.GetPacketId(); // 패킷 데이터에서 ID를 가져와 헤더에 입력
-        Debug.Log("패킷 전송 - id : " + header.id.ToString() + " length :" + header.length);
+        //Debug.Log("패킷 전송 - id : " + header.id.ToString() + " length :" + header.length);
         byte[] headerData = null;
         if (serializer.Serialize(header) == false)
         {
@@ -198,7 +198,7 @@ public class NetManager : MonoBehaviour {
         byte[] data = CreatePacket(packet);
         if (data == null)
             return 0;
-        Debug.Log("SendToHost()::소켓에 패킷 Send" + data.Length);
+        //Debug.Log("SendToHost()::소켓에 패킷 Send" + data.Length);
         sendSize = m_guest.Send(data, data.Length);
         return sendSize;
     }
@@ -289,7 +289,7 @@ public class NetManager : MonoBehaviour {
             outData = null;
             return false;
         }
-        Debug.Log("받은 패킷 - id : " + header.id + " dataLength : " + packetData.Length);
+        //Debug.Log("받은 패킷 - id : " + header.id + " dataLength : " + packetData.Length);
         id = header.id;
         outData = packetData;
         return true;
@@ -301,11 +301,11 @@ public class NetManager : MonoBehaviour {
         getPacketData(data, out packetId, out packetData);
         try
         {
-            Debug.Log("ReceivePacket::" + sock.RemoteEndPoint.ToString() + "패킷id:" + packetId + " 길이:" + data.Length);
+            //Debug.Log("ReceivePacket::" + sock.RemoteEndPoint.ToString() + "패킷id:" + packetId + " 길이:" + data.Length);
         }
         catch
         {
-            Debug.Log("ReceivePacket::" + "패킷id:" + packetId + " 길이:" + data.Length);
+            //Debug.Log("ReceivePacket::" + "패킷id:" + packetId + " 길이:" + data.Length);
         }
         
         RecvNotifier recvNoti;
@@ -315,7 +315,7 @@ public class NetManager : MonoBehaviour {
         }
         else
         {
-            Debug.Log("NetManager::ReceivePacket() - 존재하지 않는 타입 패킷 :"+ packetId);
+            Debug.Log("NetManager::ReceivePacket() - 존재하지 않는 타입 패킷 :"+ packetId + " " + sock.RemoteEndPoint.ToString());
         }        
     }
 }

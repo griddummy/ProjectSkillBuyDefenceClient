@@ -88,7 +88,7 @@ GameObject:
   - 136: {fileID: 13691060}
   - 195: {fileID: 19560480}
   m_Layer: 8
-  m_Name: ProtoType1
+  m_Name: UnityChan
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3588,7 +3588,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 142480}
-  m_LocalRotation: {x: -0.093746535, y: 0.6978551, z: 0.707469, w: 0.060806755}
+  m_LocalRotation: {x: -0.09374654, y: 0.6978552, z: 0.70746905, w: 0.06080676}
   m_LocalPosition: {x: -0.05543403, y: 0.0017306843, z: 0.098653734}
   m_LocalScale: {x: 1.0000004, y: 1.0000006, z: 1.0000005}
   m_LocalEulerAnglesHint: {x: -87.2193, y: -80.0055, z: -112.54649}
