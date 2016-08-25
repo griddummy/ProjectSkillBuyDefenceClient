@@ -73,6 +73,10 @@ public class NetManager : MonoBehaviour {
         Receive(m_recvQueueFromHost, m_guest.socket, m_notiP2P);
         ReceiveFromGuest();
     }   
+    void LastUpdata()
+    {
+
+    }
     void OnApplicationQuit()
     {
         Debug.Log("NetManager::AllSocketClose");

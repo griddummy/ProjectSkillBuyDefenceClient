@@ -24,11 +24,11 @@ public class TcpClient
 
     public Socket socket
     {
-        get { return m_clientSock;  }
+        get { return m_clientSock; }
     }
     public TcpClient()
     {
-        
+
         asyncReceiveCallback = new AsyncCallback(HandleAsyncReceive);
     }
 
@@ -39,13 +39,13 @@ public class TcpClient
     }
 
     public bool Connect()
-    {        
-        if(m_clientSock != null)
+    {
+        if (m_clientSock != null)
         {
             if (m_clientSock.Connected)
                 return false;
         }
-        
+
 
         // connect server
         try
@@ -53,8 +53,8 @@ public class TcpClient
             m_clientSock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             m_clientSock.Connect(new IPEndPoint(IPAddress.Parse(m_strIP), m_port));
         }
-        catch(SocketException e)
-        {            
+        catch (SocketException e)
+        {
             Debug.Log("TCPClient::Connect() : Connect Fail" + (int)e.SocketErrorCode);
             return false;
         }
@@ -63,11 +63,13 @@ public class TcpClient
         AsyncData asyncData = new AsyncData();
         asyncData.clientSock = m_clientSock;
 
-        try {
+        try
+        {
             m_clientSock.BeginReceive(asyncData.msg, 0, AsyncData.msgMaxLength, SocketFlags.None, asyncReceiveCallback, asyncData);
-            
+
         }
-        catch {
+        catch
+        {
             Debug.Log("TCPClient::Connect() : BeginReceive 예외 발생");
             DisConnect();
             return false;
@@ -97,26 +99,28 @@ public class TcpClient
     {
         AsyncData asyncData = (AsyncData)asyncResult.AsyncState;
         Socket clientSock = asyncData.clientSock;
-        
+
         try
         {
-            asyncData.msgLength = clientSock.EndReceive(asyncResult);                               
+            asyncData.msgLength = clientSock.EndReceive(asyncResult);
         }
         catch
         {
             Debug.Log("TCPClient::HandleAsyncReceive() : EndReceive - 예외 " + m_clientSock.RemoteEndPoint.ToString());
             DisConnect();
             return;
-        }        
+        }
         if (OnReceived != null)
         {
             OnReceived(asyncData.msg, asyncData.msgLength);
-        }        
+        }
 
-        try {
+        try
+        {
             clientSock.BeginReceive(asyncData.msg, 0, AsyncData.msgMaxLength, SocketFlags.None, asyncReceiveCallback, asyncData);
         }
-        catch {
+        catch
+        {
             Debug.Log("TCPClient::HandleAsyncReceive() : BeginReceive - 예외");
             DisConnect();
         }
@@ -124,13 +128,13 @@ public class TcpClient
 
     public int Send(byte[] data, int size)
     {
-        if(!m_clientSock.Connected)
+        if (!m_clientSock.Connected)
         {
             Debug.Log("Send() : Send - 소켓이 연결되지 않음");
             return -1;
         }
         try
-        {            
+        {
             return m_clientSock.Send(data, size, SocketFlags.None);
         }
         catch
@@ -139,4 +143,18 @@ public class TcpClient
         }
         return -1;
     }
+    /*
+    private void HandleDataSend(IAsyncResult asyncResult)
+    {
+        AsyncData asyncData = (AsyncData)asyncResult.AsyncState;
+        try
+        {
+            asyncData.msgLength = m_clientSock.EndSend(asyncResult);
+        }
+        catch
+        {
+            Debug.Log("Send() - 예외");
+            return;
+        }
+    }*/
 }
