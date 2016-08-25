@@ -71,10 +71,9 @@ public class UnitProcess : MonoBehaviour
 	{
 		playerRig = GetComponent<Rigidbody>();
 		destination = transform.position;
-		presentState = State.Hold;
+		presentState = State.Idle;
 		animator = GetComponent<Animator>();
 		moveAgent = GetComponent<NavMeshAgent>();
-		info.SkillInitalize();
 		manager = FindObjectOfType<GameManager>();
 		DataInitialize();
 	}
@@ -118,6 +117,9 @@ public class UnitProcess : MonoBehaviour
 	//set layer -> use player information
 	protected void DataInitialize()
 	{
+		info.SkillInitalize();
+		info.SetDefaultMelee();
+
 		if (info.PlayerNumber == manager.PlayerNumber)
 			gameObject.layer = LayerMask.NameToLayer( "Player" );
 		else if (manager.CheckAlly[info.PlayerNumber])
@@ -126,8 +128,6 @@ public class UnitProcess : MonoBehaviour
 			gameObject.layer = LayerMask.NameToLayer( "Enemy" );
 
 		auraEffect = new GameObject[6];
-
-		info.SkillInitalize();	
 	}
 
 	//synchronization nav mesh data
@@ -188,7 +188,7 @@ public class UnitProcess : MonoBehaviour
 	{
 		ActiveAnimator( AnimatorState.Idle );
 
-		if (FindunitTarget())
+		if (FindUnitTarget())
 			presentState = State.Attack;
 		else
 			return;
@@ -219,7 +219,7 @@ public class UnitProcess : MonoBehaviour
 	//chase and attack unitTarget
 	protected virtual void AttackProcess()
 	{
-		if (( unitTarget != null ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > info.AttackRange + unitTarget.GetComponent<Collider>().transform.lossyScale.x ))
+		if (( unitTarget != null ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > 3f ))
 		{
 			// Chase
 			if (animatorInfo.IsName( "Attack" ))
@@ -228,7 +228,7 @@ public class UnitProcess : MonoBehaviour
 			transform.LookAt( unitTarget.transform );
 			ActiveAnimator( AnimatorState.Run );
 		}
-		else if (( unitTarget != null ) && ( ( Vector3.Distance( unitTarget.transform.position, transform.position ) <= info.AttackRange + unitTarget.GetComponent<Collider>().transform.lossyScale.x ) ))
+		else if (( unitTarget != null ) && ( ( Vector3.Distance( unitTarget.transform.position, transform.position ) <= 3f ) ))
 		{
 			//Attack
 			if (!animatorInfo.IsName( "Attack" ))
@@ -247,7 +247,7 @@ public class UnitProcess : MonoBehaviour
 			
 			// find unitTarget -> no unitTarget state idle
 			// -> reset unitTarget
-			if (FindunitTarget())
+			if (FindUnitTarget())
 			{
 				return;
 			}
@@ -273,7 +273,7 @@ public class UnitProcess : MonoBehaviour
 	//no unitTarget -> move destination
 	protected void AttackMoveProcess()
 	{
-		if (( unitTarget == null ) && !FindunitTarget() && !animatorInfo.IsName( "Attack" ))
+		if (( unitTarget == null ) && !FindUnitTarget() && !animatorInfo.IsName( "Attack" ))
 		{
 			moveAgent.SetDestination( destination );
 			MoveProcess();
@@ -290,7 +290,7 @@ public class UnitProcess : MonoBehaviour
 		if (!animatorInfo.IsName( "Attack" ))
 			animator.Play( "Idle" );
 
-		if (( unitTarget == null ) && !FindunitTarget())
+		if (( unitTarget == null ) && !FindUnitTarget())
 			ActiveAnimator( AnimatorState.Idle );
 		else if (Vector3.Distance( unitTarget.transform.position, transform.position ) > info.AttackRange)
 		{
@@ -378,34 +378,69 @@ public class UnitProcess : MonoBehaviour
 	//use process
 
 	//find enemy unitTarget
-	protected bool FindunitTarget()
+	protected bool FindUnitTarget()
 	{
-		//make collider array -> enemy unitTarget in range
-		if (presentState != State.Hold)
-			enemy = Physics.OverlapSphere( transform.position, info.SearchRange, 1 << LayerMask.NameToLayer( "Enemy" ) );
-		else
-			enemy = Physics.OverlapSphere( transform.position, info.AttackRange, 1 << LayerMask.NameToLayer( "Enemy" ) );
-
-		//if no enemy -> return false
-		if (enemy.Length == 0)
-			return false;
-		else
+		if (this.gameObject.layer == LayerMask.NameToLayer( "Player" ))
 		{
-			//find shortest distance unitTarget
-			for (int i = 0; i < enemy.Length; i++)
+			//make collider array -> enemy unitTarget in range
+			if (presentState != State.Hold)
+				enemy = Physics.OverlapSphere( transform.position, info.SearchRange, 1 << LayerMask.NameToLayer( "Enemy" ) );
+			else
+				enemy = Physics.OverlapSphere( transform.position, info.AttackRange, 1 << LayerMask.NameToLayer( "Enemy" ) );
+
+			//if no enemy -> return false
+			if (enemy.Length == 0)
+				return false;
+			else
 			{
-				if (( ( i == 0 ) || ( Vector3.Distance( enemy[i].transform.position, transform.position ) <= Vector3.Distance( unitTarget.transform.position, transform.position ) ) )
-				    && ( enemy[i].gameObject.layer == LayerMask.NameToLayer( "Enemy" ) ))
+				//find shortest distance unitTarget
+				for (int i = 0; i < enemy.Length; i++)
 				{
-					unitTarget = enemy[i].gameObject;
-					//send unit set target
-					manager.UnitSetTarget( this, unitTarget );
-					break;
-				}					
-			}
+					if (( ( i == 0 ) || ( Vector3.Distance( enemy[i].transform.position, transform.position ) <= Vector3.Distance( unitTarget.transform.position, transform.position ) ) )
+					    && ( enemy[i].gameObject.layer == LayerMask.NameToLayer( "Enemy" ) ))
+					{
+						unitTarget = enemy[i].gameObject;
+						//send unit set target
+						manager.UnitSetTarget( this, unitTarget );
+						break;
+					}					
+				}
 			
-			return true;		
+				return true;		
+			}
 		}
+		else if (this.gameObject.layer == LayerMask.NameToLayer( "Enemy" ))
+		{
+			//make collider array -> enemy unitTarget in range
+			if (presentState != State.Hold)
+				enemy = Physics.OverlapSphere( transform.position, info.SearchRange, 1 << LayerMask.NameToLayer( "Player" ) );
+			else
+				enemy = Physics.OverlapSphere( transform.position, info.AttackRange, 1 << LayerMask.NameToLayer( "Player" ) );
+
+			//if no enemy -> return false
+			if (enemy.Length == 0)
+				return false;
+			else
+			{
+				//find shortest distance unitTarget
+				for (int i = 0; i < enemy.Length; i++)
+				{
+					if (( ( i == 0 ) || ( Vector3.Distance( enemy[i].transform.position, transform.position ) <= Vector3.Distance( unitTarget.transform.position, transform.position ) ) )
+					    && ( enemy[i].gameObject.layer == LayerMask.NameToLayer( "Player" ) ))
+					{
+						unitTarget = enemy[i].gameObject;
+						//send unit set target
+						manager.UnitSetTarget( this, unitTarget );
+						break;
+					}					
+				}
+
+				return true;		
+			}
+		}
+		else
+			return true;
+			
 	}
 
 	//set player animation - use present state
@@ -586,7 +621,7 @@ public class UnitProcess : MonoBehaviour
 		}
 	}
 
-	public bool AddSkill(Skill data)
+	public bool AddSkill( Skill data )
 	{
 		if (info.AddSkill( data ))
 		{

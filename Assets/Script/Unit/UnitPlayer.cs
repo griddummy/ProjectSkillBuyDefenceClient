@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 
 //enemy & ally unit process -> movable unit
@@ -41,27 +42,33 @@ public class UnitPlayer : UnitProcess
 		{
 			case AnimatorState.Idle:
 				animator.SetInteger( "State", (int) AnimatorState.Idle );
-				animator.Play( "Idle" );
+				if (!animatorInfo.IsName( "Idle" ))
+					animator.Play( "Idle" );
 				break;
 			case AnimatorState.Run:
 				animator.SetInteger( "State", (int) AnimatorState.Run );
-				animator.Play( "Run" );
+				if (!animatorInfo.IsName( "Run" ))
+					animator.Play( "Run" );
 				break;
 			case AnimatorState.Attack:
 				animator.SetInteger( "State", (int) AnimatorState.Attack );
-				animator.Play( "Attack" );
+				if (!animatorInfo.IsName( "Attack" ))
+					animator.Play( "Attack" );
 				break;
 			case AnimatorState.ThrowAttack:
 				animator.SetInteger( "State", (int) AnimatorState.ThrowAttack );
-				animator.Play( "ThrowAttack" );
+				if (!animatorInfo.IsName( "ThrowAttack" ))
+					animator.Play( "ThrowAttack" );
 				break;
 			case AnimatorState.Casting:
 				animator.SetInteger( "State", (int) AnimatorState.Casting );
-				animator.Play( "Casting" );
+				if (!animatorInfo.IsName( "Casting" ))
+					animator.Play( "Casting" );
 				break;
 			case AnimatorState.CastingUltimate:
 				animator.SetInteger( "State", (int) AnimatorState.CastingUltimate );
-				animator.Play( "CastingUltimate" );
+				if (!animatorInfo.IsName( "CastingUltimate" ))
+					animator.Play( "CastingUltimate" );
 				break;
 			case AnimatorState.Die:
 				if (!animatorInfo.IsName( "Die" ))

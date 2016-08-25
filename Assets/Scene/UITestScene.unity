@@ -366,6 +366,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &133927094
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -496,7 +497,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 22448492, guid: 72d3c5ac362a6d149b968830bb6586f4, type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 22448492, guid: 72d3c5ac362a6d149b968830bb6586f4, type: 2}
       propertyPath: m_AnchoredPosition.x
@@ -764,6 +765,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &527361950
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1076,6 +1078,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &538912173
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1592,6 +1595,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!195 &713563749
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1998,6 +2002,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &814070389
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2055,7 +2060,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 19
 --- !u!54 &814070393
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2310,6 +2315,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &1036650294
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2482,7 +2488,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 497706, guid: cc51640eae7db184a82efd0b06f9004b, type: 2}
       propertyPath: m_RootOrder
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 163738, guid: cc51640eae7db184a82efd0b06f9004b, type: 2}
       propertyPath: m_Name
@@ -2716,6 +2722,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &1171109462
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3028,6 +3035,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &1228729169
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3436,6 +3444,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &1428531273
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -3794,6 +3803,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &1645286529
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4106,6 +4116,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &1842343734
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4282,7 +4293,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 435822, guid: 69df6f0c41a505449a2a147f8c9406b3, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 69df6f0c41a505449a2a147f8c9406b3, type: 2}
@@ -4644,6 +4655,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
 --- !u!23 &2126266497
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -4701,7 +4713,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 16
 --- !u!54 &2126266501
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4939,5 +4951,6 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  auraEffect: []
   isMove: 0
   presentAnimatorState: 3

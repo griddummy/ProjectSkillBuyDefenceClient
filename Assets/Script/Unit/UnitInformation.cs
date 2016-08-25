@@ -103,6 +103,7 @@ public class UnitInformation
 		presentHealthPoint = healthPoint;
 		manaPoint = info.manaPoint;
 		presentManaPoint = manaPoint;
+		damage = info.damage;
 		moveSpeed = info.moveSpeed;
 		attackSpeed = info.attackSpeed;
 		attackRange = info.attackRange;
@@ -123,6 +124,7 @@ public class UnitInformation
 		presentHealthPoint = healthPoint;
 		manaPoint = info.manaPoint;
 		presentManaPoint = manaPoint;
+		damage = info.damage;
 		moveSpeed = info.moveSpeed;
 		attackSpeed = info.attackSpeed;
 		attackRange = info.attackRange;
@@ -143,6 +145,7 @@ public class UnitInformation
 		presentHealthPoint = unitLevelData.hp;
 		manaPoint = unitLevelData.mp;
 		presentManaPoint = unitLevelData.mp;
+		damage = unitLevelData.atk;
 		moveSpeed = unitData.mvSpeed;
 		attackSpeed = unitData.atkSpeed;
 		attackRange = unitData.atkRange;
@@ -163,6 +166,7 @@ public class UnitInformation
 		this.presentHealthPoint = unitLevelData.hp;
 		this.manaPoint = unitLevelData.mp;
 		this.presentManaPoint = unitLevelData.mp;
+		this.damage = unitLevelData.atk;
 		this.moveSpeed = unitData.mvSpeed;
 		this.attackSpeed = unitData.atkSpeed;
 		this.attackRange = unitData.atkRange;
@@ -179,6 +183,7 @@ public class UnitInformation
 		float _requireExp,
 		float _healthPoint,
 		float _manaPoint,
+		float _damage,
 		float _moveSpeed,
 		float _attackSpeed,
 		bool _isMeleeAttack,
@@ -194,6 +199,7 @@ public class UnitInformation
 		presentHealthPoint = healthPoint;
 		manaPoint = _manaPoint;
 		presentManaPoint = manaPoint;
+		damage = _damage;
 		moveSpeed = _moveSpeed;
 		attackSpeed = _attackSpeed;
 		isMeleeAttack = _isMeleeAttack;
@@ -284,7 +290,7 @@ public class UnitInformation
 		switch (activeSkillSet[index].SkillType)
 		{
 			case Skill.Type.ActiveNonTarget:
-				activeSkillSet[index].UseSkill(targetArea);
+				activeSkillSet[index].UseSkill( targetArea );
 				break;
 			case Skill.Type.ActiveTarget:
 				activeSkillSet[index].UseSkill( target );
@@ -301,4 +307,11 @@ public class UnitInformation
 	{
 		unitID = value;
 	}
+
+	public void SetDefaultMelee()
+	{
+		isMeleeAttack = true;
+		attackRange = 1f;
+	}
+
 }

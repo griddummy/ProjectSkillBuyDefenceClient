@@ -566,9 +566,7 @@ public class GameManager : MonoBehaviour
         if (stageIsOver)
         {
             stageIsOver = false;
-
             monsters = stageManager.GetStageData(currentStageNum).Monsters;
-
             monsterNum = 0;
 
             for (int i = 0; i < monsters.Count; i++)
@@ -577,7 +575,6 @@ public class GameManager : MonoBehaviour
             }
 
             monsterChecker = new GameObject[curRoomInfo.PlayerCount * monsterNum];
-
             monsterNum = 0;
 
             for (int i = 0; i < curRoomInfo.PlayerCount; i++)
@@ -597,7 +594,6 @@ public class GameManager : MonoBehaviour
                     }
                 }
             }
-
             StartCoroutine(CheckStageOver());
         }
     }
@@ -623,8 +619,6 @@ public class GameManager : MonoBehaviour
                     stageIsOver = true;
                 }
             }
-
-            Debug.Log(stageIsOver);
 
             if (stageIsOver)
             {
