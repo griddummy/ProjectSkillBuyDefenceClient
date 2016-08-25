@@ -187,7 +187,7 @@ public class LobbyForm : UIForm {
         }
     }
 
-    // 방입장 결과 리시버 [ 호스트 -> 게스트 ]
+    // 방입장 결과[서버에게 허락먼저받음] 리시버 [ 서버 -> 게스트 ]
     private void OnReceiveEnterRoomResultFromServer(Socket sock, byte[] data) 
     {        
         // 성공이면
@@ -209,7 +209,7 @@ public class LobbyForm : UIForm {
         }
         else // 호스트에 연결 실패
         {
-            dialogMessage.Alert("연결실패-호스트거부");
+            dialogMessage.Alert("연결실패-호스트 인터넷 접속 실패");
             dialogMessage.Close(false, 2f);
             
             // 서버에게 방퇴장 알림
@@ -258,7 +258,7 @@ public class LobbyForm : UIForm {
         // 결과가 입장 실패라면
         if (resultData.result == (byte)P2PEnterRoomResultData.RESULT.Fail)
         {
-            dialogMessage.Alert("서버 -> 방입장실패");
+            dialogMessage.Alert("호스트 -> 방입장실패");
             dialogMessage.Close(false, 1f);
             MainManager.instance.netManager.DisconnectMyGuestSocket(); // 호스트와 연결 종료
             return;
@@ -266,12 +266,12 @@ public class LobbyForm : UIForm {
 
         // 성공이면
         RoomInfo roomInfo = new RoomInfo(curSelectedRoom.roomNum, curSelectedRoom.roomName, curSelectedRoom.mapType, new PlayerInfo(curSelectedRoom.hostId), RoomInfo.PlayerType.Guest);
-        Debug.Log("서버 - 방입장 성공::이전 사람수:" + resultData.otherGuestCount + " myNumber:" + resultData.myNumber);
+        Debug.Log("호스트 -> 방입장 성공::이전 사람수:" + resultData.otherGuestCount + " myNumber:" + resultData.myNumber);
 
         // 방정보에 다른 사람 정보 넣기
-        for(int i = 0; i < resultData.otherGuestCount; i++)
+        for(int i = 1; i < resultData.otherGuestCount; i++)
         {
-            roomInfo.AddGuest(new PlayerInfo(resultData.otherGuestID[i]), resultData.ohterGuestNumber[i]);
+            roomInfo.AddGuest(new PlayerInfo(resultData.otherGuestID[i]), resultData.otherGuestNumber[i]);
         }
         // 방정보에 내정보 넣기
         roomInfo.myNumber = resultData.myNumber;
