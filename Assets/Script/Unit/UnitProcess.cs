@@ -417,9 +417,9 @@ public class UnitProcess : MonoBehaviour
 
 			//make collider array -> enemy unitTarget in range
 			if (presentState != State.Hold)
-				enemy = Physics.OverlapSphere( transform.position, info.SearchRange, layer );
+				enemy = Physics.OverlapSphere( transform.position, info.SearchRange, 1 << layer );
 			else
-				enemy = Physics.OverlapSphere( transform.position, info.AttackRange, layer );
+				enemy = Physics.OverlapSphere( transform.position, info.AttackRange, 1 << layer );
 
 			//if no enemy -> return false
 			if (enemy.Length == 0)
@@ -603,11 +603,11 @@ public class UnitProcess : MonoBehaviour
 		manager.UnitDamaged( this, damage );
 	}
 
-    // unit damage calculate + don't send others
-    public void SelfDamaged(float damage)
-    {
-        info.PresentHealthPoint -= damage;
-    }
+	// unit damage calculate + don't send others
+	public void SelfDamaged( float damage )
+	{
+		info.PresentHealthPoint -= damage;
+	}
 
 	//use attack animation -> animation event
 	public void EndAttackAnimation()
