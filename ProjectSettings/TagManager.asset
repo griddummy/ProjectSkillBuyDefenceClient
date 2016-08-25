@@ -7,6 +7,8 @@ TagManager:
   - GameManager
   - MainUI
   - PlayerSection
+  - MonsterSpawnPoint
+  - PlayerSpawnPoint
   layers:
   - Default
   - TransparentFX

@@ -28,7 +28,8 @@ public class Database
 	private Database ()
 	{
 		CreateSkillInformation();
-	}
+        CreateUnitData();
+    }
 
 	//initialize skill information
 	void CreateSkillInformation()
@@ -48,7 +49,7 @@ public class Database
     public void CreateUnitData()
     {
         unitData = new List<UnitData>();
-        unitData.Add(new UnitData(1, "UnitryChan", 5, 1, 0, 5));
+        unitData.Add(new UnitData(1, "UnityChan", 5, 1, 0, 5));
         unitData[0].levelData.Add(new UnitLevelData(1, 51, 900, 150, 200));
         unitData[0].levelData.Add(new UnitLevelData(2, 56, 1000, 200, 400));
         unitData[0].levelData.Add(new UnitLevelData(3, 61, 1100, 250, 700));
@@ -60,22 +61,22 @@ public class Database
         unitData[0].levelData.Add(new UnitLevelData(9, 91, 1850, 640, 4900));
         unitData[0].levelData.Add(new UnitLevelData(10, 96, 2000, 720, 6100));
 
-        unitData.Add(new UnitData(2, "GreenFrog", 4, 1, 0, 10));
+        unitData.Add(new UnitData(2, "EnemyGreenFrog", 4, 1, 0, 10));
         unitData[1].levelData.Add(new UnitLevelData(1, 14, 250, 0, 50));
         unitData[1].levelData.Add(new UnitLevelData(2, 17, 400, 0, 75));
         unitData[1].levelData.Add(new UnitLevelData(3, 20, 550, 0, 100));
 
-        unitData.Add(new UnitData(3, "BlueFrog", 3, 1, 5, 10));
+        unitData.Add(new UnitData(3, "EnemyBlueFrog", 3, 1, 5, 10));
         unitData[2].levelData.Add(new UnitLevelData(1, 9, 200, 0, 70));
         unitData[2].levelData.Add(new UnitLevelData(2, 11, 300, 0, 105));
         unitData[2].levelData.Add(new UnitLevelData(3, 13, 400, 0, 140));
 
-        unitData.Add(new UnitData(4, "RedFrog", 5, 1, 0, 10));
+        unitData.Add(new UnitData(4, "EnemyRedFrog", 5, 1, 0, 10));
         unitData[3].levelData.Add(new UnitLevelData(1, 16, 350, 0, 100));
         unitData[3].levelData.Add(new UnitLevelData(2, 20, 500, 0, 150));
         unitData[3].levelData.Add(new UnitLevelData(3, 24, 650, 0, 200));
 
-        unitData.Add(new UnitData(5, "GiantFrog", 4, 1, 0, 15));
+        unitData.Add(new UnitData(5, "EnemyGiantFrog", 4, 1, 0, 15));
         unitData[4].levelData.Add(new UnitLevelData(1, 25, 500, 0, 200));
         unitData[4].levelData.Add(new UnitLevelData(2, 30, 700, 0, 300));
         unitData[4].levelData.Add(new UnitLevelData(3, 55, 1200, 0, 800));
