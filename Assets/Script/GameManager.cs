@@ -227,7 +227,7 @@ public class GameManager : MonoBehaviour
         UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
         UnitLevelData unitLevelData = dataBase.GetUnitLevelData(createUnitData.unitType, createUnitData.level);
 
-        Debug.Log("나의 플레이어 번호 : " + createUnitData.identity.unitOwner);
+        
         
         // 유닛 정보 초기화, 자신의 유닛은 UnitProcess를 붙인다.
         unitObj.AddComponent<UnitProcess>().SetUp(new UnitInformation(createUnitData, unitData, unitLevelData), createUnitData.position);
@@ -236,10 +236,10 @@ public class GameManager : MonoBehaviour
         if (!unitManager.InsertSlot(unitObj, unitId))
         {
             Destroy(unitObj); // 실패시 삭제
-            Debug.Log("유닛 생성 실패 : " + unitName);
+            Debug.Log("UnitCreate 실패 : 플레이어" + createUnitData.identity.unitOwner + " " + unitName);
             return null;
         }
-
+        Debug.Log("UnitCreate 성공 : 플레이어" + createUnitData.identity.unitOwner + " " + unitName);
         // 생성 결과를 다른 사람들에게 알림.
         InGameCreateUnitPacket packet = new InGameCreateUnitPacket(createUnitData);
         SendChangedData(packet);
@@ -263,7 +263,7 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }*/
-
+        
         InGameUnitSetDestinationData data = new InGameUnitSetDestinationData();
         data.destination = destination;
         data.currentPosition = unit.transform.position;
