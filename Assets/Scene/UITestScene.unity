@@ -543,18 +543,6 @@ Prefab:
       propertyPath: presentUnit
       value: 
       objectReference: {fileID: 1161827900}
-    - target: {fileID: 11449118, guid: 72d3c5ac362a6d149b968830bb6586f4, type: 2}
-      propertyPath: m_FontData.m_Alignment
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 22499944, guid: 72d3c5ac362a6d149b968830bb6586f4, type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 824
-      objectReference: {fileID: 0}
-    - target: {fileID: 22499944, guid: 72d3c5ac362a6d149b968830bb6586f4, type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 514
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 72d3c5ac362a6d149b968830bb6586f4, type: 2}
   m_IsPrefabParent: 0
@@ -2500,7 +2488,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 497706, guid: cc51640eae7db184a82efd0b06f9004b, type: 2}
       propertyPath: m_RootOrder
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 163738, guid: cc51640eae7db184a82efd0b06f9004b, type: 2}
       propertyPath: m_Name
