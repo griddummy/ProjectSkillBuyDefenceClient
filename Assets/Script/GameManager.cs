@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
     public const int AIPlayerNum = 5;
     public enum State { Waiting, Playing, End } // 로딩 대기, 게임 중, 게임 끝
 
-
     [SerializeField] int playerNumber;
     [SerializeField] bool[] checkAlly;
     [SerializeField] bool isAI;
@@ -135,16 +134,7 @@ public class GameManager : MonoBehaviour
         if (curRoomInfo.isHost)
         {
             LoadCompleteCount++;
-        }
-        else // 게스트라면 호스트에게 로딩 완료 메세지 전송
-        {
-            P2PLoadCompleteData loadCompleteData = new P2PLoadCompleteData();
-            loadCompleteData.playerNumber = (byte)playerNumber;
-            P2PLoadCompletePacket loadCompletePacket = new P2PLoadCompletePacket(loadCompleteData);
-            netManager.SendToHost(loadCompletePacket);
-        }
-        if (curRoomInfo.isHost)
-        {
+
             while (LoadCompleteCount < curRoomInfo.PlayerCount)
             {
                 yield return null;
@@ -155,12 +145,59 @@ public class GameManager : MonoBehaviour
             // 게임 시작 메세지 전송
             P2PStartGamePacket packet = new P2PStartGamePacket();
             netManager.SendToAllGuest(packet);
-
             // 게임 상태 변경 
             gameState = State.Playing; // 게임중
         }
+        else // 게스트라면 호스트에게 로딩 완료 메세지 전송
+        {
+            P2PLoadCompleteData loadCompleteData = new P2PLoadCompleteData();
+            loadCompleteData.playerNumber = (byte)playerNumber;
+            P2PLoadCompletePacket loadCompletePacket = new P2PLoadCompletePacket(loadCompleteData);
+            netManager.SendToHost(loadCompletePacket);
+        }
+
+        // 유닛의 이동 동기
+        // 
+        StartCoroutine(SyncMoving());
     }
 
+    IEnumerator SyncMoving()
+    {
+        // 이동 동기화
+        while (true)
+        {
+            SendSyncMove(playerNumber);
+            if (curRoomInfo.isHost)
+            {
+                SendSyncMove(AIPlayerNum);
+            }
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private void SendSyncMove(int number)
+    {
+        LinkedList<GameObject> listUnit = unitManager.GetUnitList(number);
+        InGameUnitInterpolationData data = new InGameUnitInterpolationData();
+        foreach (GameObject objUnit in listUnit)
+        {
+            data.identity.unitOwner = (byte)number;
+            data.identity.unitId = (byte)objUnit.GetComponent<UnitProcess>().Info.UnitID;
+            data.forward = objUnit.transform.forward;
+            data.position = objUnit.transform.position;
+
+            // 패킷 만들어서 보내기
+            InGameUnitInterpolationPacket packet = new InGameUnitInterpolationPacket(data);
+            if (curRoomInfo.isHost)
+            {
+                netManager.SendToAllGuest(packet);
+            }
+            else
+            {
+                netManager.SendToHost(packet);
+            }
+        }
+    }
     // 자신의 유닛(호스트일 경우 AI 유닛 포함)을 생성하고 메세지를 전송한다.
     public GameObject UnitCreate(InGameCreateUnitData createUnitData)
     {
@@ -173,7 +210,6 @@ public class GameManager : MonoBehaviour
         }
 
         createUnitData.identity.unitId = (byte)unitId;
-        // TODO : 데이터베이스에 프리팹의 경로가 있어야 할듯!
         string unitName = "Prefab/" + dataBase.GetUnitData(createUnitData.unitType).unitName;
         GameObject unitObj = Instantiate(Resources.Load<GameObject>(unitName), createUnitData.position, Quaternion.identity) as GameObject;
 
@@ -190,6 +226,7 @@ public class GameManager : MonoBehaviour
         if (!unitManager.InsertSlot(unitObj, unitId))
         {
             Destroy(unitObj); // 실패시 삭제
+            Debug.Log("유닛 생성 실패 : " + unitName);
             return null;
         }
 
@@ -219,6 +256,8 @@ public class GameManager : MonoBehaviour
 
         InGameUnitSetDestinationData data = new InGameUnitSetDestinationData();
         data.destination = destination;
+        data.currentPosition = unit.transform.position;
+        data.forward = unit.transform.forward;        
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         InGameUnitSetDestinationPacket packet = new InGameUnitSetDestinationPacket(data);
@@ -230,6 +269,8 @@ public class GameManager : MonoBehaviour
         InGameUnitSetTargetData data = new InGameUnitSetTargetData();
         data.identitySource.unitId = (byte)sourceUnit.Info.UnitID;
         data.identitySource.unitOwner = (byte)sourceUnit.Info.PlayerNumber;
+        data.currentPosition = sourceUnit.transform.position;
+        data.forward = sourceUnit.transform.forward;
         UnitProcess target = targetUnit.GetComponent<UnitProcess>();
         data.identityTarget.unitId = (byte)target.Info.UnitID;
         data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
@@ -243,6 +284,7 @@ public class GameManager : MonoBehaviour
         data.destination = position;
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
+        data.forward = unit.transform.forward;        
         InGameUnitImmediatelyMovePacket packet = new InGameUnitImmediatelyMovePacket(data);
         SendChangedData(packet);
     }
@@ -252,6 +294,8 @@ public class GameManager : MonoBehaviour
         InGameUnitAttackData data = new InGameUnitAttackData();
         data.identitySource.unitId = (byte)sourceUnit.Info.UnitID;
         data.identitySource.unitOwner = (byte)sourceUnit.Info.PlayerNumber;
+        data.currentPosition = sourceUnit.transform.position;
+        data.forward = sourceUnit.transform.forward;
         UnitProcess target = targetUnit.GetComponent<UnitProcess>();
         data.identityTarget.unitId = (byte)target.Info.UnitID;
         data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
@@ -262,6 +306,8 @@ public class GameManager : MonoBehaviour
     public void UnitCastSkillActiveNonTarget(UnitProcess unit, int skillIndex)    // 스킬 시전
     {
         InGameUnitCastSkillData data = new InGameUnitCastSkillData();
+        data.currentPosition = unit.transform.position;
+        data.forward = unit.transform.forward;
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         data.type = Skill.Type.ActiveNonTarget;
@@ -271,6 +317,8 @@ public class GameManager : MonoBehaviour
     public void UnitCastSkillTargetArea(UnitProcess unit, int skillIndex, Vector3 targetPosition)    // 스킬 시전
     {
         InGameUnitCastSkillData data = new InGameUnitCastSkillData();
+        data.currentPosition = unit.transform.position;
+        data.forward = unit.transform.forward;
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         data.type = Skill.Type.ActiveTargetArea;
@@ -281,6 +329,8 @@ public class GameManager : MonoBehaviour
     public void UnitCastSkillActiveTarget(UnitProcess unit, int skillIndex, GameObject targetUnit)    // 스킬 시전
     {
         InGameUnitCastSkillData data = new InGameUnitCastSkillData();
+        data.currentPosition = unit.transform.position;
+        data.forward = unit.transform.forward;
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         data.type = Skill.Type.ActiveTarget;
@@ -294,6 +344,8 @@ public class GameManager : MonoBehaviour
     public void UnitStop(UnitProcess unit) // 유닛 멈춤 또는 홀드
     {
         InGameUnitStopData data = new InGameUnitStopData();
+        data.currentPosition = unit.transform.position;
+        data.forward = unit.transform.forward;
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         InGameUnitStopPacket packet = new InGameUnitStopPacket(data);
@@ -303,7 +355,6 @@ public class GameManager : MonoBehaviour
     public void UnitLevelUp(UnitProcess unit, int level) // 레벨업
     {
         InGameUnitLevelUpData data = new InGameUnitLevelUpData();
-
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         data.level = (byte)level;
@@ -313,7 +364,7 @@ public class GameManager : MonoBehaviour
 
     public void UnitDamaged(UnitProcess unit, float damage) // 피해입음
     {
-        InGameUnitDamagedData data = new InGameUnitDamagedData();
+        InGameUnitDamagedData data = new InGameUnitDamagedData();        
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         data.damage = damage;
@@ -396,7 +447,8 @@ public class GameManager : MonoBehaviour
         InGameUnitCastSkillData castSkillData = packet.GetData();
         GameObject obj = unitManager.GetUnitObject(castSkillData.identity.unitOwner, castSkillData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
-
+        unit.transform.position = castSkillData.currentPosition;
+        unit.transform.forward = castSkillData.forward;
         // TODO : 스킬 사용
         // 모션 사용
         unit.ReceiveData(unit.transform.position, UnitProcess.AnimatorState.Casting);
@@ -429,7 +481,7 @@ public class GameManager : MonoBehaviour
         InGameUnitDamagedData damagedData = packet.GetData();
 
         GameObject obj = unitManager.GetUnitObject(damagedData.identity.unitOwner, damagedData.identity.unitId);
-
+        
         // TODO : 유닛 피해입음    
         if (damagedData.identity.unitOwner == playerNumber)
         {
@@ -489,6 +541,8 @@ public class GameManager : MonoBehaviour
         InGameUnitSetDestinationData moveData = packet.GetData();
         GameObject obj = unitManager.GetUnitObject(moveData.identity.unitOwner, moveData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
+        unit.transform.position = moveData.currentPosition;
+        unit.transform.forward = moveData.forward;
         //TODO  :  유닛 이동시키기
         unit.ReceiveData(moveData.destination, UnitProcess.AnimatorState.Run);
 
@@ -506,7 +560,7 @@ public class GameManager : MonoBehaviour
 
         GameObject obj = unitManager.GetUnitObject(moveData.identity.unitOwner, moveData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
-
+        unit.transform.forward = moveData.forward;
         //TODO : 즉시 이동
         unit.transform.position = moveData.destination; // 임시 ..
 
@@ -525,6 +579,8 @@ public class GameManager : MonoBehaviour
         GameObject obj = unitManager.GetUnitObject(stopData.identity.unitOwner, stopData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
 
+        unit.transform.position = stopData.currentPosition;
+        unit.transform.forward = stopData.forward;
         //TODO : 유닛 멈춤
         unit.ReceiveData(unit.transform.position, UnitProcess.AnimatorState.Idle);
 
@@ -546,6 +602,9 @@ public class GameManager : MonoBehaviour
         GameObject objTargetUnit = unitManager.GetUnitObject(stopData.identityTarget.unitOwner, stopData.identityTarget.unitId);
         UnitPlayer unitTarget = objTargetUnit.GetComponent<UnitPlayer>();
 
+        unitSource.transform.position = stopData.currentPosition;
+        unitSource.transform.forward = stopData.forward;
+
         //TODO : 목표유닛 공격
         unitSource.ReceiveData(unitSource.transform.position, UnitProcess.AnimatorState.Attack);
 
@@ -557,7 +616,17 @@ public class GameManager : MonoBehaviour
 
     void OnReceiveUnitInterpolation(Socket client, byte[] data)
     {
+        InGameUnitInterpolationPacket packet = new InGameUnitInterpolationPacket(data);
+        InGameUnitInterpolationData posData = packet.GetData();
+        GameObject obj = unitManager.GetUnitObject(posData.identity.unitOwner, posData.identity.unitId);
 
+        obj.transform.position = posData.position;
+        obj.transform.forward = posData.forward;
+
+        if (curRoomInfo.isHost)
+        {
+            netManager.SendToAllGuest(client, packet);
+        }
     }
 
     //스테이지 시작
@@ -589,7 +658,7 @@ public class GameManager : MonoBehaviour
                         data.identity.unitOwner = AIPlayerNum;
                         data.unitType = (byte) monsters[j].Id;
                         data.position = monsterSpawnPoint[i].transform.position + Vector3.forward * j * 3 + Vector3.right * k * 3;
-
+                        
                         monsterChecker[monsterNum++] = UnitCreate(data);
                     }
                 }

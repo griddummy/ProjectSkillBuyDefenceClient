@@ -4,31 +4,40 @@ using UnityEngine;
 
 class UnitManager
 {
-    public const int maxPlayerNum = 5;
-    public const int maxUnitNum = 100;
+    public const int MaxPlayerNum = 5;
+    public const int MaxUnitNum = 100;
 
-    public GameObject[,] unitData;
+    private GameObject[,] arrayUnit;                // 빈공간은 있지만 접근이 빠른..
+    private LinkedList<GameObject>[] listUnit;      // 빈공간은 없지만 접근이 느린..
 
     public UnitManager()
     {
-        unitData = new GameObject[maxPlayerNum, maxUnitNum];
+        arrayUnit = new GameObject[MaxPlayerNum, MaxUnitNum];
+
+        listUnit = new LinkedList<GameObject>[MaxPlayerNum];
+        for(int i = 0; i < MaxPlayerNum; i++)
+        {
+            listUnit[i] = new LinkedList<GameObject>();
+        }
     }
+
     public GameObject GetUnitObject(int playerNum, int unitId)
     {
         try
         {
-            return unitData[playerNum - 1, unitId];
+            return arrayUnit[playerNum - 1, unitId];
         }
         catch
         {
             return null;
         }
     }
+
     public int FindEmptySlot(int playerNum)
     {
-        for (int i = 0; i < maxUnitNum; i++)
+        for (int i = 0; i < MaxUnitNum; i++)
         {
-            if (unitData[playerNum - 1, i] == null)
+            if (arrayUnit[playerNum - 1, i] == null)
             {
                 return i;
             }
@@ -44,7 +53,8 @@ class UnitManager
 
         if (index != -1)
         {
-            unitData[data.Info.PlayerNumber - 1, index] = unit;
+            arrayUnit[data.Info.PlayerNumber - 1, index] = unit;
+            listUnit[data.Info.PlayerNumber - 1].AddLast(unit);
             data.Info.SetUnitId(index); // 아이디 지정
         }
         else
@@ -54,23 +64,28 @@ class UnitManager
 
         return true;
     }
-
-    //TODO
+    
     // 남이 만든 유닛 생성 메서드
     public bool InsertSlot(GameObject unit, int unitId) // 유닛을 배열에 넣는...
     {
         UnitProcess data = unit.GetComponent<UnitProcess>();
         Debug.Log("유닛생성::플레이어번호:" + data.Info.PlayerNumber + "  유닛ID : " + unitId);
-        unitData[data.Info.PlayerNumber - 1, unitId] = unit;
-
+        if(arrayUnit[data.Info.PlayerNumber - 1, unitId] != null)
+        {
+            return false;
+        }
+        arrayUnit[data.Info.PlayerNumber - 1, unitId] = unit;        
+        listUnit[data.Info.PlayerNumber - 1].AddLast(unit);
         return true;
     }
 
     public bool DeleteSlot(int playerNum, int unitId)
     {
-        if (unitData[playerNum - 1, unitId] != null)
+        if (arrayUnit[playerNum - 1, unitId] != null)
         {
-            unitData[playerNum - 1, unitId] = null;
+            listUnit[playerNum - 1].Remove(arrayUnit[playerNum - 1, unitId]);
+            arrayUnit[playerNum - 1, unitId] = null;
+            
             return true;
         }
         else
@@ -78,5 +93,10 @@ class UnitManager
             return false;
         }
     }
-  
+
+    public LinkedList<GameObject> GetUnitList(int playerNum)
+    {
+        return listUnit[playerNum - 1];
+    }
+    
 }
