@@ -67,6 +67,7 @@ public class GameManager : MonoBehaviour
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitDamaged, OnReceiveUnitDamaged);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitDeath, OnReceiveUnitDeath);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitLevelUp, OnReceiveUnitLevelUp);
+        netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitSetTarget, OnReceiveUnitSetTarget);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitSetDestination, OnReceiveUnitSetDetination);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitImmediatelyMove, OnReceiveUnitImmediatelyMove);
         netManager.RegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop, OnReceiveUnitStop);
@@ -84,6 +85,7 @@ public class GameManager : MonoBehaviour
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitDamaged);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitDeath);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitLevelUp);
+        netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitSetTarget);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitSetDestination);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitImmediatelyMove);
         netManager.UnRegisterReceiveNotificationP2P((int)InGamePacketID.UnitStop);
@@ -542,6 +544,19 @@ public class GameManager : MonoBehaviour
         {
             netManager.SendToAllGuest(client, packet);
         }
+    }
+
+    void OnReceiveUnitSetTarget(Socket client, byte[] data)
+    {
+        InGameUnitSetTargetPacket packet = new InGameUnitSetTargetPacket(data);
+        InGameUnitSetTargetData targetData = packet.GetData();
+
+        // TODO 타겟 설정...
+        GameObject obj = unitManager.GetUnitObject(targetData.identitySource.unitOwner, targetData.identitySource.unitId);
+        UnitPlayer unit = obj.GetComponent<UnitPlayer>();
+
+        GameObject objTarget = unitManager.GetUnitObject(targetData.identityTarget.unitOwner, targetData.identityTarget.unitId);
+        unit.SetAttackTarget(objTarget);
     }
 
     // 유닛 이동 리시버 [ 게스트 -> 호스트, 호스트 -> 모든게스트 ]
