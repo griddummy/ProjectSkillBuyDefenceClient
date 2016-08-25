@@ -600,6 +600,12 @@ public class UnitProcess : MonoBehaviour
 		manager.UnitDamaged( this, damage );
 	}
 
+    // unit damage calculate + don't send others
+    public void SelfDamaged(float damage)
+    {
+        info.PresentHealthPoint -= damage;
+    }
+
 	//use attack animation -> animation event
 	public void EndAttackAnimation()
 	{

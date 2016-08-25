@@ -537,15 +537,22 @@ public class GameManager : MonoBehaviour
         if (damagedData.identity.unitOwner == playerNumber)
         {
             // 자기꺼라면
-           // obj.GetComponent<UnitProcess>().Damaged(damagedData.damage);
+           obj.GetComponent<UnitProcess>().SelfDamaged(damagedData.damage);
         }
         else
         {
             // 다른사람
             UnitPlayer unit = obj.GetComponent<UnitPlayer>();
-
-
+            if(unit == null)
+            {
+                obj.GetComponent<UnitProcess>().SelfDamaged(damagedData.damage);
+            }
+            else
+            {
+                unit.SelfDamaged(damagedData.damage);
+            }
         }        
+
 
         if (curRoomInfo.isHost)
             netManager.SendToAllGuest(client, packet);
@@ -555,21 +562,20 @@ public class GameManager : MonoBehaviour
     void OnReceiveUnitDeath(Socket client, byte[] data)
     {
         InGameUnitDeathPacket packet = new InGameUnitDeathPacket(data);
-        InGameUnitDeathData deathData = packet.GetData();
-
-        GameObject obj = unitManager.GetUnitObject(deathData.identity.unitOwner, deathData.identity.unitId);
-        UnitPlayer unit = obj.GetComponent<UnitPlayer>();
-
-        //TODO : 유닛 죽음
-        unit.ReceiveData(unit.transform.position, UnitProcess.AnimatorState.Die);
-        unitManager.DeleteSlot(unit.Info.PlayerNumber, unit.Info.UnitID);
+        InGameUnitDeathData deathData = packet.GetData();        
         try
         {
+            GameObject obj = unitManager.GetUnitObject(deathData.identity.unitOwner, deathData.identity.unitId);
+            UnitPlayer unit = obj.GetComponent<UnitPlayer>();
+
+            //TODO : 유닛 죽음
+            unit.ReceiveData(unit.transform.position, UnitProcess.AnimatorState.Die);
+            unitManager.DeleteSlot(unit.Info.PlayerNumber, unit.Info.UnitID);
             Destroy(unit.gameObject, 2f);
         }
         catch
         {
-
+            Debug.Log("OnReceive::유닛죽음..실패" + deathData.identity.unitOwner + " " + deathData.identity.unitId);
         }
         
         if (curRoomInfo.isHost)

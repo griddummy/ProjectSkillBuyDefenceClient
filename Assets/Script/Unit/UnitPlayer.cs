@@ -127,8 +127,9 @@ public class UnitPlayer : UnitProcess
 	public override void Damaged( float damage )
 	{
 		info.PresentHealthPoint -= damage;
-		//send unit data
-	}
+        //send unit data
+        manager.UnitDamaged(this, damage);
+    }   
 
 	public override void SetAttackTarget( GameObject target )
 	{
