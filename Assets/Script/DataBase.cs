@@ -47,7 +47,7 @@ public class Database
 			skillInformation[i].SetSkillIcon();
 	}
 
-<<<<<<< HEAD
+
 	//유닛 데이터 초기화
 	public void CreateUnitData()
 	{
@@ -89,53 +89,6 @@ public class Database
 
 	//search skill use id
 	public Skill FindSkillByID( int id )
-=======
-    //유닛 데이터 초기화
-    public void CreateUnitData()
-    {
-        unitData = new List<UnitData>();
-        unitData.Add(new UnitData(1, "UnityChan", 5, 1, 0, 5));
-        unitData[0].levelData.Add(new UnitLevelData(1, 51, 900, 150, 200));
-        unitData[0].levelData.Add(new UnitLevelData(2, 56, 1000, 200, 400));
-        unitData[0].levelData.Add(new UnitLevelData(3, 61, 1100, 250, 700));
-        unitData[0].levelData.Add(new UnitLevelData(4, 66, 1200, 300, 1100));
-        unitData[0].levelData.Add(new UnitLevelData(5, 71, 1300, 350, 1600));
-        unitData[0].levelData.Add(new UnitLevelData(6, 76, 1400, 400, 2200));
-        unitData[0].levelData.Add(new UnitLevelData(7, 81, 1550, 480, 2950));
-        unitData[0].levelData.Add(new UnitLevelData(8, 86, 1700, 560, 3850));
-        unitData[0].levelData.Add(new UnitLevelData(9, 91, 1850, 640, 4900));
-        unitData[0].levelData.Add(new UnitLevelData(10, 96, 2000, 720, 6100));
-
-        unitData.Add(new UnitData(2, "EnemyGreenFrog", 4, 1, 0, 10));
-        unitData[1].levelData.Add(new UnitLevelData(1, 14, 250, 0, 50));
-        unitData[1].levelData.Add(new UnitLevelData(2, 17, 400, 0, 75));
-        unitData[1].levelData.Add(new UnitLevelData(3, 20, 550, 0, 100));
-
-        unitData.Add(new UnitData(3, "EnemyBlueFrog", 3, 1, 5, 10));
-        unitData[2].levelData.Add(new UnitLevelData(1, 9, 200, 0, 70));
-        unitData[2].levelData.Add(new UnitLevelData(2, 11, 300, 0, 105));
-        unitData[2].levelData.Add(new UnitLevelData(3, 13, 400, 0, 140));
-
-        unitData.Add(new UnitData(4, "EnemyRedFrog", 5, 1, 0, 10));
-        unitData[3].levelData.Add(new UnitLevelData(1, 16, 350, 0, 100));
-        unitData[3].levelData.Add(new UnitLevelData(2, 20, 500, 0, 150));
-        unitData[3].levelData.Add(new UnitLevelData(3, 24, 650, 0, 200));
-
-        //unitData.Add(new UnitData(5, "EnemyGiantFrog", 4, 1, 0, 15));
-        //unitData[4].levelData.Add(new UnitLevelData(1, 25, 500, 0, 200));
-        //unitData[4].levelData.Add(new UnitLevelData(2, 30, 700, 0, 300));
-        //unitData[4].levelData.Add(new UnitLevelData(3, 55, 1200, 0, 800));
-        unitData.Add(new UnitData(5, "EnemyGiantFrog", 4, 1, 0, 15));
-        unitData[4].levelData.Add(new UnitLevelData(1, 25, 500, 0, 200));
-        unitData[4].levelData.Add(new UnitLevelData(2, 30, 700, 0, 300));
-        unitData[4].levelData.Add(new UnitLevelData(3, 55, 1200, 0, 800));
-    }
-
-    //public method
-
-    //search skill use id
-    public Skill FindSkillByID( int id )
->>>>>>> e5315f710b9ee4889502d28def5a3364085aad19
 	{
 		for (int i = 0; i < skillInformation.Count; i++)
 			if (skillInformation[i].ID == id)
