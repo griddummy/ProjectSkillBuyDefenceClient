@@ -131,6 +131,26 @@ public class UnitInformation
 		SkillInitalize();
 	}
 
+    public UnitInformation(int _unitID, int _playerNum, UnitData unitData, UnitLevelData unitLevelData)
+    {
+        unitID = _unitID;
+        playerNum = _playerNum;
+        unitName = unitData.unitName;
+        level = unitLevelData.level;
+        presentExp = 0;
+        requireExp = unitLevelData.exp;
+        healthPoint = unitLevelData.hp;
+        presentHealthPoint = unitLevelData.hp;
+        manaPoint = unitLevelData.mp;
+        presentManaPoint = unitLevelData.mp;
+        moveSpeed = unitData.mvSpeed;
+        attackSpeed = unitData.atkSpeed;
+        attackRange = unitData.atkRange;
+        searchRange = unitData.searchRange;
+
+        SkillInitalize();
+    }
+
     public UnitInformation(InGameCreateUnitData createData, UnitData unitData, UnitLevelData unitLevelData)
     {
         this.unitID = createData.identity.unitId;

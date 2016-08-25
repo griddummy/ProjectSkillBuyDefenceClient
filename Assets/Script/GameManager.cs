@@ -7,6 +7,7 @@ using System.IO;
 //class - policy control
 public class GameManager : MonoBehaviour
 {
+    public const int AIPlayerNum = 5;
     public enum State { Waiting, Playing, End } // 로딩 대기, 게임 중, 게임 끝
 
     [SerializeField] int playerNumber;
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] bool isAI;
     [SerializeField] int currentStageNum;
     [SerializeField] bool stageIsOver = true;
+    [SerializeField] int monsterNum;
 
     State gameState;                    // 현재 게임 상태
     MainManager mainManager;
@@ -24,10 +26,11 @@ public class GameManager : MonoBehaviour
     Database dataBase;
 
     StageManager stageManager;
+
     UIControl uiControl;
     GameObject[] playerSpawnPoint;
     GameObject[] monsterSpawnPoint;
-    GameObject[,] monsterChecker;
+    GameObject[] monsterChecker;
     List<SpawnMonster> monsters;
 
     // Load 관련
@@ -171,8 +174,10 @@ public class GameManager : MonoBehaviour
         // 유닛 타입 정보 얻기
         // UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
         // UnitLevelData unitLevelData = unitData.levelData[createUnitData.level];
-        UnitData unitData = new UnitData(0, "유니짜장", 5, 1, 0, 5);
-        UnitLevelData unitLevelData = new UnitLevelData(1, 10, 300, 200, 0);
+
+        UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
+        UnitLevelData unitLevelData = dataBase.GetUnitLevelData(createUnitData.unitType, createUnitData.level);
+
         Debug.Log("나의 플레이어 번호 : " + createUnitData.identity.unitOwner);
         // 유닛 정보 초기화, 자신의 유닛은 UnitProcess를 붙인다.
         unitObj.AddComponent<UnitProcess>().SetUp(new UnitInformation(createUnitData, unitData, unitLevelData), createUnitData.position);
@@ -555,19 +560,37 @@ public class GameManager : MonoBehaviour
         if (stageIsOver)
         {
             monsters = stageManager.GetStageData(currentStageNum).Monsters;
-            int monsterNum = monsters.Count;
 
-            monsterChecker = new GameObject[curRoomInfo.PlayerCount, monsterNum];
+            monsterNum = 0;
+
+            for (int i = 0; i < monsters.Count; i++)
+            {
+                monsterNum += stageManager.GetStageData(currentStageNum).Monsters[i].number;
+            }
+
+            monsterChecker = new GameObject[curRoomInfo.PlayerCount * monsterNum];
+
+            monsterNum = 0;
 
             for (int i = 0; i < curRoomInfo.PlayerCount; i++)
             {
                 for (int j = 0; j < monsters.Count; j++)
                 {
-                    string monsterName = dataBase.GetUnitData(monsters[i].Id).unitName;
-                    Debug.Log(monsterName);
-                    GameObject monster = Instantiate(Resources.Load<GameObject>(monsterName), monsterSpawnPoint[i].transform.position, Quaternion.identity) as GameObject;
-                    monster.AddComponent<UnitPlayer>();
-                    monsterChecker[i, j] = monster;
+                    for (int k = 0; k < monsters[j].number; k++)
+                    {
+                        int unitId = unitManager.FindEmptySlot(AIPlayerNum);
+
+                        string monsterName = dataBase.GetUnitData(monsters[j].Id).unitName;
+                        GameObject monster = Instantiate(Resources.Load<GameObject>(monsterName), monsterSpawnPoint[i].transform.position, Quaternion.identity) as GameObject;
+                        monster.AddComponent<UnitPlayer>();
+                        
+                        UnitData unitData = dataBase.GetUnitData(monsters[j].Id);
+                        UnitLevelData unitLevelData = dataBase.GetUnitLevelData(monsters[j].Id, 1);
+
+                        monster.GetComponent<UnitPlayer>().SetUp(new UnitInformation(unitId, AIPlayerNum, unitData, unitLevelData));
+
+                        monsterChecker[monsterNum++] = monster;
+                    }
                 }
             }
 
@@ -578,13 +601,14 @@ public class GameManager : MonoBehaviour
     //몬스터가 다 죽었는지 체크
     IEnumerator CheckStageOver()
     {
-        yield return new WaitForSeconds(0.5f);
-
-        for (int i = 0; i < monsterSpawnPoint.Length; i++)
+        bool stop = false;
+        while (!stop)
         {
-            for (int j = 0; j < monsters.Count; j++)
+            yield return new WaitForSeconds(0.5f);            
+
+            for (int i = 0; i < monsterNum; i++)
             {
-                if (monsterChecker[i, j] != null)
+                if (monsterChecker[i] != null)
                 {
                     stageIsOver = false;
                     yield return null;
@@ -592,17 +616,19 @@ public class GameManager : MonoBehaviour
                 else
                 {
                     stageIsOver = true;
-                }
+                }               
             }
-        }
 
-        if (stageIsOver)
-        {
-            int rewardGold = stageManager.GetStageData(currentStageNum).RewardGold;
-            GameObject.FindGameObjectWithTag("MainUI").GetComponent<UIControl>().Gold += rewardGold;
-            currentStageNum++;
-            stageIsOver = false;
-            StopCoroutine(CheckStageOver());
+            Debug.Log(stageIsOver);
+
+            if (stageIsOver)
+            {
+                int rewardGold = stageManager.GetStageData(currentStageNum).RewardGold;
+                GameObject.FindGameObjectWithTag("MainUI").GetComponent<UIControl>().Gold += rewardGold;
+                currentStageNum++;
+                stageIsOver = true;
+                stop = true;
+            }
         }
     }
 }

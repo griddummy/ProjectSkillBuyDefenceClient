@@ -117,8 +117,6 @@ public class UnitProcess : MonoBehaviour
 	//set layer -> use player information
 	protected void DataInitialize()
 	{
-        Debug.Log(info.PlayerNumber);
-        Debug.Log(manager.PlayerNumber);
         if (info.PlayerNumber == manager.PlayerNumber)
 			gameObject.layer = LayerMask.NameToLayer( "Player" );
 		else if (manager.CheckAlly[info.PlayerNumber])
@@ -202,8 +200,7 @@ public class UnitProcess : MonoBehaviour
 	//chase and attack unitTarget
 	protected virtual void AttackProcess()
 	{
-        
-		if (( unitTarget != null ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > info.AttackRange + unitTarget.GetComponent<Collider>().transform.lossyScale.x ) )
+        if (( unitTarget != null ) && ( Vector3.Distance( unitTarget.transform.position, transform.position ) > info.AttackRange + unitTarget.GetComponent<Collider>().transform.lossyScale.x) )
 		{
 			// Chase
 			if (animatorInfo.IsName( "Attack" ))
@@ -212,7 +209,7 @@ public class UnitProcess : MonoBehaviour
 			transform.LookAt( unitTarget.transform );
 			ActiveAnimator( AnimatorState.Run );
 		}
-		else if (( unitTarget != null ) && ( ( Vector3.Distance( unitTarget.transform.position, transform.position ) <= info.AttackRange + unitTarget.GetComponent<Collider>().transform.lossyScale.x ) ))
+		else if (( unitTarget != null ) && ( ( Vector3.Distance( unitTarget.transform.position, transform.position ) <= info.AttackRange + unitTarget.GetComponent<Collider>().transform.lossyScale.x) ))
 		{
 			//Attack
 			if (!animatorInfo.IsName( "Attack" ))
@@ -575,4 +572,9 @@ public class UnitProcess : MonoBehaviour
 		info = new UnitInformation ( newInfo );        
 		transform.position = vec;
 	}
+
+    public void SetUp(UnitInformation newInfo)
+    {
+        info = new UnitInformation(newInfo);
+    }
 }
