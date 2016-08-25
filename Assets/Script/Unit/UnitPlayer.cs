@@ -21,6 +21,8 @@ public class UnitPlayer : UnitProcess
 	// Update is called once per frame
 	void Update()
 	{
+		PreProcess();	
+
 		if (unitTarget != null)
 		{
 			destination = unitTarget.transform.position;
@@ -38,6 +40,16 @@ public class UnitPlayer : UnitProcess
 		}
 
 		ActiveAnimator( presentAnimatorState );
+	}
+
+	protected override void PreProcess()
+	{
+		animatorInfo = this.animator.GetCurrentAnimatorStateInfo( 0 );
+
+		if (animatorInfo.IsName( "Attack" ))
+			moveAgent.updatePosition = false;
+		else
+			moveAgent.updatePosition = true;
 	}
 
 	//set player animation - use present state
