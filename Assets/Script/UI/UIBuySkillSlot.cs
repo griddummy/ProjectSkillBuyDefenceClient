@@ -75,4 +75,13 @@ public class UIBuySkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 		closeTabButton.SetActive( false );
 		openTabButton.SetActive( true );
 	}
+
+	//
+	public void KeyOrderBuySkills()
+	{
+		if (backGround.activeSelf)
+			CloseBuySkillTab();
+		else
+			OpenBuySkillTab();
+	}
 }

@@ -108,6 +108,10 @@ public class UnitProcess : MonoBehaviour
 				DieProcess();
 				break;
 		}
+
+		//send interpolate packet
+		if (animatorInfo.IsName( "Run" ))
+			;
 	}
 
 	//set layer -> use player information
@@ -502,7 +506,6 @@ public class UnitProcess : MonoBehaviour
 	//unit use active skill -> unitTarget skill
 	public void ActiveSkill( int index, GameObject _unitTarget )
 	{
-		Debug.Log( "Active skill for target skill" );
 		if (presentState != State.Die && info.PresentManaPoint >= info.ActiveSkillSet[index].SkillCost && !info.OnSkill[index])
 		{
 			presentState = State.CastunitTargetSkill;
@@ -514,7 +517,6 @@ public class UnitProcess : MonoBehaviour
 	//unit use active skill -> range Target skill
 	public void ActiveSkill( int index, Vector3 point )
 	{
-		Debug.Log( "Active skill for target skill" );
 		if (presentState != State.Die && info.PresentManaPoint >= info.ActiveSkillSet[index].SkillCost && !info.OnSkill[index])
 		{
 			presentState = State.CastunitTargetSkill;

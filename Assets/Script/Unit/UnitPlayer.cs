@@ -73,6 +73,13 @@ public class UnitPlayer : UnitProcess
 		presentAnimatorState = stateData;
 	}
 
+	//receive data -> interpolate position
+	public void ReceiveData(Vector3 interpolatePoint)
+	{
+		if (Vector3.Distance( transform.position, interpolatePoint ) >= 1f)
+			transform.position = interpolatePoint;
+	}
+
 	//unit damage calculate
 	//send unit information to another client
 	public override void Damaged( float damage )

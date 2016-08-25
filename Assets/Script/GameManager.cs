@@ -152,7 +152,7 @@ public class GameManager : MonoBehaviour
         }
         createUnitData.identity.unitId = (byte)unitId;
         // TODO : 데이터베이스에 프리팹의 경로가 있어야 할듯!
-        GameObject unitObj = Instantiate(Resources.Load<GameObject>("ProtoType1"), createUnitData.position, Quaternion.identity) as GameObject;
+        GameObject unitObj = Instantiate(Resources.Load<GameObject>("Prefab/PlayerCharacter"), createUnitData.position, Quaternion.identity) as GameObject;
 
         // 유닛 타입 정보 얻기
         // UnitData unitData = dataBase.GetUnitData(createUnitData.unitType);
@@ -372,7 +372,7 @@ public class GameManager : MonoBehaviour
     {
         InGameUnitCastSkillPacket packet = new InGameUnitCastSkillPacket(data);
         InGameUnitCastSkillData castSkillData = packet.GetData();
-        GameObject obj = unitManager.getUnitObject(castSkillData.identity.unitOwner, castSkillData.identity.unitId);
+        GameObject obj = unitManager.GetUnitObject(castSkillData.identity.unitOwner, castSkillData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
 
         // TODO : 스킬 사용
@@ -386,7 +386,7 @@ public class GameManager : MonoBehaviour
         }
         else if (castSkillData.type == Skill.Type.ActiveTarget) // 유닛 타겟 스킬
         {
-            GameObject objTargetUnit = unitManager.getUnitObject(castSkillData.identityTarget.unitOwner, castSkillData.identityTarget.unitId);
+            GameObject objTargetUnit = unitManager.GetUnitObject(castSkillData.identityTarget.unitOwner, castSkillData.identityTarget.unitId);
             UnitPlayer unitTarget = objTargetUnit.GetComponent<UnitPlayer>();
         }
         else if (castSkillData.type == Skill.Type.ActiveTargetArea) // 지역 타겟 스킬
@@ -406,7 +406,7 @@ public class GameManager : MonoBehaviour
         InGameUnitDamagedPacket packet = new InGameUnitDamagedPacket(data);
         InGameUnitDamagedData damagedData = packet.GetData();
 
-        GameObject obj = unitManager.getUnitObject(damagedData.identity.unitOwner, damagedData.identity.unitId);
+        GameObject obj = unitManager.GetUnitObject(damagedData.identity.unitOwner, damagedData.identity.unitId);
 
         // TODO : 유닛 피해입음    
         if (damagedData.identity.unitOwner == playerNumber)
@@ -434,7 +434,7 @@ public class GameManager : MonoBehaviour
         InGameUnitDeathPacket packet = new InGameUnitDeathPacket(data);
         InGameUnitDeathData deathData = packet.GetData();
 
-        GameObject obj = unitManager.getUnitObject(deathData.identity.unitOwner, deathData.identity.unitId);
+        GameObject obj = unitManager.GetUnitObject(deathData.identity.unitOwner, deathData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
 
         //TODO : 유닛 죽음
@@ -452,7 +452,7 @@ public class GameManager : MonoBehaviour
         InGameUnitLevelUpPacket packet = new InGameUnitLevelUpPacket(data);
         InGameUnitLevelUpData levelUpData = packet.GetData();
 
-        GameObject obj = unitManager.getUnitObject(levelUpData.identity.unitOwner, levelUpData.identity.unitId);
+        GameObject obj = unitManager.GetUnitObject(levelUpData.identity.unitOwner, levelUpData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
         // TODO : 레벨업
 
@@ -467,7 +467,7 @@ public class GameManager : MonoBehaviour
     {
         InGameUnitSetDestinationPacket packet = new InGameUnitSetDestinationPacket(data);
         InGameUnitSetDestinationData moveData = packet.GetData();
-        GameObject obj = unitManager.getUnitObject(moveData.identity.unitOwner, moveData.identity.unitId);
+        GameObject obj = unitManager.GetUnitObject(moveData.identity.unitOwner, moveData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
         //TODO  :  유닛 이동시키기
         unit.ReceiveData(moveData.destination, UnitProcess.AnimatorState.Run);
@@ -484,7 +484,7 @@ public class GameManager : MonoBehaviour
         InGameUnitImmediatelyMovePacket packet = new InGameUnitImmediatelyMovePacket(data);
         InGameUnitImmediatlyMoveData moveData = packet.GetData();
 
-        GameObject obj = unitManager.getUnitObject(moveData.identity.unitOwner, moveData.identity.unitId);
+        GameObject obj = unitManager.GetUnitObject(moveData.identity.unitOwner, moveData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
 
         //TODO : 즉시 이동
@@ -502,7 +502,7 @@ public class GameManager : MonoBehaviour
         InGameUnitStopPacket packet = new InGameUnitStopPacket(data);
         InGameUnitStopData stopData = packet.GetData();
 
-        GameObject obj = unitManager.getUnitObject(stopData.identity.unitOwner, stopData.identity.unitId);
+        GameObject obj = unitManager.GetUnitObject(stopData.identity.unitOwner, stopData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
 
         //TODO : 유닛 멈춤
@@ -521,9 +521,9 @@ public class GameManager : MonoBehaviour
         InGameUnitAttackPacket packet = new InGameUnitAttackPacket(data);
         InGameUnitAttackData stopData = packet.GetData();
 
-        GameObject objSourceUnit = unitManager.getUnitObject(stopData.identitySource.unitOwner, stopData.identitySource.unitId);
+        GameObject objSourceUnit = unitManager.GetUnitObject(stopData.identitySource.unitOwner, stopData.identitySource.unitId);
         UnitPlayer unitSource = objSourceUnit.GetComponent<UnitPlayer>();
-        GameObject objTargetUnit = unitManager.getUnitObject(stopData.identityTarget.unitOwner, stopData.identityTarget.unitId);
+        GameObject objTargetUnit = unitManager.GetUnitObject(stopData.identityTarget.unitOwner, stopData.identityTarget.unitId);
         UnitPlayer unitTarget = objTargetUnit.GetComponent<UnitPlayer>();
 
         //TODO : 목표유닛 공격

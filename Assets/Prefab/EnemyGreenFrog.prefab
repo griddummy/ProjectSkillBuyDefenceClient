@@ -83,6 +83,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 414870}
+  - 65: {fileID: 6537054}
+  - 114: {fileID: 11400792}
   m_Layer: 0
   m_Name: Leg_F-R1
   m_TagString: Untagged
@@ -190,6 +192,7 @@ GameObject:
   - 4: {fileID: 401734}
   - 95: {fileID: 9558154}
   - 195: {fileID: 19527386}
+  - 65: {fileID: 6598962}
   m_Layer: 0
   m_Name: EnemyGreenFrog
   m_TagString: Untagged
@@ -235,7 +238,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 179742}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: -0.00000004371139}
-  m_LocalPosition: {x: 7.609634, y: 3.2895745e-18, z: -0.14814927}
+  m_LocalPosition: {x: 7.61, y: 3.2895745e-18, z: 7.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_Children:
@@ -298,7 +301,7 @@ Transform:
   m_LocalRotation: {x: -0.44016325, y: 0.58353716, z: 0.5448346, w: -0.4109695}
   m_LocalPosition: {x: 0.71999997, y: -0.5, z: 0.08999995}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -15.906899, y: -94.085594, z: -88.878494}
   m_Children:
   - {fileID: 496744}
   m_Father: {fileID: 403092}
@@ -366,7 +369,7 @@ Transform:
   m_LocalRotation: {x: 0.68143386, y: -0.28225946, z: -0.25841117, w: 0.6238599}
   m_LocalPosition: {x: 0.58, y: 0.68, z: 0.089999996}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 44.7779, y: -97.125, z: -95.0316}
   m_Children:
   - {fileID: 487284}
   m_Father: {fileID: 403092}
@@ -433,10 +436,34 @@ Transform:
   m_LocalRotation: {x: 0.10138035, y: 0.72386557, z: 0.67585564, w: -0.094656296}
   m_LocalPosition: {x: 0.000000003713123, y: -8.8535207e-10, z: -0.29189038}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -86.0711, y: 179.9999, z: 15.945399}
   m_Children: []
   m_Father: {fileID: 414870}
   m_RootOrder: 0
+--- !u!65 &6537054
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147840}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.8, y: 1.1, z: 0.6}
+  m_Center: {x: -0.02, y: -0.15, z: -0.03}
+--- !u!65 &6598962
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179742}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2, y: 1.3, z: 2}
+  m_Center: {x: 0, y: 0.65, z: 0}
 --- !u!95 &9558154
 Animator:
   serializedVersion: 3
@@ -446,7 +473,7 @@ Animator:
   m_GameObject: {fileID: 179742}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e866e06f796211a4db9a3a4a9eeb04d4, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -454,6 +481,20 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &11400792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 147840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfcd5bf769a9a9243aa9862b7797382b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unit: {fileID: 0}
+  weapon: {fileID: 0}
+  temp: {fileID: 0}
 --- !u!137 &13719552
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

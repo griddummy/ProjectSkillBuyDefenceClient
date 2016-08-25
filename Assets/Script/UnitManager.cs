@@ -13,7 +13,7 @@ class UnitManager
     {
         unitData = new GameObject[maxPlayerNum, maxUnitNum];
     }
-    public GameObject getUnitObject(int playerNum, int unitId)
+    public GameObject GetUnitObject(int playerNum, int unitId)
     {
         try
         {

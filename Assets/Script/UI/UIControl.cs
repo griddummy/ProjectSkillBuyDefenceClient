@@ -19,6 +19,8 @@ public class UIControl : MonoBehaviour
 	//property
 	public int Gold { get { return gold; } set { gold = value; } }
 
+	public UIBuySkillSlot BuySkills { get { return buySkills; } }
+
 	//initialize this script
 	void Start()
 	{

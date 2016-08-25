@@ -28,7 +28,8 @@ public class PlayerController : MonoBehaviour
 
 	//initialize this script
 	void Update()
-	{			
+	{	
+		
 		if (!EventSystem.current.IsPointerOverGameObject())
 		{			
 			if (Input.GetButtonDown( "LeftClick" ))
@@ -37,6 +38,8 @@ public class PlayerController : MonoBehaviour
 				ProcessRightClick();			
 		}
 
+
+		//selected unit process
 		if (CheckSelectedUnit())
 		{
 			if (Input.GetButtonDown( "CommandStop" ))
@@ -59,7 +62,9 @@ public class PlayerController : MonoBehaviour
 				SkillCasting( 5 );	
 		}
 
-
+		//ui process
+		if (Input.GetButtonDown( "SkillOpen" ))
+			mainUI.BuySkills.KeyOrderBuySkills();
 	}
 
 	void LateUpdate()
@@ -154,17 +159,14 @@ public class PlayerController : MonoBehaviour
 	{
 		if (selectedUnit == null)
 		{
-			Debug.Log( "1" );
 			return false;
 		}
 		else if (selectedUnit.Info.PlayerNumber == playerNum)
 		{
-			Debug.Log( "2" );
 			return true;
 		}
 		else
 		{
-			Debug.Log( "3" );
 			return false;
 		}
 	}
