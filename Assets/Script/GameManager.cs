@@ -422,6 +422,7 @@ public class GameManager : MonoBehaviour
 
     public void UnitDeath(UnitProcess unit) // 죽음
     {
+        unitManager.DeleteSlot(unit.Info.PlayerNumber, unit.Info.UnitID);
         InGameUnitDeathData data = new InGameUnitDeathData();
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
@@ -561,7 +562,16 @@ public class GameManager : MonoBehaviour
 
         //TODO : 유닛 죽음
         unit.ReceiveData(unit.transform.position, UnitProcess.AnimatorState.Die);
+        unitManager.DeleteSlot(unit.Info.PlayerNumber, unit.Info.UnitID);
+        try
+        {
+            Destroy(unit.gameObject, 2f);
+        }
+        catch
+        {
 
+        }
+        
         if (curRoomInfo.isHost)
         {
             netManager.SendToAllGuest(client, packet);
@@ -665,8 +675,17 @@ public class GameManager : MonoBehaviour
 
         GameObject objSourceUnit = unitManager.GetUnitObject(stopData.identitySource.unitOwner, stopData.identitySource.unitId);
         UnitPlayer unitSource = objSourceUnit.GetComponent<UnitPlayer>();
+
         GameObject objTargetUnit = unitManager.GetUnitObject(stopData.identityTarget.unitOwner, stopData.identityTarget.unitId);
-        UnitPlayer unitTarget = objTargetUnit.GetComponent<UnitPlayer>();
+        if (stopData.identityTarget.unitOwner == playerNumber) // 목표가 내 유닛이면
+        {
+            UnitProcess unitMine = objTargetUnit.GetComponent<UnitPlayer>();
+
+        }
+        else // 목표가 다른사람 유닛 이면
+        {
+            UnitPlayer unitTarget = objTargetUnit.GetComponent<UnitPlayer>();
+        }
 
         unitSource.transform.position = stopData.currentPosition;
         //unitSource.transform.forward = stopData.forward;

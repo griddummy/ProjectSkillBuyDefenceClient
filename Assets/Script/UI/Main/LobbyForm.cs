@@ -99,10 +99,6 @@ public class LobbyForm : UIForm {
             return;
         txtRoomInfo.text = curSelectedRoom.roomName;
     }
-    private void OnClickRefresh()
-    {
-        RequestRoomList();
-    }
     private void OnClickRoomNode(int number) // 리스트에서 방 클릭 시, 방선택 + 방정보 표시
     {
         Room info;
@@ -155,7 +151,7 @@ public class LobbyForm : UIForm {
             yield return new WaitForSeconds(5f);
         }
     }
-    private void RequestRoomList() // 방리스트 요청 전송
+    public void RequestRoomList() // 방리스트 요청 전송
     {
         RequestRoomlistPacket packet = new RequestRoomlistPacket();
         netManager.SendToServer(packet);
