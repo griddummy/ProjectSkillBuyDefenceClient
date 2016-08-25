@@ -253,6 +253,29 @@ public class UnitInformation
 		return false;	
 	}
 
+	public void ActiveSkillUse(int index, UnitProcess target, Vector3 targetArea)
+	{
+		if (activeSkillSet[index].SkillCost > presentManaPoint)
+			return;
+
+		presentManaPoint -= activeSkillSet[index].SkillCost;
+
+		switch (activeSkillSet[index].SkillType)
+		{
+			case Skill.Type.ActiveNonTarget:
+				activeSkillSet[index].UseSkill();
+				break;
+			case Skill.Type.ActiveTarget:
+				activeSkillSet[index].UseSkill(target);
+				break;
+			case Skill.Type.ActiveTargetArea:
+				activeSkillSet[index].UseSkill(targetArea);
+				break;
+		}
+
+		onSkill[index] = true;
+	}
+
 	public void SetUnitId( int value )
 	{
 		unitID = value;

@@ -13,14 +13,14 @@ public class ShockStun : Skill
 		damage = 500f;
 		skillBuyCost = 100;
 		level = 1;
-		skillRange = 0f;
+		skillRange = 6f;
 		coolTime = 15f;
 		onTarget = false;
 		skillType = Type.ActiveNonTarget;
 		skillBuff = null;
 	}
 
-	public override void UseSkill(Vector3 position)
+	public override void UseSkill()
 	{
 		Debug.Log( "Active ShockStun" );
 	}

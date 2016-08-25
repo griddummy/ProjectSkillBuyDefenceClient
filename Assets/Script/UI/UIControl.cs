@@ -5,6 +5,7 @@ public class UIControl : MonoBehaviour
 {
 	//simple data field
 	[SerializeField] int gold;
+	[SerializeField] int playerNum;
 
 	//complex data field -> UI Component
 	[SerializeField] UnitProcess presentUnit;
@@ -18,6 +19,8 @@ public class UIControl : MonoBehaviour
 
 	//property
 	public int Gold { get { return gold; } set { gold = value; } }
+
+	public int PlayerNumber { get { return playerNum; } set { playerNum = value; } }
 
 	public UIBuySkillSlot BuySkills { get { return buySkills; } }
 
@@ -46,30 +49,35 @@ public class UIControl : MonoBehaviour
 	//update ui Information
 	public void UpdateUIInformation( UnitProcess data )
 	{
+		//update data
+		presentUnit = data;
+
 		if (data != null)
 		{
 			unitStatus.ActiveComponent();
-			unitStatus.UpdateStatus( data );
+			unitStatus.UpdateStatus( presentUnit );
+			unitSkills.UpdateSkillSlot( presentUnit, playerNum );
 		}
 		else
 		{
 			unitStatus.RestComponent();
+			unitSkills.UpdateDefault();
 		}
-
-
-		//update data
-
-
 	}
 
 	//skill buy process
 	public bool SkillBuyProcess( Skill data )
 	{
+		if (( presentUnit == null ) || ( presentUnit.Info.PlayerNumber != playerNum ))
+		{
+			Debug.Log( "NoBuy!" );
+			return false;
+		}
 		//input skilldata by unit skill
-		if (presentUnit.Info.AddSkill( data ))
+		else if (presentUnit.Info.AddSkill( data ))
 		{
 			//synchroize skill info unit & UIUnitSkill
-			unitSkills.UpdateSkillSlot( presentUnit );
+			unitSkills.UpdateSkillSlot( presentUnit, playerNum );
 			return true;
 		}
 		else

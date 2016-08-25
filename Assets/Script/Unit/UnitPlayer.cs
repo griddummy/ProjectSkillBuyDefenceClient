@@ -5,6 +5,7 @@ using System.Collections;
 public class UnitPlayer : UnitProcess
 {
 	//simple field
+	[SerializeField] bool isMove;
 	[SerializeField] AnimatorState presentAnimatorState;
 
 	// initialize this script
@@ -19,10 +20,15 @@ public class UnitPlayer : UnitProcess
 	// Update is called once per frame
 	void Update()
 	{
-		if (Vector3.Distance( transform.position, destination ) >= 0.1f)
+		if (isMove && ( Vector3.Distance( transform.position, destination ) >= 0.1f ))
 		{
-			transform.LookAt( destination );
-			moveAgent.SetDestination( destination );
+			transform.LookAt( destination );		
+		}
+		else
+		{
+			destination = transform.position;
+			moveAgent.ResetPath();
+			isMove = false;
 		}
 
 		ActiveAnimator( presentAnimatorState );
@@ -71,10 +77,12 @@ public class UnitPlayer : UnitProcess
 	{
 		destination = positionData;
 		presentAnimatorState = stateData;
+		moveAgent.SetDestination( destination );
+		isMove = true;
 	}
 
 	//receive data -> interpolate position
-	public void ReceiveData(Vector3 interpolatePoint)
+	public void ReceiveData( Vector3 interpolatePoint )
 	{
 		if (Vector3.Distance( transform.position, interpolatePoint ) >= 1f)
 			transform.position = interpolatePoint;
@@ -84,7 +92,6 @@ public class UnitPlayer : UnitProcess
 	//send unit information to another client
 	public override void Damaged( float damage )
 	{
-		Debug.Log( damage );
 		info.PresentHealthPoint -= damage;
 		//send unit data
 	}

@@ -42,8 +42,13 @@ public class UIUnitSkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
 	}
 
 	//skill slot data update
-	public void UpdateSkillSlot( UnitProcess data )
+	public void UpdateSkillSlot( UnitProcess data, int playerNum )
 	{
+		if (playerNum != data.Info.PlayerNumber)
+		{
+			UpdateDefault();
+			return;		
+		}
 		for (int i = 0; i < data.Info.ActiveSkillSet.Length; i++)
 		{
 			activeSkills[i].SkillInfo = data.Info.ActiveSkillSet[i];
@@ -53,6 +58,21 @@ public class UIUnitSkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExit
 		for (int i = 0; i < data.Info.PassiveSkillSet.Length; i++)
 		{
 			passiveSkills[i].SkillInfo = data.Info.PassiveSkillSet[i];
+			passiveSkills[i].UpdateSkillIcon();
+		}
+	}
+
+	public void UpdateDefault()
+	{
+		for (int i = 0; i < activeSkills.Length; i++)
+		{
+			activeSkills[i].SkillInfo = Skill.Default;
+			activeSkills[i].UpdateSkillIcon();
+		}
+
+		for (int i = 0; i < passiveSkills.Length; i++)
+		{
+			passiveSkills[i].SkillInfo = Skill.Default;
 			passiveSkills[i].UpdateSkillIcon();
 		}
 	}

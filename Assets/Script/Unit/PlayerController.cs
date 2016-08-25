@@ -78,6 +78,7 @@ public class PlayerController : MonoBehaviour
 		modeSkill = false;
 		presentSkillIndex = -1;
 		playerNum = manager.PlayerNumber;
+		mainUI.PlayerNumber = playerNum;
 	}
 
 	//click mouse left button

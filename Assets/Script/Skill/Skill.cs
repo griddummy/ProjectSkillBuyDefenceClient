@@ -6,6 +6,9 @@ using System.Collections.Generic;
 [System.Serializable]
 public class Skill
 {
+	//static field
+	static Skill defaultSkill;
+
 	//skill data
 	[SerializeField] protected int id;
 	[SerializeField] protected string name;
@@ -54,6 +57,14 @@ public class Skill
 
 	public Buff SkillBuff { get { return skillBuff; } }
 
+	public static Skill Default { get { return defaultSkill; } }
+
+	//constructor - static default
+	static Skill ()
+	{
+		defaultSkill = new Skill ();
+	}
+
 	//constructor - default
 	public Skill ()
 	{
@@ -67,6 +78,10 @@ public class Skill
 
 	//public method
 	//skill use
+	public virtual void UseSkill()
+	{
+
+	}
 	public virtual void UseSkill( UnitProcess data )
 	{
 	}

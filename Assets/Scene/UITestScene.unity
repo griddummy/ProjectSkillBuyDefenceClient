@@ -3157,6 +3157,10 @@ Prefab:
       propertyPath: unit
       value: 
       objectReference: {fileID: 2146460573}
+    - target: {fileID: 5407256, guid: a8dba25e471841c469170edb2563d77b, type: 2}
+      propertyPath: m_Mass
+      value: 1000
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 11422114, guid: a8dba25e471841c469170edb2563d77b, type: 2}
@@ -4854,4 +4858,5 @@ MonoBehaviour:
   animator: {fileID: 0}
   moveAgent: {fileID: 0}
   manager: {fileID: 0}
+  isMove: 0
   presentAnimatorState: 3
