@@ -486,7 +486,7 @@ public class GameManager : MonoBehaviour
         GameObject obj = unitManager.GetUnitObject(castSkillData.identity.unitOwner, castSkillData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
         unit.transform.position = castSkillData.currentPosition;
-        unit.transform.forward = castSkillData.forward;
+        //unit.transform.forward = castSkillData.forward;
         // TODO : 스킬 사용
         // 모션 사용
         unit.ReceiveData(unit.transform.position, UnitProcess.AnimatorState.Casting);
@@ -593,8 +593,9 @@ public class GameManager : MonoBehaviour
         GameObject obj = unitManager.GetUnitObject(moveData.identity.unitOwner, moveData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
         unit.transform.position = moveData.currentPosition;
-        unit.transform.forward = moveData.forward;
+        //unit.transform.forward = moveData.forward;
         //TODO  :  유닛 이동시키기
+        Debug.Log("OnReceive::유닛 이동, " + unit.Info.PlayerNumber + " " + unit.Info.Name);
         unit.ReceiveData(moveData.destination, UnitProcess.AnimatorState.Run);
 
         if (curRoomInfo.isHost)
@@ -611,7 +612,7 @@ public class GameManager : MonoBehaviour
 
         GameObject obj = unitManager.GetUnitObject(moveData.identity.unitOwner, moveData.identity.unitId);
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
-        unit.transform.forward = moveData.forward;
+        //unit.transform.forward = moveData.forward;
         //TODO : 즉시 이동
         unit.transform.position = moveData.destination; // 임시 ..
 
@@ -631,8 +632,9 @@ public class GameManager : MonoBehaviour
         UnitPlayer unit = obj.GetComponent<UnitPlayer>();
 
         unit.transform.position = stopData.currentPosition;
-        unit.transform.forward = stopData.forward;
+        //unit.transform.forward = stopData.forward;
         //TODO : 유닛 멈춤
+        Debug.Log("OnReceive::유닛 멈춤, " + unit.Info.PlayerNumber + " " + unit.Info.Name);
         unit.ReceiveData(unit.transform.position, UnitProcess.AnimatorState.Idle);
 
 
@@ -654,7 +656,7 @@ public class GameManager : MonoBehaviour
         UnitPlayer unitTarget = objTargetUnit.GetComponent<UnitPlayer>();
 
         unitSource.transform.position = stopData.currentPosition;
-        unitSource.transform.forward = stopData.forward;
+        //unitSource.transform.forward = stopData.forward;
 
         //TODO : 목표유닛 공격
         unitSource.ReceiveData(unitSource.transform.position, UnitProcess.AnimatorState.Attack);
@@ -672,7 +674,7 @@ public class GameManager : MonoBehaviour
         GameObject obj = unitManager.GetUnitObject(posData.identity.unitOwner, posData.identity.unitId);
 
         obj.transform.position = posData.position;
-        obj.transform.forward = posData.forward;
+        //obj.transform.forward = posData.forward;
 
         if (curRoomInfo.isHost)
         {
