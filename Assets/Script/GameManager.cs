@@ -175,7 +175,7 @@ public class GameManager : MonoBehaviour
             {
                 SendSyncMove(AIPlayerNum);
             }
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -318,11 +318,19 @@ public class GameManager : MonoBehaviour
         data.identitySource.unitOwner = (byte)sourceUnit.Info.PlayerNumber;
         data.currentPosition = sourceUnit.transform.position;
         data.forward = sourceUnit.transform.forward;
+        
         UnitProcess target = targetUnit.GetComponent<UnitProcess>();
-        data.identityTarget.unitId = (byte)target.Info.UnitID;
-        data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
-        InGameUnitAttackPacket packet = new InGameUnitAttackPacket(data);
-        SendChangedData(packet);
+        if(target == null)
+        {
+            target = targetUnit.GetComponent<UnitPlayer>();
+        }
+        if(target != null)
+        {
+            data.identityTarget.unitId = (byte)target.Info.UnitID;
+            data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
+            InGameUnitAttackPacket packet = new InGameUnitAttackPacket(data);
+            SendChangedData(packet);
+        }
     }
 
     public void UnitCastSkillActiveNonTarget(UnitProcess unit, int skillIndex)    // 스킬 시전
@@ -356,11 +364,19 @@ public class GameManager : MonoBehaviour
         data.identity.unitId = (byte)unit.Info.UnitID;
         data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
         data.type = Skill.Type.ActiveTarget;
+
         UnitProcess target = targetUnit.GetComponent<UnitProcess>();
-        data.identityTarget.unitId = (byte)target.Info.UnitID;
-        data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
-        InGameUnitCastSkillPacket packet = new InGameUnitCastSkillPacket(data);
-        SendChangedData(packet);
+        if (target == null)
+        {
+            target = targetUnit.GetComponent<UnitPlayer>();
+        }
+        if (target != null)
+        {
+            data.identityTarget.unitId = (byte)target.Info.UnitID;
+            data.identityTarget.unitOwner = (byte)target.Info.PlayerNumber;
+            InGameUnitCastSkillPacket packet = new InGameUnitCastSkillPacket(data);
+            SendChangedData(packet);
+        }
     }
 
     public void UnitStop(UnitProcess unit) // 유닛 멈춤 또는 홀드
