@@ -59,6 +59,8 @@ public class UnitPlayer : UnitProcess
 		else
 			moveAgent.updatePosition = true;
 
+		if (info.PresentHealthPoint == 0)
+			Destroy (this.gameObject, 3f);
 
 	}
 
