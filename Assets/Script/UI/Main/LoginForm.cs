@@ -139,6 +139,7 @@ public class LoginForm : UIForm
 
         string message = packet.GetData().result;
         bool bLoginSuccess = false;
+        //Debug.Log("로그인::message " + message);
         if (message == LoginResultData.Success)
         {
             bLoginSuccess = true;
