@@ -161,7 +161,7 @@ public class NetManager : MonoBehaviour {
         lock (m_objLockGuestPacketQueue)
         {
             indexGuestQueue.Enqueue(socket);
-        }            
+        }
     }
 
     private void OnReceivedPacketFromHost(byte[] msg, int size) // 호스트에게 받는
@@ -305,7 +305,7 @@ public class NetManager : MonoBehaviour {
         getPacketData(data, out packetId, out packetData);
         try
         {
-            //Debug.Log("ReceivePacket::" + sock.RemoteEndPoint.ToString() + "패킷id:" + packetId + " 길이:" + data.Length);
+            //Debug.Log("ReceivePacket::" + sock.RemoteEndPoint.ToString() + "패킷id:" + packetId + " 길이:" + packetData.Length);
         }
         catch
         {

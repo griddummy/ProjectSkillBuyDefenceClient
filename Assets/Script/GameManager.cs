@@ -344,6 +344,7 @@ public class GameManager : MonoBehaviour
         UnitPlayer player = unit as UnitPlayer;
         if(player == null)
         {
+            Debug.Log("UnitAddSkill:: " + skillid);
             InGameUnitAddSkillData data = new InGameUnitAddSkillData();
             data.identity.unitId = (byte)unit.Info.UnitID;
             data.identity.unitOwner = (byte)unit.Info.PlayerNumber;
@@ -521,6 +522,7 @@ public class GameManager : MonoBehaviour
         GameObject obj = unitManager.GetUnitObject(addSkillData.identity.unitOwner, addSkillData.identity.unitId);
         if(obj != null)
         {
+            Debug.Log("OnReceive:: 스킬 추가"+ addSkillData.skillid);
             UnitPlayer unit = obj.GetComponent<UnitPlayer>();
             unit.AddSkill(Database.Instance.FindSkillByID(addSkillData.skillid));
         }
